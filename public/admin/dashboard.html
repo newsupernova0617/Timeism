@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>관리자 대시보드 | 서버 시간 비교 서비스</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+          Arial, sans-serif;
+        background: #f5f7fa;
+        color: #333;
+      }
+
+      .dashboard-header {
+        background: linear-gradient(135deg, #1f3c88 0%, #2d5aa8 100%);
+        color: white;
+        padding: 2rem 2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .dashboard-header h1 {
+        margin-bottom: 0.5rem;
+        font-size: 2rem;
+      }
+
+      .header-controls {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .header-controls button,
+      .header-controls label {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition: all 0.2s;
+      }
+
+      .header-controls button:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .header-controls label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: transparent;
+        border: none;
+      }
+
+      .header-controls input[type='checkbox'] {
+        cursor: pointer;
+      }
+
+      .last-updated {
+        font-size: 0.85rem;
+        opacity: 0.9;
+        margin-top: 0.5rem;
+      }
+
+      .dashboard-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .kpi-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .kpi-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .kpi-label {
+        font-size: 0.85rem;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+      }
+
+      .kpi-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1f3c88;
+      }
+
+      .kpi-change {
+        font-size: 0.75rem;
+        color: #999;
+        margin-top: 0.5rem;
+      }
+
+      .charts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .chart-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .chart-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        color: #333;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 0.75rem;
+      }
+
+      .chart-container {
+        position: relative;
+        height: 300px;
+      }
+
+      .performance-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .performance-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        color: #333;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 0.75rem;
+      }
+
+      .performance-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+      }
+
+      .performance-item {
+        background: #f9fafb;
+        padding: 1rem;
+        border-radius: 4px;
+        border-left: 4px solid #1f3c88;
+      }
+
+      .performance-label {
+        font-size: 0.8rem;
+        color: #666;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+
+      .performance-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1f3c88;
+      }
+
+      .urls-table {
+        width: 100%;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .urls-table h3 {
+        padding: 1.5rem;
+        font-size: 1.1rem;
+        color: #333;
+        border-bottom: 2px solid #f0f0f0;
+      }
+
+      .urls-table table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .urls-table thead {
+        background: #f9fafb;
+      }
+
+      .urls-table th {
+        padding: 1rem 1.5rem;
+        text-align: left;
+        font-weight: 600;
+        color: #666;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .urls-table td {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .urls-table tbody tr:hover {
+        background: #f9fafb;
+      }
+
+      .urls-table .url {
+        font-family: 'Monaco', 'Courier New', monospace;
+        font-size: 0.85rem;
+        color: #1f3c88;
+        word-break: break-all;
+      }
+
+      .urls-table .number {
+        text-align: right;
+        font-weight: 500;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 2rem;
+        color: #999;
+      }
+
+      .error {
+        background: #fee;
+        border: 1px solid #fcc;
+        color: #c33;
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+      }
+
+      .success {
+        background: #efe;
+        border: 1px solid #cfc;
+        color: #3c3;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        display: inline-block;
+      }
+
+      @media (max-width: 768px) {
+        .dashboard-header {
+          padding: 1.5rem 1rem;
+        }
+
+        .dashboard-header h1 {
+          font-size: 1.5rem;
+        }
+
+        .kpi-value {
+          font-size: 1.8rem;
+        }
+
+        .charts-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .header-controls {
+          flex-direction: column;
+        }
+
+        .header-controls button,
+        .header-controls label {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-header">
+      <h1>📊 관리자 대시보드</h1>
+      <div class="header-controls">
+        <button onclick="refreshDashboard()">🔄 새로고침</button>
+        <label>
+          <input type="checkbox" id="autoRefresh" />
+          자동 새로고침 (5초)
+        </label>
+      </div>
+      <div class="last-updated">마지막 업데이트: <span id="lastUpdated">-</span></div>
+    </div>
+
+    <div class="dashboard-container">
+      <div id="error" class="error" style="display: none;"></div>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">👥 총 사용자</div>
+          <div class="kpi-value" id="totalUsers">-</div>
+          <div class="kpi-change">지역: <span id="totalRegions">-</span></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">📍 총 방문</div>
+          <div class="kpi-value" id="totalVisits">-</div>
+          <div class="kpi-change">평균: <span id="avgVisits">-</span>/명</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">📊 총 이벤트</div>
+          <div class="kpi-value" id="totalEvents">-</div>
+          <div class="kpi-change">오류: <span id="errorCount">-</span></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">⚡ 평균 응답시간</div>
+          <div class="kpi-value" id="avgLatency">-</div>
+          <div class="kpi-change">느린요청: <span id="slowEvents">-</span></div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>📈 이벤트 분포</h3>
+          <div class="chart-container">
+            <canvas id="eventChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h3>📱 기기별 분포</h3>
+          <div class="chart-container">
+            <canvas id="deviceChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance Metrics -->
+      <div class="performance-card">
+        <h3>⚡ 성능 메트릭</h3>
+        <div class="performance-grid">
+          <div class="performance-item">
+            <div class="performance-label">최소 응답</div>
+            <div class="performance-value" id="minLatency">-</div>
+          </div>
+          <div class="performance-item">
+            <div class="performance-label">최대 응답</div>
+            <div class="performance-value" id="maxLatency">-</div>
+          </div>
+          <div class="performance-item">
+            <div class="performance-label">오류율</div>
+            <div class="performance-value" id="errorRate">-</div>
+          </div>
+          <div class="performance-item">
+            <div class="performance-label">세션수</div>
+            <div class="performance-value" id="sessionCount">-</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- URL Table -->
+      <div class="urls-table" style="margin-top: 2rem;">
+        <h3>🔗 인기 서버 (상위 10)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>서버 URL</th>
+              <th style="text-align: right;">요청 수</th>
+              <th style="text-align: right;">평균 응답(ms)</th>
+              <th style="text-align: right;">최소(ms)</th>
+              <th style="text-align: right;">최대(ms)</th>
+            </tr>
+          </thead>
+          <tbody id="urlTableBody">
+            <tr>
+              <td colspan="5" class="loading">데이터 로딩 중...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+  </body>
+</html>
