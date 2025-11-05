@@ -10,8 +10,13 @@ const morgan = require('morgan');
 const apiRouter = require('./routes/api');
 
 const PORT = process.env.PORT || 3000;
+const DOMAIN = process.env.DOMAIN || 'https://example.com';
 
 const app = express();
+
+// Set view engine to EJS
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 if (process.env.TRUST_PROXY) {
   app.set('trust proxy', process.env.TRUST_PROXY);
@@ -59,20 +64,19 @@ const staticDir = path.join(__dirname, 'public');
 
 // Dynamic SEO routes
 app.get('/robots.txt', (_req, res) => {
-  const domain = process.env.DOMAIN || 'https://example.com';
   res.type('text/plain');
   res.send(
     `User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /admin/
 
-Sitemap: ${domain}/sitemap.xml
+Sitemap: ${DOMAIN}/sitemap.xml
 `
   );
 });
 
 app.get('/sitemap.xml', (_req, res) => {
-  const domain = process.env.DOMAIN || 'https://example.com';
   const lastmod = new Date().toISOString().split('T')[0];
 
   res.type('application/xml');
@@ -80,19 +84,19 @@ app.get('/sitemap.xml', (_req, res) => {
     `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>${domain}/</loc>
+    <loc>${DOMAIN}/</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>${domain}/guide</loc>
+    <loc>${DOMAIN}/guide</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>${domain}/privacy</loc>
+    <loc>${DOMAIN}/privacy</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -101,19 +105,27 @@ app.get('/sitemap.xml', (_req, res) => {
   );
 });
 
-app.use(
-  express.static(staticDir, {
-    extensions: ['html']
-  })
-);
+// Dynamic SEO routes with EJS (must be before static middleware)
+app.get('/', (_req, res) => {
+  res.render('index', { domain: DOMAIN });
+});
 
 app.get('/guide', (_req, res) => {
-  res.sendFile(path.join(staticDir, 'guide.html'));
+  res.render('guide', { domain: DOMAIN });
 });
 
 app.get('/privacy', (_req, res) => {
-  res.sendFile(path.join(staticDir, 'privacy.html'));
+  res.render('privacy', { domain: DOMAIN });
 });
+
+// Serve static files (CSS, JS, images, etc.)
+app.use(express.static(staticDir, {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) {
+      res.set('Cache-Control', 'no-cache');
+    }
+  }
+}));
 
 // Admin Dashboard
 app.get('/admin/dashboard', verifyAdminToken, (_req, res) => {

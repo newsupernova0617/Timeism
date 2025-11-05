@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>서버 시간 비교 가이드 | NTP 동기화 안내</title>
+    <meta
+      name="description"
+      content="서버 시간 비교 서비스를 활용하는 방법과 NTP 동기화를 통한 정확한 시간 확보 노하우를 안내합니다."
+    />
+    <link rel="canonical" href="<%= domain %>/guide" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="서버 시간 비교 가이드 | NTP 동기화 안내" />
+    <meta
+      property="og:description"
+      content="티켓팅 전에 서버 시간을 확인하는 요령부터 NTP 기반 시간 동기화 방법까지, 서버 시간 비교 서비스 사용법을 정리했습니다."
+    />
+    <meta property="og:url" content="<%= domain %>/guide" />
+    <meta property="og:image" content="<%= domain %>/og-image.png" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="서버 시간 비교 가이드 | NTP 동기화 안내" />
+    <meta
+      name="twitter:description"
+      content="서버 시간 확인 서비스 사용법과 NTP 시간 동기화 요령을 확인하세요."
+    />
+    <meta name="twitter:image" content="<%= domain %>/og-image.png" />
+    <meta name="theme-color" content="#1f3c88" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Timeism" />
+    <link rel="stylesheet" href="/css/tokens.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "서버 시간 비교 서비스는 어떻게 사용하나요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "메인 페이지 입력란에 대상 사이트의 URL을 넣고 '시간 확인' 버튼을 누르면 서버 기준 현재 시각을 근사치로 보여줍니다. 별도의 로그인이나 추가 정보는 필요 없습니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "왜 NTP가 더 정확한가요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "NTP(Network Time Protocol)는 여러 계층의 표준 시간을 비교·보정하면서 밀리초 단위 정확도로 장치 시간을 동기화합니다. 티켓팅처럼 오차 허용 범위가 거의 없는 상황에서는 NTP로 장치를 미리 동기화하는 것이 가장 안전합니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "이 서비스가 제공하는 것은 무엇인가요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "입력하신 URL이 응답하는 헤더의 시각을 확인해 참고용으로 보여줍니다. 네트워크 경로와 서버 환경 특성상 수십~수백 ms 정도의 오차가 있을 수 있으므로, NTP 기반 장치 시각과 함께 참고용으로 활용해주세요."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "더 정확한 기능은 언제 제공되나요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "향후 버전에서는 자체적으로 NTP 서버와 동기화한 기준 시간을 제공하고, 고정밀 시각을 다양한 기기에서 손쉽게 확인할 수 있도록 준비 중입니다. 업데이트가 완료되면 공지드릴 예정입니다."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="page-header">
+      <h1>서버 시간 비교 서비스 안내</h1>
+      <p class="subtitle">초보자도 이해할 수 있는 사용 가이드입니다.</p>
+    </header>
+
+    <main class="content-page">
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">홈</a>
+        <span>/</span>
+        <span>안내</span>
+      </nav>
+
+      <section>
+        <h2>1. 어떻게 사용하나요?</h2>
+        <p>
+          메인 페이지 입력란에 대상 사이트의 URL을 넣고 <strong>시간 확인</strong> 버튼을 누르면 서버 기준
+          현재 시각을 근사치로 보여줍니다. 별도의 로그인이나 추가 정보는 필요 없습니다.
+        </p>
+      </section>
+
+      <section>
+        <h2>2. 왜 NTP가 더 정확한가요?</h2>
+        <p>
+          NTP(Network Time Protocol)는 여러 계층의 표준 시간을 비교·보정하면서 밀리초 단위 정확도로 장치
+          시간을 동기화합니다. 티켓팅처럼 오차 허용 범위가 거의 없는 상황에서는 NTP로 장치를 미리
+          동기화하는 것이 가장 안전합니다.
+        </p>
+      </section>
+
+      <section>
+        <h2>3. 이 서비스가 제공하는 것은?</h2>
+        <p>
+          입력하신 URL이 응답하는 헤더의 시각을 확인해 <strong>참고용</strong>으로 보여줍니다. 네트워크
+          경로와 서버 환경 특성상 수십~수백 ms 정도의 오차가 있을 수 있으므로, NTP 기반 장치 시각과 함께
+          참고용으로 활용해주세요.
+        </p>
+      </section>
+
+      <section>
+        <h2>4. 더 정확한 기능은 언제 제공되나요?</h2>
+        <p>
+          향후 버전에서는 자체적으로 NTP 서버와 동기화한 기준 시간을 제공하고, 고정밀 시각을 다양한
+          기기에서 손쉽게 확인할 수 있도록 준비 중입니다. 업데이트가 완료되면 공지드릴 예정입니다.
+        </p>
+      </section>
+
+      <hr style="margin: 2rem 0; border: none; border-top: 1px solid #ddd;" />
+
+      <nav class="internal-links" style="margin-top: 2rem;">
+        <h3>관련 페이지</h3>
+        <ul>
+          <li><a href="/">메인으로 돌아가기</a></li>
+          <li><a href="/privacy">개인정보 처리방침</a></li>
+        </ul>
+      </nav>
+    </main>
+
+    <footer class="page-footer">
+      <nav>
+        <a href="/">메인</a>
+        <span aria-hidden="true">·</span>
+        <a href="/privacy">Privacy</a>
+        <span aria-hidden="true">·</span>
+        <a href="mailto:contact@example.com">문의</a>
+      </nav>
+    </footer>
+  </body>
+</html>
