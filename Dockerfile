@@ -15,8 +15,7 @@ RUN npm ci --omit=dev
 
 COPY . .
 
-# Ensure database directory exists and stays mountable
-VOLUME ["/app/data"]
+
 
 EXPOSE 3000
 
