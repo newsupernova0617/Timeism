@@ -1,72 +1,65 @@
 <!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>서버 시간 확인 | NTP 안내 · 서버 시간 비교 서비스</title>
-    <meta
-      name="description"
-      content="티켓팅·수강신청 전에 대상 서버의 현재 시각을 정확히 확인하세요. URL만 입력하면 HTTP Date 기반 서버 시간을 보여주고 NTP 동기화 가이드를 제공합니다."
-    />
-    <meta
-      name="keywords"
-      content="서버 시간 확인, 티켓팅 시간 맞추기, NTP 동기화, 시간 비교, 한정판 구매, 수강신청, 시간 오차, 서버 시간 측정"
-    />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2995631331341713"
-     crossorigin="anonymous"></script>
-    <meta name="author" content="서버 시간 비교 서비스" />
-    <link rel="canonical" href="<%= domain %>/" />
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="서버 시간 비교 서비스" />
-    <meta property="og:title" content="서버 시간 확인 | NTP 안내 · 서버 시간 비교 서비스" />
-    <meta
-      property="og:description"
-      content="URL만 입력하면 대상 서버의 현재 시각을 확인하세요. HTTP Date 기반 측정과 NTP 동기화 정보 제공."
-    />
-    <meta property="og:url" content="<%= domain %>/" />
-    <meta property="og:image" content="<%= domain %>/og-image.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:locale" content="ko_KR" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="서버 시간 확인 | NTP 안내 · 서버 시간 비교 서비스" />
-    <meta
-      name="twitter:description"
-      content="티켓팅 전에 대상 서버 시간을 간편하게 확인하세요. HTTP Date 기반 근사치와 NTP 설명 제공."
-    />
-    <meta name="twitter:image" content="<%= domain %>/og-image.png" />
-    <meta name="theme-color" content="#1f3c88" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="application-name" content="Timeism" />
-    <meta name="apple-mobile-web-app-title" content="Timeism" />
-    <link rel="stylesheet" href="/css/tokens.css" />
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <script type="application/ld+json">
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Server Time Checker | NTP Sync Guide · Timeism</title>
+  <meta name="description"
+    content="Check the exact server time before ticketing or registration. Simply enter a URL to see HTTP Date-based server time and get NTP synchronization guidance." />
+  <meta name="keywords"
+    content="server time check, ticketing time sync, NTP synchronization, time comparison, limited edition purchase, course registration, time offset, server time measurement" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2995631331341713"
+    crossorigin="anonymous"></script>
+  <meta name="author" content="Timeism" />
+  <link rel="canonical" href="<%= domain %>/" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Timeism - Server Time Comparison Service" />
+  <meta property="og:title" content="Server Time Checker | NTP Sync Guide · Timeism" />
+  <meta property="og:description"
+    content="Check target server's current time instantly. HTTP Date-based measurement with NTP synchronization guidance." />
+  <meta property="og:url" content="<%= domain %>/" />
+  <meta property="og:image" content="<%= domain %>/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Server Time Checker | NTP Sync Guide · Timeism" />
+  <meta name="twitter:description"
+    content="Easily check target server time before ticketing. HTTP Date-based approximation with NTP guidance." />
+  <meta name="twitter:image" content="<%= domain %>/og-image.png" />
+  <meta name="theme-color" content="#1f3c88" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="application-name" content="Timeism" />
+  <meta name="apple-mobile-web-app-title" content="Timeism" />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "Timeism - 서버 시간 비교 서비스",
+        "name": "Timeism - Server Time Comparison Service",
         "url": "<%= domain %>/",
         "applicationCategory": "UtilityApplication",
         "operatingSystem": "Web",
-        "description": "URL만 입력하면 대상 서버의 현재 시각을 확인하고 NTP 동기화 정보를 제공하는 웹 애플리케이션입니다.",
+        "description": "A web application that lets you check the current time of any server by simply entering a URL, with NTP synchronization guidance.",
         "image": "<%= domain %>/og-image.png",
-        "inLanguage": "ko-KR",
+        "inLanguage": "en-US",
         "isAccessibleForFree": true,
         "offers": {
           "@type": "Offer",
           "price": "0",
-          "priceCurrency": "KRW"
+          "priceCurrency": "USD"
         },
         "creator": {
           "@type": "Organization",
-          "name": "서버 시간 비교 팀",
+          "name": "Timeism Team",
           "url": "<%= domain %>/",
           "contactPoint": {
             "@type": "ContactPoint",
@@ -84,154 +77,143 @@
         }
       }
     </script>
-  </head>
-  <body>
-    <header class="page-header">
-      <h1>Timeism</h1>
-      <p class="subtitle">
-        티켓팅·한정판 구매 전에 대상 서버의 현재 시각을 확인해 로컬 시계와 미세한 오차를 줄이세요.
-      </p>
-    </header>
+</head>
 
-    <main class="layout">
-      <section class="primary">
-        <form id="checkForm" class="url-form" novalidate>
-          <label class="field-label" for="urlInput">비교할 서버 주소</label>
-          <p id="urlHint" class="field-hint">HTTP 또는 HTTPS로 시작하는 전체 URL을 입력하세요.</p>
-          <div class="url-form-controls">
-            <input
-              id="urlInput"
-              type="url"
-              inputmode="url"
-              placeholder="https://example.com"
-              autocomplete="off"
-              aria-describedby="urlHint formError"
-            />
-            <button id="checkBtn" type="submit">시간 확인</button>
-          </div>
-        </form>
-        <p id="formError" class="form-error" role="alert" aria-live="assertive"></p>
+<body>
+  <header class="page-header">
+    <h1>Timeism</h1>
+    <p class="subtitle">
+      Check the target server's current time before ticketing or limited edition purchases to minimize time
+      discrepancies with your local clock.
+    </p>
+  </header>
 
-        <section class="clock-panel" aria-live="polite">
-          <div class="clock-block single" id="clockBlock">
-            <h2>서버 기준 현재 시각</h2>
-            <p
-              id="serverTime"
-              class="clock-value muted"
-              role="status"
-              aria-live="polite"
-              aria-atomic="true"
-            >
-              --:--:--.---
-            </p>
-            <p class="clock-meta" id="clockMeta" aria-live="off"></p>
+  <main class="layout">
+    <section class="primary">
+      <form id="checkForm" class="url-form" novalidate>
+        <label class="field-label" for="urlInput">Server URL to Compare</label>
+        <p id="urlHint" class="field-hint">Enter the full URL starting with HTTP or HTTPS.</p>
+        <div class="url-form-controls">
+          <input id="urlInput" type="url" inputmode="url" placeholder="https://example.com" autocomplete="off"
+            aria-describedby="urlHint formError" />
+          <button id="checkBtn" type="submit">Check Time</button>
+        </div>
+      </form>
+      <p id="formError" class="form-error" role="alert" aria-live="assertive"></p>
 
-            <div class="clock-settings">
-              <div class="setting-group">
-                <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
-                  <label class="toggle-switch" style="margin: 0;">
-                    <input type="checkbox" id="showMillis" checked />
-                    <span class="slider"></span>
-                    <span class="toggle-label">밀리초 표시</span>
-                  </label>
-                  <p class="perf-note">※ ON 시 약간의 성능저하가 있을 수 있습니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="notification-panel">
-          <div class="notification-block">
-            <h2>알림 설정</h2>
-            <p class="section-hint">목표 시간에 도달하면 알림을 받을 수 있습니다.</p>
-
-            <div class="notification-modes">
-              <div class="mode-content" id="targetTimeMode">
-                <div class="input-group">
-                  <label for="targetTime">목표 시간 설정</label>
-                  <div class="time-input-simple">
-                    <input type="time" id="targetTime" class="time-input" step="1" />
-                    <button type="button" id="setTargetAlarm" class="alarm-btn">
-                      <span class="btn-icon">🔔</span>
-                      <span>알림 설정</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="alarm-status hidden" id="alarmStatus">
-              <div class="status-info">
-                <span class="status-icon">🔔</span>
-                <div class="status-text">
-                  <strong id="alarmTitle">알림 활성화</strong>
-                  <p id="alarmTime"></p>
-                </div>
-              </div>
-              <button type="button" id="cancelAlarm" class="cancel-btn">취소</button>
-            </div>
-
-            <div class="dev-section">
-              <details>
-                <summary>🔧 테스트용 소리</summary>
-                <button type="button" id="testAlarmBtn" class="test-btn">알람음 테스트</button>
-              </details>
-            </div>
-          </div>
-        </section>
-
-        <section class="notice">
-          <h2>정확한 시간은 NTP로</h2>
-          <p>
-            이 서비스는 대상 서버의 HTTP <code>Date</code> 헤더를 참고해 가까운 현재 시각을 보여줍니다. 네트워크
-            경로와 서버 환경에 따라 초 단위 오차가 발생할 수 있으므로 참고용으로 활용해주세요.
+      <section class="clock-panel" aria-live="polite">
+        <div class="clock-block single" id="clockBlock">
+          <h2>Server Current Time</h2>
+          <p id="serverTime" class="clock-value muted" role="status" aria-live="polite" aria-atomic="true">
+            --:--:--.---
           </p>
-          <p>
-            가장 정확한 시간 동기화는 <strong>NTP(Network Time Protocol)</strong>이 제공합니다. 티켓팅처럼
-            미세한 시각 차이가 중요한 상황이라면 장치를 NTP 서버와 미리 동기화해두는 것이 안전하며, 추후
-            버전에서는 NTP 기반 고정밀 기능도 제공할 예정입니다. 자세한 사용법은
-            <a href="/guide">서버 시간 비교 가이드</a>에서 확인하세요.
-          </p>
-        </section>
+          <p class="clock-meta" id="clockMeta" aria-live="off"></p>
+
+          <div class="clock-settings">
+            <div class="setting-group">
+              <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                <label class="toggle-switch" style="margin: 0;">
+                  <input type="checkbox" id="showMillis" checked />
+                  <span class="slider"></span>
+                  <span class="toggle-label">Show Milliseconds</span>
+                </label>
+                <p class="perf-note">※ May slightly impact performance when enabled.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <aside class="sidebar" role="complementary" aria-label="광고 영역">
-        <div class="ad-slot" aria-hidden="true">
-          <p class="ad-placeholder">광고 영역</p>
+      <section class="notification-panel">
+        <div class="notification-block">
+          <h2>Notification Settings</h2>
+          <p class="section-hint">Receive an alert when the target time is reached.</p>
+
+          <div class="notification-modes">
+            <div class="mode-content" id="targetTimeMode">
+              <div class="input-group">
+                <label for="targetTime">Set Target Time</label>
+                <div class="time-input-simple">
+                  <input type="time" id="targetTime" class="time-input" step="1" />
+                  <button type="button" id="setTargetAlarm" class="alarm-btn">
+                    <span class="btn-icon">🔔</span>
+                    <span>Set Alarm</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="alarm-status hidden" id="alarmStatus">
+            <div class="status-info">
+              <span class="status-icon">🔔</span>
+              <div class="status-text">
+                <strong id="alarmTitle">Alarm Active</strong>
+                <p id="alarmTime"></p>
+              </div>
+            </div>
+            <button type="button" id="cancelAlarm" class="cancel-btn">Cancel</button>
+          </div>
+
+          <div class="dev-section">
+            <details>
+              <summary>🔧 Test Sound</summary>
+              <button type="button" id="testAlarmBtn" class="test-btn">Test Alarm Sound</button>
+            </details>
+          </div>
         </div>
+      </section>
 
-        <div class="ad-slot" aria-hidden="true">
-          <p class="ad-placeholder">광고 영역</p>
-        </div>
+      <section class="notice">
+        <h2>Accurate Time with NTP</h2>
+        <p>
+          This service shows an approximate current time by referencing the HTTP <code>Date</code> header from the
+          target server. Please note that there may be second-level discrepancies depending on network paths and server
+          environments, so use this for reference purposes.
+        </p>
+        <p>
+          The most accurate time synchronization is provided by <strong>NTP (Network Time Protocol)</strong>. For
+          situations where precise timing is critical, such as ticketing, it's safest to synchronize your device with an
+          NTP server in advance. Future versions will offer NTP-based high-precision features. For detailed usage, check
+          out the
+          <a href="/guide">Server Time Comparison Guide</a>.
+        </p>
+      </section>
+    </section>
 
-        <div class="ad-slot" aria-hidden="true">
-          <p class="ad-placeholder">광고 영역</p>
-        </div>
-      </aside>
-    </main>
+    <aside class="sidebar" role="complementary" aria-label="Advertisement Area">
+      <div class="ad-slot" aria-hidden="true">
+        <p class="ad-placeholder">Advertisement</p>
+      </div>
 
-    <footer class="page-footer">
-      <nav>
-        <a href="/guide">안내</a>
-        <span aria-hidden="true">·</span>
-        <a href="/privacy">Privacy</a>
-        <span aria-hidden="true">·</span>
-        <a href="mailto:contact@example.com">문의</a>
-      </nav>
-      <p class="footer-copy">표시된 시각은 HTTP Date 헤더 기반 추정이며 참고용입니다.</p>
-    </footer>
+      <div class="ad-slot" aria-hidden="true">
+        <p class="ad-placeholder">Advertisement</p>
+      </div>
 
-    <script type="module" src="/js/main.js"></script>
-    
-    <!-- Advertisement Scripts -->
-    <script
-      type="text/javascript"
-      src="https://pl28277412.effectivegatecpm.com/b6/b8/da/b6b8dab3211cd6c92e2ad216fd078f1a.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://pl28277448.effectivegatecpm.com/3a/59/06/3a5906e7b8bcd35c018e8958646d8458.js"
-    ></script>
-  </body>
+      <div class="ad-slot" aria-hidden="true">
+        <p class="ad-placeholder">Advertisement</p>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="page-footer">
+    <nav>
+      <a href="/guide">Guide</a>
+      <span aria-hidden="true">·</span>
+      <a href="/privacy">Privacy</a>
+      <span aria-hidden="true">·</span>
+      <a href="mailto:contact@example.com">Contact</a>
+    </nav>
+    <p class="footer-copy">Displayed time is an HTTP Date header-based estimate for reference only.</p>
+  </footer>
+
+  <script type="module" src="/js/main.js"></script>
+
+  <!-- Advertisement Scripts -->
+  <script type="text/javascript"
+    src="https://pl28277412.effectivegatecpm.com/b6/b8/da/b6b8dab3211cd6c92e2ad216fd078f1a.js"></script>
+  <script type="text/javascript"
+    src="https://pl28277448.effectivegatecpm.com/3a/59/06/3a5906e7b8bcd35c018e8958646d8458.js"></script>
+</body>
+
 </html>
