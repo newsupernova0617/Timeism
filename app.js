@@ -10,7 +10,7 @@ const morgan = require('morgan');
 const apiRouter = require('./routes/api');
 
 const PORT = process.env.PORT || 3000;
-const DOMAIN = process.env.DOMAIN || 'https://example.com';
+const DOMAIN = process.env.DOMAIN || 'https://timeism.keero.site';
 
 const app = express();
 
