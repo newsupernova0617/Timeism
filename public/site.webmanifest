@@ -1,0 +1,31 @@
+{
+    "name": "Timeism - Server Time Comparison Service",
+    "short_name": "Timeism",
+    "description": "Check the exact server time before ticketing or registration",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#1f3c88",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/icons/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ],
+    "categories": [
+        "utilities",
+        "productivity"
+    ],
+    "lang": "en-US",
+    "dir": "ltr",
+    "scope": "/",
+    "prefer_related_applications": false
+}

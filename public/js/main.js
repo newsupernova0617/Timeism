@@ -1,6 +1,6 @@
 /**
- * Main Application
- * 모든 모듈을 통합하여 앱을 초기화합니다
+ * 메인 애플리케이션
+ * 모든 모듈을 통합하여 초기화
  */
 
 import { createTimeDisplay } from './modules/time-display.js';
@@ -9,7 +9,7 @@ import { createSession } from './modules/session.js';
 import { createSettings } from './modules/settings.js';
 import { createApi } from './modules/api.js';
 
-// DOM Elements
+// DOM 요소
 const form = document.getElementById('checkForm');
 const urlInput = document.getElementById('urlInput');
 const checkButton = document.getElementById('checkBtn');
@@ -29,7 +29,7 @@ const alarmTime = document.getElementById('alarmTime');
 const cancelAlarmBtn = document.getElementById('cancelAlarm');
 const testAlarmBtn = document.getElementById('testAlarmBtn');
 
-// Initialize modules
+// 모듈 초기화
 const settings = createSettings(showMillisToggle);
 const session = createSession();
 
@@ -60,9 +60,9 @@ const api = createApi({
   serverTimeEl,
   clockMeta,
   clockBlock,
-  onTimeResult: (result) => {
-    const base = result.server_time_estimated_epoch_ms;
-    timeDisplay.setServerClock(base, performance.now());
+  onTimeResult: (result, endTime) => {
+    const base = result.server_time_estimated_epoch_ms;  // 이미 RTT/2 보정됨
+    timeDisplay.setServerClock(base, endTime);  // 응답 수신 시각 사용
     timeDisplay.applyTimeResult(result);
   },
   onApiError: () => {
@@ -71,12 +71,12 @@ const api = createApi({
   sendEvent: session.sendEvent
 });
 
-// Start clock loop with auto-alarm check
+// 시계 루프 시작 (알람 체크 포함)
 timeDisplay.startClockLoop((currentTime) => {
   alarm.checkAutoAlarm(currentTime);
 });
 
-// Initialize all modules
+// 모든 모듈 초기화
 settings.init();
 api.init();
 session.init();

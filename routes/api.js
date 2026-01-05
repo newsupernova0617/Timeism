@@ -1,3 +1,8 @@
+/**
+ * API 라우터
+ * - 시간 조회, 세션 관리, 이벤트 로깅, 분석 데이터 제공
+ */
+
 const express = require('express');
 const { nanoid } = require('nanoid');
 
@@ -18,8 +23,12 @@ const { normalizeIp, hashIp } = require('../lib/identity');
 
 const router = express.Router();
 
+// ==================== POST /api/check-time ====================
+// 대상 URL의 서버 시간 조회 (RTT 보정)
 router.post('/check-time', async (req, res) => {
   const targetUrl = req.body?.target_url;
+
+  // URL 유효성 검사
   if (typeof targetUrl !== 'string' || targetUrl.trim().length === 0) {
     return res.status(400).json({
       error: 'INVALID_URL',
@@ -28,6 +37,7 @@ router.post('/check-time', async (req, res) => {
   }
 
   try {
+    // 서버 시간 측정
     const result = await measureServerTime(targetUrl);
     const responsePayload = {
       target_url: targetUrl,
@@ -35,12 +45,14 @@ router.post('/check-time', async (req, res) => {
       server_time_estimated_epoch_ms: result.serverTimeEstimatedEpochMs
     };
 
+    // 디버그 모드: RTT 포함
     if (req.query.debug === '1') {
       responsePayload.rtt_ms = result.rttMs;
     }
 
     return res.json(responsePayload);
   } catch (err) {
+    // SSRF 에러 처리
     if (err instanceof UrlSafetyError) {
       const statusMap = {
         INVALID_URL: 400,
@@ -56,6 +68,7 @@ router.post('/check-time', async (req, res) => {
       });
     }
 
+    // 기타 에러
     console.error('Unexpected error in /api/check-time:', err);
     return res.status(500).json({
       error: 'INTERNAL_ERROR',
@@ -64,9 +77,12 @@ router.post('/check-time', async (req, res) => {
   }
 });
 
+// ==================== POST /api/log-event ====================
+// 이벤트 로깅 (버튼 클릭, 페이지 뷰 등)
 router.post('/log-event', async (req, res) => {
   const { session_id: sessionId, event_type: eventType, target_url: targetUrl, latency_ms: latencyMs } = req.body || {};
 
+  // 필수 파라미터 검증
   if (typeof sessionId !== 'string' || sessionId.trim().length === 0) {
     return res.status(400).json({ error: 'INVALID_PARAM', message: 'session_id is required.' });
   }
@@ -74,16 +90,17 @@ router.post('/log-event', async (req, res) => {
     return res.status(400).json({ error: 'INVALID_PARAM', message: 'event_type is required.' });
   }
 
-  const sanitizedUrl =
-    typeof targetUrl === 'string' && targetUrl.length > 0 ? targetUrl.slice(0, 2048) : null;
+  // URL 길이 제한 (최대 2048자)
+  const sanitizedUrl = typeof targetUrl === 'string' && targetUrl.length > 0 ? targetUrl.slice(0, 2048) : null;
 
+  // 지연 시간 정수 변환
   let latencyValue = null;
   if (typeof latencyMs === 'number' && Number.isFinite(latencyMs)) {
     latencyValue = Math.round(latencyMs);
   }
 
   try {
-    await logEvent({
+    logEvent({
       sessionId: sessionId.trim(),
       eventType: eventType.trim(),
       targetUrl: sanitizedUrl,
@@ -96,6 +113,8 @@ router.post('/log-event', async (req, res) => {
   }
 });
 
+// ==================== POST /api/session-init ====================
+// 세션 초기화 (최초 방문 시)
 router.post('/session-init', async (req, res) => {
   const {
     user_id: providedUserId,
@@ -105,6 +124,7 @@ router.post('/session-init', async (req, res) => {
     device_type: deviceType
   } = req.body || {};
 
+  // ID 생성 (미제공 시 nanoid 사용)
   const userId = typeof providedUserId === 'string' && providedUserId.trim().length > 0
     ? providedUserId.trim()
     : `user_${nanoid(12)}`;
@@ -112,18 +132,22 @@ router.post('/session-init', async (req, res) => {
     ? providedSessionId.trim()
     : `sess_${nanoid(12)}`;
 
+  // IP 해싱 (개인정보 보호)
   const clientIp = normalizeIp(req.ip);
   const ipHash = hashIp(clientIp);
 
   try {
-    await upsertUser({
+    // 사용자 생성/업데이트
+    upsertUser({
       userId,
       ipHash,
       userAgent,
       region,
       deviceType
     });
-    await ensureSession({
+
+    // 세션 생성/업데이트
+    ensureSession({
       sessionId,
       userId
     });
@@ -144,13 +168,10 @@ router.post('/session-init', async (req, res) => {
 
 // ==================== Analytics API ====================
 
-/**
- * GET /analytics/users
- * 사용자 통계 조회
- */
-router.get('/analytics/users', async (req, res) => {
+// GET /api/analytics/users - 사용자 통계
+router.get('/analytics/users', (req, res) => {
   try {
-    const stats = await getAnalyticsUsers();
+    const stats = getAnalyticsUsers();
     return res.json({
       total_users: stats.total_users || 0,
       regions: stats.regions || 0,
@@ -164,21 +185,14 @@ router.get('/analytics/users', async (req, res) => {
   }
 });
 
-/**
- * GET /analytics/events
- * 이벤트 통계 조회
- * 쿼리 파라미터:
- *   - event_type: 특정 이벤트 타입만 조회
- *   - limit: 결과 개수 (기본값 100)
- *   - offset: 오프셋 (기본값 0)
- */
-router.get('/analytics/events', async (req, res) => {
+// GET /api/analytics/events - 이벤트 통계
+router.get('/analytics/events', (req, res) => {
   try {
     const limit = Math.min(parseInt(req.query.limit) || 100, 1000);
     const offset = Math.max(parseInt(req.query.offset) || 0, 0);
     const eventType = req.query.event_type || null;
 
-    const stats = await getAnalyticsEvents({ eventType, limit, offset });
+    const stats = getAnalyticsEvents({ eventType, limit, offset });
 
     // 숫자 정규화
     const normalized = stats.map((s) => ({
@@ -197,13 +211,10 @@ router.get('/analytics/events', async (req, res) => {
   }
 });
 
-/**
- * GET /analytics/devices
- * 기기별 분석
- */
-router.get('/analytics/devices', async (req, res) => {
+// GET /api/analytics/devices - 기기별 분석
+router.get('/analytics/devices', (req, res) => {
   try {
-    const stats = await getAnalyticsDevices();
+    const stats = getAnalyticsDevices();
 
     const normalized = stats.map((s) => ({
       device_type: s.device_type,
@@ -220,19 +231,13 @@ router.get('/analytics/devices', async (req, res) => {
   }
 });
 
-/**
- * GET /analytics/urls
- * URL별 성능 분석
- * 쿼리 파라미터:
- *   - limit: 결과 개수 (기본값 50)
- *   - offset: 오프셋 (기본값 0)
- */
-router.get('/analytics/urls', async (req, res) => {
+// GET /api/analytics/urls - URL별 성능
+router.get('/analytics/urls', (req, res) => {
   try {
     const limit = Math.min(parseInt(req.query.limit) || 50, 500);
     const offset = Math.max(parseInt(req.query.offset) || 0, 0);
 
-    const stats = await getAnalyticsUrls({ limit, offset });
+    const stats = getAnalyticsUrls({ limit, offset });
 
     const normalized = stats.map((s) => ({
       target_url: s.target_url,
@@ -250,13 +255,10 @@ router.get('/analytics/urls', async (req, res) => {
   }
 });
 
-/**
- * GET /analytics/performance
- * 전체 성능 통계
- */
-router.get('/analytics/performance', async (req, res) => {
+// GET /api/analytics/performance - 전체 성능
+router.get('/analytics/performance', (req, res) => {
   try {
-    const stats = await getAnalyticsPerformance();
+    const stats = getAnalyticsPerformance();
 
     return res.json({
       total_events: stats.total_events || 0,
@@ -272,18 +274,13 @@ router.get('/analytics/performance', async (req, res) => {
   }
 });
 
-/**
- * GET /analytics/summary
- * 전체 분석 요약 (모든 통계 한번에)
- */
-router.get('/analytics/summary', async (req, res) => {
+// GET /api/analytics/summary - 전체 요약
+router.get('/analytics/summary', (req, res) => {
   try {
-    const [users, events, devices, performance] = await Promise.all([
-      getAnalyticsUsers(),
-      getAnalyticsEvents({ limit: 10 }),
-      getAnalyticsDevices(),
-      getAnalyticsPerformance()
-    ]);
+    const users = getAnalyticsUsers();
+    const events = getAnalyticsEvents({ limit: 10 });
+    const devices = getAnalyticsDevices();
+    const performance = getAnalyticsPerformance();
 
     return res.json({
       users: {

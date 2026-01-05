@@ -1,6 +1,6 @@
 /**
- * Session Module
- * 세션 및 사용자 추적 관련 함수
+ * 세션 모듈
+ * 사용자 세션 및 이벤트 추적
  */
 
 const SESSION_STORAGE_KEY = 'timecheck.session';
@@ -9,6 +9,7 @@ const API_BASE = '/api';
 export function createSession() {
   let sessionState = loadSessionState();
 
+  // localStorage에서 세션 로드
   function loadSessionState() {
     try {
       const raw = window.localStorage.getItem(SESSION_STORAGE_KEY);
@@ -26,6 +27,7 @@ export function createSession() {
     };
   }
 
+  // localStorage에 세션 저장
   function persistSessionState() {
     try {
       window.localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(sessionState));
@@ -34,6 +36,7 @@ export function createSession() {
     }
   }
 
+  // 고유 ID 생성
   function createId(prefix) {
     if (typeof crypto !== 'undefined' && crypto.randomUUID) {
       return `${prefix}_${crypto.randomUUID().replace(/-/g, '').slice(0, 12)}`;
@@ -41,6 +44,7 @@ export function createSession() {
     return `${prefix}_${Math.random().toString(36).slice(2, 14)}`;
   }
 
+  // 세션 초기화 (서버 동기화)
   async function initSession() {
     const payload = {
       user_id: sessionState.userId,
@@ -74,9 +78,9 @@ export function createSession() {
     }
   }
 
+  // 페이지 로드 성능 메트릭 수집
   function getPageLoadMetrics() {
     try {
-      // Navigation Timing API를 사용하여 성능 메트릭 수집
       const navTiming = performance.getEntriesByType('navigation')[0];
       const paintEntries = performance.getEntriesByType('paint');
 
@@ -99,6 +103,7 @@ export function createSession() {
     return {};
   }
 
+  // 기기 타입 감지
   function detectDeviceType() {
     const ua = navigator.userAgent.toLowerCase();
     if (/tablet|ipad/.test(ua)) {
@@ -110,6 +115,7 @@ export function createSession() {
     return 'desktop';
   }
 
+  // 이벤트 전송
   async function sendEvent(eventType, extra = {}) {
     const payload = {
       session_id: sessionState.sessionId,

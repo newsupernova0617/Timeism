@@ -43,7 +43,8 @@ export function createApi({
         body: JSON.stringify({ target_url: targetUrl })
       });
       const payload = await response.json();
-      const latencyMs = Math.round(performance.now() - startTime);
+      const endTime = performance.now();  // JSON 파싱 후 측정
+      const latencyMs = Math.round(endTime - startTime);
 
       if (!response.ok || payload.error) {
         const message = payload?.message || '해당 서버의 시간을 확인할 수 없습니다.';
@@ -61,8 +62,16 @@ export function createApi({
         return;
       }
 
+      // RTT/2 보정: 클라이언트-서버 네트워크 지연 보정
+      const clientRTT = endTime - startTime;
+      const adjustedPayload = {
+        ...payload,
+        server_time_estimated_epoch_ms: payload.server_time_estimated_epoch_ms + (clientRTT / 2),
+        client_rtt_ms: clientRTT  // 디버깅용
+      };
+
       if (onTimeResult) {
-        onTimeResult(payload);
+        onTimeResult(adjustedPayload, endTime);
       }
 
       // 성공 이벤트 (성능 메트릭 포함)

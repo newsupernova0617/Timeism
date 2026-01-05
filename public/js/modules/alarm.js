@@ -1,6 +1,6 @@
 /**
- * Alarm Module
- * 알림 및 알람음 관련 함수
+ * 알람 모듈
+ * 목표 시간 알람 및 자동 알람 (정각, 30분)
  */
 
 export function createAlarm({
@@ -23,6 +23,7 @@ export function createAlarm({
   };
   let lastAutoAlarmMinute = -1;
 
+  // 알람 초기화
   function initNotifications() {
     if (setTargetAlarmBtn) {
       setTargetAlarmBtn.addEventListener('click', handleSetTargetAlarm);
@@ -42,6 +43,7 @@ export function createAlarm({
     requestNotificationPermission();
   }
 
+  // 알림 권한 요청
   async function requestNotificationPermission() {
     if (!('Notification' in window)) {
       console.warn('This browser does not support notifications');
@@ -57,6 +59,7 @@ export function createAlarm({
     }
   }
 
+  // 목표 시간 알람 설정
   function handleSetTargetAlarm() {
     const timeValue = targetTimeInput.value;
     if (!timeValue) {
@@ -70,11 +73,11 @@ export function createAlarm({
       return;
     }
 
-    // 시:분:초 파싱 (초는 선택사항)
+    // 시:분:초 파싱
     const timeParts = timeValue.split(':').map(Number);
     const hours = timeParts[0];
     const minutes = timeParts[1];
-    const seconds = timeParts[2] || 0; // 초가 없으면 0
+    const seconds = timeParts[2] || 0;
 
     // 서버 시간 기준으로 목표 시간 계산
     const serverDate = new Date(serverClockBase);
@@ -101,7 +104,7 @@ export function createAlarm({
     startAlarmMonitoring();
     showAlarmStatus();
 
-    // 알람 설정 정보 기록 (예상 시간까지 남은 시간 포함)
+    // 이벤트 로깅
     const timeUntilAlarm = alarmState.targetTime - Date.now();
     sendEvent('set_alarm', {
       mode: 'target',
@@ -110,6 +113,7 @@ export function createAlarm({
     });
   }
 
+  // 알람 모니터링 시작 (2단계)
   function startAlarmMonitoring() {
     // 기존 타이머 정리
     if (alarmState.coarseIntervalId) {
@@ -121,18 +125,18 @@ export function createAlarm({
       alarmState.fineIntervalId = null;
     }
 
-    // Phase 1: 목표 시간 2초 전까지 100ms 주기 체크 (가벼움)
+    // Phase 1: 목표 시간 2초 전까지 100ms 주기
     alarmState.coarseIntervalId = setInterval(() => {
       const remaining = alarmState.targetTime - Date.now();
 
-      if (remaining <= 2000) {  // 2초 전 도달
+      if (remaining <= 2000) {
         clearInterval(alarmState.coarseIntervalId);
         alarmState.coarseIntervalId = null;
-        startFineCheck();  // Phase 2로 전환
+        startFineCheck();
       }
     }, 100);
 
-    // Phase 2: 마지막 2초는 10ms 주기 체크 (정밀함)
+    // Phase 2: 마지막 2초는 10ms 주기 (정밀)
     function startFineCheck() {
       alarmState.fineIntervalId = setInterval(() => {
         const remaining = alarmState.targetTime - Date.now();
@@ -144,6 +148,7 @@ export function createAlarm({
     }
   }
 
+  // 알람 상태 표시
   function showAlarmStatus() {
     alarmStatus.classList.remove('hidden');
 
@@ -153,8 +158,9 @@ export function createAlarm({
     alarmTime.textContent = `${pad(targetDate.getHours())}:${pad(targetDate.getMinutes())}:${pad(targetDate.getSeconds())}`;
   }
 
+  // 알람 발동
   function triggerAlarm() {
-    // Clear both phase intervals
+    // 타이머 정리
     if (alarmState.coarseIntervalId) {
       clearInterval(alarmState.coarseIntervalId);
       alarmState.coarseIntervalId = null;
@@ -164,7 +170,7 @@ export function createAlarm({
       alarmState.fineIntervalId = null;
     }
 
-    // 알람 정확도 계산 (목표 시간 대비 실제 발생 시간의 차이)
+    // 정확도 계산
     const actualTriggerTime = Date.now();
     const delayMs = actualTriggerTime - alarmState.targetTime;
 
@@ -174,15 +180,16 @@ export function createAlarm({
     alarmStatus.classList.add('hidden');
     alarmState.active = false;
 
-    // 알람 정확도 정보 포함
+    // 이벤트 로깅 (정확도 포함)
     sendEvent('alarm_triggered', {
       mode: alarmState.mode,
       target_time: new Date(alarmState.targetTime).toISOString(),
-      delay_ms: delayMs,  // 양수면 지연, 음수면 조기
+      delay_ms: delayMs,
       accuracy: Math.abs(delayMs) <= 10 ? 'precise' : Math.abs(delayMs) <= 100 ? 'good' : 'acceptable'
     });
   }
 
+  // 알림 표시
   function showNotification() {
     if (!('Notification' in window)) {
       alert('⏰ 알림 시간입니다!');
@@ -207,6 +214,7 @@ export function createAlarm({
     }
   }
 
+  // 알람음 재생 (Web Audio API)
   function playAlarmSound() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
@@ -215,16 +223,16 @@ export function createAlarm({
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
 
-    oscillator.frequency.value = 1200;  // 경쾌한 주파수
+    oscillator.frequency.value = 1200;  // 1200Hz
     oscillator.type = 'sine';
-    gainNode.gain.value = 0.6;  // 음량: 60%
+    gainNode.gain.value = 0.6;  // 60% 음량
 
     oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.8);  // 0.8초 재생
+    oscillator.stop(audioContext.currentTime + 0.8);  // 0.8초
   }
 
+  // 알람 취소
   function cancelAlarm() {
-    // Clear both phase intervals
     if (alarmState.coarseIntervalId) {
       clearInterval(alarmState.coarseIntervalId);
       alarmState.coarseIntervalId = null;
@@ -243,12 +251,13 @@ export function createAlarm({
     sendEvent('alarm_cancelled');
   }
 
+  // 자동 알람 체크 (정각, 30분)
   function checkAutoAlarm(ms) {
     const date = new Date(ms);
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
 
-    // Trigger alarm only at 0 second mark, on hour and 30 minutes
+    // 정각 또는 30분, 0초에 발동
     if ((minutes === 0 || minutes === 30) && seconds === 0) {
       const currentMinute = minutes;
 
@@ -257,7 +266,6 @@ export function createAlarm({
         playAlarmSound();
       }
     } else if (seconds > 0) {
-      // Reset the minute tracker after moving past 0 seconds
       lastAutoAlarmMinute = -1;
     }
   }

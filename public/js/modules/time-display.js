@@ -1,6 +1,6 @@
 /**
- * Time Display Module
- * 서버 시간 표시 및 시계 업데이트 관련 함수
+ * 시간 표시 모듈
+ * 서버 시간 표시 및 실시간 시계 업데이트
  */
 
 export function createTimeDisplay({
@@ -15,10 +15,14 @@ export function createTimeDisplay({
 
   return {
     getServerClockBase: () => serverClockBase,
+
+    // 서버 시계 설정
     setServerClock: (base, startPerf) => {
       serverClockBase = base;
       serverClockStartPerf = startPerf;
     },
+
+    // 시계 루프 시작
     startClockLoop: (onTick) => {
       function tick() {
         if (serverClockBase !== null && serverClockStartPerf !== null) {
@@ -26,7 +30,7 @@ export function createTimeDisplay({
           const current = serverClockBase + elapsed;
           serverTimeEl.textContent = formatTimestamp(current, settings);
 
-          // Callback for external listeners (e.g., auto alarm check)
+          // 외부 리스너 콜백 (알람 체크 등)
           if (onTick) onTick(current);
         }
 
@@ -37,6 +41,8 @@ export function createTimeDisplay({
         animationFrameId = window.requestAnimationFrame(tick);
       }
     },
+
+    // 시간 결과 적용
     applyTimeResult: (result) => {
       const estimatedEpochMs = result.server_time_estimated_epoch_ms;
       if (typeof estimatedEpochMs === 'number' && Number.isFinite(estimatedEpochMs)) {
@@ -54,6 +60,8 @@ export function createTimeDisplay({
         }
       }
     },
+
+    // 시계 리셋
     resetClock: () => {
       serverClockBase = null;
       serverClockStartPerf = null;
@@ -68,6 +76,7 @@ export function createTimeDisplay({
   };
 }
 
+// 타임스탬프 포맷팅
 function formatTimestamp(ms, settings) {
   const date = new Date(ms);
   if (Number.isNaN(date.getTime())) {
@@ -92,6 +101,7 @@ function formatTimestamp(ms, settings) {
   return timeStr;
 }
 
+// 메타 정보 포맷팅
 function formatMetaLine(serverUtcIso) {
   const nowLocal = new Date();
   const localFormatter = new Intl.DateTimeFormat(undefined, {
