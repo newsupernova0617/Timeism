@@ -1,0 +1,80 @@
+/* ==================== 인기 사이트 컴팩트 섹션 ==================== */
+
+.popular-sites-compact {
+    margin-top: var(--space-5);
+    background: #ffffff;
+    border: 1px solid rgba(61, 108, 240, 0.15);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+}
+
+.sites-compact-title {
+    margin: 0 0 var(--space-3);
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    color: var(--color-text);
+    text-align: center;
+}
+
+.sites-compact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--space-3);
+}
+
+.site-quick-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.site-quick-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.site-quick-btn:active {
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-quick-btn:hover {
+        transform: none;
+    }
+}
+
+.site-icon-sm {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.site-name-sm {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+@media (max-width: 640px) {
+    .sites-compact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .popular-sites-compact {
+        background: linear-gradient(135deg, rgba(95, 140, 255, 0.08), rgba(167, 193, 255, 0.05));
+        border-color: rgba(95, 140, 255, 0.2);
+    }
+
+    .site-quick-btn {
+        background: var(--color-surface-muted);
+    }
+}

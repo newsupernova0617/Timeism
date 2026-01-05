@@ -159,10 +159,11 @@ Sitemap: ${DOMAIN}/sitemap.xml
 
 app.get('/sitemap.xml', (_req, res) => {
   const lastmod = new Date().toISOString().split('T')[0];
+  const targetSites = require('./lib/target-sites');
+  const allSites = targetSites.getAllSites();
 
-  res.type('application/xml');
-  res.send(
-    `<?xml version="1.0" encoding="UTF-8"?>
+  // 기본 페이지들
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>${DOMAIN}/</loc>
@@ -201,8 +202,33 @@ app.get('/sitemap.xml', (_req, res) => {
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
-</urlset>`
-  );
+`;
+
+  // 타겟 사이트 페이지들 추가
+  allSites.forEach(site => {
+    sitemap += `  <url>
+    <loc>${DOMAIN}/en/sites/${site.id}</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/sites/${site.id}" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/ko/sites/${site.id}</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/sites/${site.id}" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+`;
+  });
+
+  sitemap += `</urlset>`;
+
+  res.type('application/xml');
+  res.send(sitemap);
 });
 
 // ==================== 다국어 라우팅 ====================
@@ -241,6 +267,44 @@ app.get('/en/privacy', (req, res) => {
 
 app.get('/ko/privacy', (req, res) => {
   res.render('privacy', { domain: DOMAIN });
+});
+
+// ==================== 타겟 사이트 전용 페이지 ====================
+
+const targetSites = require('./lib/target-sites');
+
+// 타겟 사이트 페이지 라우팅 (한국어)
+app.get('/ko/sites/:siteId', (req, res) => {
+  const site = targetSites.getSiteById(req.params.siteId);
+
+  if (!site) {
+    return res.status(404).send('Site not found');
+  }
+
+  const siteContent = res.locals.translations.sites?.[site.id] || null;
+
+  res.render('site-page', {
+    domain: DOMAIN,
+    site,
+    siteContent
+  });
+});
+
+// 타겟 사이트 페이지 라우팅 (영어)
+app.get('/en/sites/:siteId', (req, res) => {
+  const site = targetSites.getSiteById(req.params.siteId);
+
+  if (!site) {
+    return res.status(404).send('Site not found');
+  }
+
+  const siteContent = res.locals.translations.sites?.[site.id] || null;
+
+  res.render('site-page', {
+    domain: DOMAIN,
+    site,
+    siteContent
+  });
 });
 
 // 기존 경로 호환성 유지 (리다이렉트)

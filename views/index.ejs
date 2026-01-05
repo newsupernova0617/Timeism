@@ -42,6 +42,7 @@
         <link rel="stylesheet" href="/css/tokens.css" />
         <link rel="stylesheet" href="/css/style.css" />
         <link rel="stylesheet" href="/css/seo-content.css" />
+        <link rel="stylesheet" href="/css/quick-sites.css" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
@@ -134,160 +135,288 @@
         </div>
       </section>
 
-      <section class="notification-panel">
-        <div class="notification-block">
-          <h2>
-            <%= translations.notification.title %>
-          </h2>
-          <p class="section-hint">
-            <%= translations.notification.subtitle %>
-          </p>
+      <%# 인기 사이트 빠른 링크 - 알림 설정 위로 이동 %>
+        <section class="popular-sites-compact">
+          <h3 class="sites-compact-title">
+            <%= locale==='ko' ? '⚡ 인기 사이트 빠른 확인' : '⚡ Popular Sites Quick Check' %>
+          </h3>
 
-          <div class="notification-modes">
-            <div class="mode-content" id="targetTimeMode">
-              <div class="input-group">
-                <label for="targetTime">Set Target Time</label>
-                <div class="time-input-simple">
-                  <input type="time" id="targetTime" class="time-input" step="1" />
-                  <button type="button" id="setTargetAlarm" class="alarm-btn">
-                    <span class="btn-icon">🔔</span>
-                    <span>Set Alarm</span>
-                  </button>
-                </div>
-              </div>
-            </div>
+          <div class="sites-compact-grid">
+            <%# 한국 사이트 (한국어 우선) %>
+              <% if (locale==='ko' ) { %>
+                <button class="site-quick-btn" data-url="https://ticket.interpark.com" data-name="인터파크"
+                  style="border-color: #e60012;">
+                  <span class="site-icon-sm">🎫</span>
+                  <span class="site-name-sm">인터파크</span>
+                </button>
+                <button class="site-quick-btn" data-url="https://ticket.melon.com" data-name="멜론티켓"
+                  style="border-color: #00cd3c;">
+                  <span class="site-icon-sm">🎵</span>
+                  <span class="site-name-sm">멜론티켓</span>
+                </button>
+                <button class="site-quick-btn" data-url="https://ticket.yes24.com" data-name="YES24"
+                  style="border-color: #0066cc;">
+                  <span class="site-icon-sm">📚</span>
+                  <span class="site-name-sm">YES24</span>
+                </button>
+                <button class="site-quick-btn" data-url="https://www.coupang.com" data-name="쿠팡"
+                  style="border-color: #ff5a00;">
+                  <span class="site-icon-sm">🛒</span>
+                  <span class="site-name-sm">쿠팡</span>
+                </button>
+                <% } else { %>
+                  <%# 영어권 사이트 (영어 우선) %>
+                    <button class="site-quick-btn" data-url="https://www.ticketmaster.com" data-name="Ticketmaster"
+                      style="border-color: #026cdf;">
+                      <span class="site-icon-sm">🎟️</span>
+                      <span class="site-name-sm">Ticketmaster</span>
+                    </button>
+                    <button class="site-quick-btn" data-url="https://www.stubhub.com" data-name="StubHub"
+                      style="border-color: #003168;">
+                      <span class="site-icon-sm">🎭</span>
+                      <span class="site-name-sm">StubHub</span>
+                    </button>
+                    <button class="site-quick-btn" data-url="https://www.amazon.com" data-name="Amazon"
+                      style="border-color: #ff9900;">
+                      <span class="site-icon-sm">📦</span>
+                      <span class="site-name-sm">Amazon</span>
+                    </button>
+                    <button class="site-quick-btn" data-url="https://www.ebay.com" data-name="eBay"
+                      style="border-color: #e53238;">
+                      <span class="site-icon-sm">🏪</span>
+                      <span class="site-name-sm">eBay</span>
+                    </button>
+                    <% } %>
           </div>
-
-          <div class="alarm-status hidden" id="alarmStatus">
-            <div class="status-info">
-              <span class="status-icon">🔔</span>
-              <div class="status-text">
-                <strong id="alarmTitle">Alarm Active</strong>
-                <p id="alarmTime"></p>
-              </div>
-            </div>
-            <button type="button" id="cancelAlarm" class="cancel-btn">Cancel</button>
-          </div>
-
-          <div class="dev-section">
-            <details>
-              <summary>🔧 Test Sound</summary>
-              <button type="button" id="testAlarmBtn" class="test-btn">Test Alarm Sound</button>
-            </details>
-          </div>
-        </div>
-      </section>
-
-      <section class="notice">
-        <h2>
-          <%= translations.content.ntpTitle %>
-        </h2>
-        <p>
-          <%= translations.content.ntpDescription %>
-        </p>
-        <p>
-          The most accurate time synchronization is provided by <strong>NTP (Network Time Protocol)</strong>. For
-          situations where precise timing is critical, such as ticketing, it's safest to synchronize your device with an
-          NTP server in advance. Future versions will offer NTP-based high-precision features. For detailed usage, check
-          out the
-          <a href="/<%= locale %>/guide">Server Time Comparison Guide</a>.
-        </p>
-      </section>
-
-      <%# SEO 콘텐츠 섹션 - 애드센스 승인용 %>
-        <section class="seo-content">
-          <h2 class="seo-title">
-            <%= translations.content.seoSection.title %>
-          </h2>
-
-          <%# Feature Cards %>
-            <div class="feature-grid">
-              <% translations.content.seoSection.features.forEach(feature=> { %>
-                <div class="feature-card">
-                  <div class="feature-icon">
-                    <%= feature.icon %>
-                  </div>
-                  <h3 class="feature-title">
-                    <%= feature.title %>
-                  </h3>
-                  <p class="feature-description">
-                    <%= feature.description %>
-                  </p>
-                </div>
-                <% }); %>
-            </div>
-
-            <%# Accordion FAQ Style %>
-              <div class="seo-accordion">
-                <details class="accordion-item">
-                  <summary class="accordion-header">
-                    <span>
-                      <%= translations.content.seoSection.whatIsServerTime.title %>
-                    </span>
-                    <span class="accordion-icon">▼</span>
-                  </summary>
-                  <div class="accordion-content">
-                    <p>
-                      <%= translations.content.seoSection.whatIsServerTime.content %>
-                    </p>
-                  </div>
-                </details>
-
-                <details class="accordion-item">
-                  <summary class="accordion-header">
-                    <span>
-                      <%= translations.content.seoSection.whyImportant.title %>
-                    </span>
-                    <span class="accordion-icon">▼</span>
-                  </summary>
-                  <div class="accordion-content">
-                    <p>
-                      <%= translations.content.seoSection.whyImportant.content %>
-                    </p>
-                  </div>
-                </details>
-
-                <details class="accordion-item">
-                  <summary class="accordion-header">
-                    <span>
-                      <%= translations.content.seoSection.howItWorks.title %>
-                    </span>
-                    <span class="accordion-icon">▼</span>
-                  </summary>
-                  <div class="accordion-content">
-                    <ol class="steps-list">
-                      <% translations.content.seoSection.howItWorks.steps.forEach((step, index)=> { %>
-                        <li>
-                          <%= step %>
-                        </li>
-                        <% }); %>
-                    </ol>
-                  </div>
-                </details>
-
-                <details class="accordion-item">
-                  <summary class="accordion-header">
-                    <span>
-                      <%= translations.content.seoSection.tips.title %>
-                    </span>
-                    <span class="accordion-icon">▼</span>
-                  </summary>
-                  <div class="accordion-content">
-                    <div class="tips-grid">
-                      <% translations.content.seoSection.tips.items.forEach(tip=> { %>
-                        <div class="tip-item">
-                          <h4 class="tip-title">💡 <%= tip.title %>
-                          </h4>
-                          <p class="tip-description">
-                            <%= tip.description %>
-                          </p>
-                        </div>
-                        <% }); %>
-                    </div>
-                  </div>
-                </details>
-              </div>
         </section>
+
+        <section class="notification-panel">
+          <div class="notification-block">
+            <h2>
+              <%= translations.notification.title %>
+            </h2>
+            <p class="section-hint">
+              <%= translations.notification.subtitle %>
+            </p>
+
+            <div class="notification-modes">
+              <div class="mode-content" id="targetTimeMode">
+                <div class="input-group">
+                  <label for="targetTime">Set Target Time</label>
+                  <div class="time-input-simple">
+                    <input type="time" id="targetTime" class="time-input" step="1" />
+                    <button type="button" id="setTargetAlarm" class="alarm-btn">
+                      <span class="btn-icon">🔔</span>
+                      <span>Set Alarm</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="alarm-status hidden" id="alarmStatus">
+              <div class="status-info">
+                <span class="status-icon">🔔</span>
+                <div class="status-text">
+                  <strong id="alarmTitle">Alarm Active</strong>
+                  <p id="alarmTime"></p>
+                </div>
+              </div>
+              <button type="button" id="cancelAlarm" class="cancel-btn">Cancel</button>
+            </div>
+
+            <div class="dev-section">
+              <details>
+                <summary>🔧 Test Sound</summary>
+                <button type="button" id="testAlarmBtn" class="test-btn">Test Alarm Sound</button>
+              </details>
+            </div>
+          </div>
+        </section>
+
+        <section class="notice">
+          <h2>
+            <%= translations.content.ntpTitle %>
+          </h2>
+          <p>
+            <%= translations.content.ntpDescription %>
+          </p>
+          <p>
+            The most accurate time synchronization is provided by <strong>NTP (Network Time Protocol)</strong>. For
+            situations where precise timing is critical, such as ticketing, it's safest to synchronize your device with
+            an
+            NTP server in advance. Future versions will offer NTP-based high-precision features. For detailed usage,
+            check
+            out the
+            <a href="/<%= locale %>/guide">Server Time Comparison Guide</a>.
+          </p>
+        </section>
+
+        <%# SEO 콘텐츠 섹션 - 애드센스 승인용 %>
+          <section class="seo-content">
+            <h2 class="seo-title">
+              <%= translations.content.seoSection.title %>
+            </h2>
+
+            <%# Feature Cards %>
+              <div class="feature-grid">
+                <% translations.content.seoSection.features.forEach(feature=> { %>
+                  <div class="feature-card">
+                    <div class="feature-icon">
+                      <%= feature.icon %>
+                    </div>
+                    <h3 class="feature-title">
+                      <%= feature.title %>
+                    </h3>
+                    <p class="feature-description">
+                      <%= feature.description %>
+                    </p>
+                  </div>
+                  <% }); %>
+              </div>
+
+              <%# Accordion FAQ Style %>
+                <div class="seo-accordion">
+                  <details class="accordion-item">
+                    <summary class="accordion-header">
+                      <span>
+                        <%= translations.content.seoSection.whatIsServerTime.title %>
+                      </span>
+                      <span class="accordion-icon">▼</span>
+                    </summary>
+                    <div class="accordion-content">
+                      <p>
+                        <%= translations.content.seoSection.whatIsServerTime.content %>
+                      </p>
+                    </div>
+                  </details>
+
+                  <details class="accordion-item">
+                    <summary class="accordion-header">
+                      <span>
+                        <%= translations.content.seoSection.whyImportant.title %>
+                      </span>
+                      <span class="accordion-icon">▼</span>
+                    </summary>
+                    <div class="accordion-content">
+                      <p>
+                        <%= translations.content.seoSection.whyImportant.content %>
+                      </p>
+                    </div>
+                  </details>
+
+                  <details class="accordion-item">
+                    <summary class="accordion-header">
+                      <span>
+                        <%= translations.content.seoSection.howItWorks.title %>
+                      </span>
+                      <span class="accordion-icon">▼</span>
+                    </summary>
+                    <div class="accordion-content">
+                      <ol class="steps-list">
+                        <% translations.content.seoSection.howItWorks.steps.forEach((step, index)=> { %>
+                          <li>
+                            <%= step %>
+                          </li>
+                          <% }); %>
+                      </ol>
+                    </div>
+                  </details>
+
+                  <details class="accordion-item">
+                    <summary class="accordion-header">
+                      <span>
+                        <%= translations.content.seoSection.tips.title %>
+                      </span>
+                      <span class="accordion-icon">▼</span>
+                    </summary>
+                    <div class="accordion-content">
+                      <div class="tips-grid">
+                        <% translations.content.seoSection.tips.items.forEach(tip=> { %>
+                          <div class="tip-item">
+                            <h4 class="tip-title">💡 <%= tip.title %>
+                            </h4>
+                            <p class="tip-description">
+                              <%= tip.description %>
+                            </p>
+                          </div>
+                          <% }); %>
+                      </div>
+                    </div>
+                  </details>
+                </div>
+          </section>
+
+          <!-- 인기 사이트 빠른 링크 - 주석 처리 (상단 컴팩트 버전 사용) -->
+          <!-- 
+            <section class="popular-sites">
+              <h2 class="seo-title">
+                <%= locale==='ko' ? '인기 사이트 빠른 확인' : 'Popular Sites Quick Check' %>
+              </h2>
+              <p class="sites-intro">
+                <%= locale==='ko' ? '자주 사용하는 사이트의 서버 시간을 빠르게 확인하세요.'
+                  : 'Quickly check server time for frequently used sites.' %>
+              </p>
+
+              <div class="sites-grid">
+                <%# 한국 사이트 (한국어 우선) %>
+                  <% if (locale==='ko' ) { %>
+                    <a href="/ko/sites/interpark" class="site-card" style="border-color: #e60012;">
+                      <span class="site-icon">🎫</span>
+                      <h3 class="site-name">인터파크</h3>
+                      <p class="site-desc">티켓 예매</p>
+                    </a>
+                    <a href="/ko/sites/melon" class="site-card" style="border-color: #00cd3c;">
+                      <span class="site-icon">🎵</span>
+                      <h3 class="site-name">멜론티켓</h3>
+                      <p class="site-desc">음악 공연</p>
+                    </a>
+                    <a href="/ko/sites/yes24" class="site-card" style="border-color: #0066cc;">
+                      <span class="site-icon">📚</span>
+                      <h3 class="site-name">YES24</h3>
+                      <p class="site-desc">문화 티켓</p>
+                    </a>
+                    <a href="/ko/sites/coupang" class="site-card" style="border-color: #ff5a00;">
+                      <span class="site-icon">🛒</span>
+                      <h3 class="site-name">쿠팡</h3>
+                      <p class="site-desc">타임딜</p>
+                    </a>
+                    <a href="/ko/sites/university" class="site-card" style="border-color: #4a90e2;">
+                      <span class="site-icon">🎓</span>
+                      <h3 class="site-name">수강신청</h3>
+                      <p class="site-desc">대학교</p>
+                    </a>
+                    <% } else { %>
+                      <%# 영어권 사이트 (영어 우선) %>
+                        <a href="/en/sites/ticketmaster" class="site-card" style="border-color: #026cdf;">
+                          <span class="site-icon">🎟️</span>
+                          <h3 class="site-name">Ticketmaster</h3>
+                          <p class="site-desc">Live Events</p>
+                        </a>
+                        <a href="/en/sites/stubhub" class="site-card" style="border-color: #003168;">
+                          <span class="site-icon">🎭</span>
+                          <h3 class="site-name">StubHub</h3>
+                          <p class="site-desc">Ticket Resale</p>
+                        </a>
+                        <a href="/en/sites/amazon" class="site-card" style="border-color: #ff9900;">
+                          <span class="site-icon">📦</span>
+                          <h3 class="site-name">Amazon</h3>
+                          <p class="site-desc">Lightning Deals</p>
+                        </a>
+                        <a href="/en/sites/ebay" class="site-card" style="border-color: #e53238;">
+                          <span class="site-icon">🏪</span>
+                          <h3 class="site-name">eBay</h3>
+                          <p class="site-desc">Auction Sniping</p>
+                        </a>
+                        <a href="/en/sites/eventbrite" class="site-card" style="border-color: #f05537;">
+                          <span class="site-icon">🎉</span>
+                          <h3 class="site-name">Eventbrite</h3>
+                          <p class="site-desc">Local Events</p>
+                        </a>
+                        <% } %>
+              </div>
+            </section>
+            -->
     </section>
 
     <aside class="sidebar" role="complementary" aria-label="Advertisement Area">

@@ -63,9 +63,12 @@ export function createTimeDisplay({
 
     // 시계 리셋
     resetClock: () => {
+      const lang = document.documentElement.lang || 'ko';
+      const failedText = lang === 'ko' ? '확인 실패' : 'Check failed';
+
       serverClockBase = null;
       serverClockStartPerf = null;
-      serverTimeEl.textContent = '확인 실패';
+      serverTimeEl.textContent = failedText;
       serverTimeEl.classList.add('muted');
       serverTimeEl.classList.remove('skeleton');
       serverTimeEl.removeAttribute('aria-busy');
@@ -103,6 +106,10 @@ function formatTimestamp(ms, settings) {
 
 // 메타 정보 포맷팅
 function formatMetaLine(serverUtcIso) {
+  // 현재 페이지 언어 감지
+  const lang = document.documentElement.lang || 'ko';
+  const isKorean = lang === 'ko';
+
   const nowLocal = new Date();
   const localFormatter = new Intl.DateTimeFormat(undefined, {
     year: 'numeric',
@@ -122,7 +129,11 @@ function formatMetaLine(serverUtcIso) {
     utcStamp = '';
   }
 
+  // 다국어 텍스트
+  const lastMeasured = isKorean ? '마지막 측정' : 'Last measured';
+  const serverUtcHeader = isKorean ? '서버 UTC 헤더' : 'Server UTC header';
+
   return utcStamp
-    ? `마지막 측정: ${localStamp} · 서버 UTC 헤더: ${utcStamp}`
-    : `마지막 측정: ${localStamp}`;
+    ? `${lastMeasured}: ${localStamp} · ${serverUtcHeader}: ${utcStamp}`
+    : `${lastMeasured}: ${localStamp}`;
 }

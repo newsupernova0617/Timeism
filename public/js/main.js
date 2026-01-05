@@ -82,4 +82,26 @@ api.init();
 session.init();
 alarm.init();
 
+// 빠른 사이트 버튼 핸들러
+const quickSiteButtons = document.querySelectorAll('.site-quick-btn');
+quickSiteButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const url = button.dataset.url;
+    const name = button.dataset.name;
+
+    // URL 입력 필드에 자동 입력
+    urlInput.value = url;
+
+    // 포커스 효과
+    urlInput.focus();
+
+    // 자동으로 시간 확인 트리거
+    setTimeout(() => {
+      checkButton.click();
+    }, 100);
+
+    console.log(`✅ Quick site selected: ${name} (${url})`);
+  });
+});
+
 console.log('✅ Application initialized');

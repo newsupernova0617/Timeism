@@ -5,6 +5,27 @@
 
 const API_BASE = '/api';
 
+// 다국어 메시지
+function getMessages() {
+  const lang = document.documentElement.lang || 'ko';
+  const isKorean = lang === 'ko';
+
+  return {
+    invalidUrl: isKorean
+      ? 'http:// 또는 https:// 로 시작하는 올바른 주소를 입력해주세요.'
+      : 'Please enter a valid URL starting with http:// or https://',
+    serverTimeError: isKorean
+      ? '해당 서버의 시간을 확인할 수 없습니다.'
+      : 'Unable to check the server time.',
+    networkError: isKorean
+      ? '네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'
+      : 'A network error occurred. Please try again later.',
+    checking: isKorean ? '확인 중...' : 'Checking...',
+    measuring: isKorean ? '측정 중…' : 'Measuring…',
+    checkTime: isKorean ? '시간 확인' : 'Check Time'
+  };
+}
+
 export function createApi({
   form,
   urlInput,
@@ -21,7 +42,7 @@ export function createApi({
     event.preventDefault();
     const targetUrl = urlInput.value.trim();
     if (!validateUrl(targetUrl)) {
-      showError('http:// 또는 https:// 로 시작하는 올바른 주소를 입력해주세요.');
+      showError(getMessages().invalidUrl);
       return;
     }
     urlInput.removeAttribute('aria-invalid');
@@ -47,7 +68,7 @@ export function createApi({
       const latencyMs = Math.round(endTime - startTime);
 
       if (!response.ok || payload.error) {
-        const message = payload?.message || '해당 서버의 시간을 확인할 수 없습니다.';
+        const message = payload?.message || getMessages().serverTimeError;
         const errorType = payload?.error || 'UNKNOWN_ERROR';
 
         // 오류 추적
@@ -91,7 +112,7 @@ export function createApi({
         latency_ms: latencyMs
       });
 
-      handleApiError('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+      handleApiError(getMessages().networkError);
       console.error(err);
     } finally {
       setLoading(false);
@@ -126,10 +147,12 @@ export function createApi({
   }
 
   function setLoading(state) {
+    const messages = getMessages();
+
     if (state) {
       checkButton.disabled = true;
-      checkButton.textContent = '확인 중...';
-      serverTimeEl.textContent = '측정 중…';
+      checkButton.textContent = messages.checking;
+      serverTimeEl.textContent = messages.measuring;
       serverTimeEl.classList.add('skeleton');
       serverTimeEl.setAttribute('aria-busy', 'true');
       if (clockMeta) {
@@ -139,7 +162,7 @@ export function createApi({
       clockBlock?.setAttribute('aria-busy', 'true');
     } else {
       checkButton.disabled = false;
-      checkButton.textContent = '시간 확인';
+      checkButton.textContent = messages.checkTime;
       serverTimeEl.classList.remove('skeleton');
       serverTimeEl.removeAttribute('aria-busy');
       clockBlock?.removeAttribute('data-state');

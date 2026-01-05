@@ -101,5 +101,115 @@
         "guide": "Guide",
         "privacy": "Privacy",
         "contact": "Contact"
+    },
+    "sites": {
+        "ticketmaster": {
+            "intro": "Ticketmaster is the world's leading ticketing platform for concerts, sports, theater, and live entertainment. With millions of users competing for popular events, precise server time synchronization is crucial for securing tickets.",
+            "tips": [
+                {
+                    "title": "Join the Waiting Room Early",
+                    "description": "Ticketmaster uses a virtual waiting room system. Join at least 10 minutes before the on-sale time to get a better queue position."
+                },
+                {
+                    "title": "Have Payment Ready",
+                    "description": "Save your payment information in advance. You typically have only 5-10 minutes to complete checkout once you select seats."
+                },
+                {
+                    "title": "Use the Mobile App",
+                    "description": "The Ticketmaster app often provides a smoother experience than the website during high-traffic events."
+                }
+            ],
+            "warnings": [
+                "Ticketmaster may implement CAPTCHA verification during high-demand sales.",
+                "Multiple browser tabs or devices may result in being kicked out of the queue.",
+                "Prices may include dynamic pricing that increases based on demand."
+            ]
+        },
+        "stubhub": {
+            "intro": "StubHub is a leading ticket resale marketplace where fans buy and sell tickets to sports, concerts, and theater events. Timing is important for snagging good deals before they're gone.",
+            "tips": [
+                {
+                    "title": "Set Price Alerts",
+                    "description": "Use StubHub's price alert feature to be notified when tickets drop to your target price."
+                },
+                {
+                    "title": "Check Last-Minute Deals",
+                    "description": "Prices often drop significantly 24-48 hours before an event as sellers try to offload tickets."
+                },
+                {
+                    "title": "FanProtect Guarantee",
+                    "description": "StubHub's FanProtect guarantee ensures you get valid tickets or your money back."
+                }
+            ],
+            "warnings": [
+                "Ticket prices on StubHub can be higher than face value due to resale markups.",
+                "Delivery methods vary - check if tickets are mobile, print-at-home, or physical."
+            ]
+        },
+        "amazon": {
+            "intro": "Amazon is the world's largest online retailer. Lightning Deals and limited-time offers require split-second timing to secure popular items before they sell out.",
+            "tips": [
+                {
+                    "title": "Enable 1-Click Ordering",
+                    "description": "Set up 1-Click ordering with your preferred payment and shipping address to checkout instantly."
+                },
+                {
+                    "title": "Watch Lightning Deals",
+                    "description": "Lightning Deals have a countdown timer. Add items to your cart before the deal goes live."
+                },
+                {
+                    "title": "Use Amazon Prime",
+                    "description": "Prime members often get early access to deals and faster checkout options."
+                }
+            ],
+            "warnings": [
+                "Lightning Deals have limited quantities and may sell out within seconds.",
+                "Adding to cart doesn't reserve the item - you must complete checkout.",
+                "Some deals are Prime-exclusive and require a membership."
+            ]
+        },
+        "ebay": {
+            "intro": "eBay is a global online marketplace for auctions and fixed-price sales. Auction sniping - bidding at the last second - requires precise timing to win competitive items.",
+            "tips": [
+                {
+                    "title": "Snipe Auctions Strategically",
+                    "description": "Place your maximum bid in the final 5-10 seconds to avoid driving up the price early."
+                },
+                {
+                    "title": "Set Maximum Bid",
+                    "description": "Decide your maximum price beforehand and stick to it to avoid overpaying in the heat of bidding."
+                },
+                {
+                    "title": "Check Seller Ratings",
+                    "description": "Always verify seller feedback and ratings before bidding on high-value items."
+                }
+            ],
+            "warnings": [
+                "eBay's auto-bidding system may outbid you if another user has a higher maximum.",
+                "International shipping can add significant costs and delays.",
+                "Auction end times are in the seller's local timezone - verify before sniping."
+            ]
+        },
+        "eventbrite": {
+            "intro": "Eventbrite is a popular platform for discovering and booking tickets to local events, conferences, and festivals. Popular free events can fill up quickly, making timing essential.",
+            "tips": [
+                {
+                    "title": "Follow Event Organizers",
+                    "description": "Follow organizers to get notified when new events are posted or tickets become available."
+                },
+                {
+                    "title": "Register Early for Free Events",
+                    "description": "Free events often have limited capacity and can sell out within minutes of being posted."
+                },
+                {
+                    "title": "Check Waitlists",
+                    "description": "If an event is sold out, join the waitlist - tickets often become available as people cancel."
+                }
+            ],
+            "warnings": [
+                "Some events have tiered pricing that increases as the event date approaches.",
+                "Free events may still have service fees at checkout."
+            ]
+        }
     }
 }

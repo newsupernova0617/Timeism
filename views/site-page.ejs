@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="<%= locale %>">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+        <%= site.name %> Server Time | <%= locale==='ko' ? '서버 시간 확인' : 'Time Checker' %> · Timeism
+    </title>
+    <meta name="description"
+        content="<%= locale === 'ko' ? site.nameKo : site.name %> 서버의 정확한 시간을 확인하세요. 티켓팅 성공을 위한 시간 동기화 가이드." />
+    <meta name="keywords" content="<%= site.name %>, server time, 서버 시간, 티켓팅, ticketing" />
+
+    <link rel="canonical" href="<%= domain %>/<%= locale %>/sites/<%= site.id %>" />
+
+    <%# hreflang 태그 %>
+        <% hreflangLinks.forEach(link=> { %>
+            <link rel="<%= link.rel %>" hreflang="<%= link.hreflang %>" href="<%= link.href %>" />
+            <% }); %>
+
+                <meta name="robots" content="index, follow" />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="<%= site.name %> Server Time Checker" />
+                <meta property="og:description" content="Check <%= site.name %> server time for accurate ticketing" />
+                <meta property="og:url" content="<%= domain %>/<%= locale %>/sites/<%= site.id %>" />
+                <meta property="og:image" content="<%= domain %>/og-image.png" />
+
+                <link rel="stylesheet" href="/css/tokens.css" />
+                <link rel="stylesheet" href="/css/style.css" />
+                <link rel="stylesheet" href="/css/seo-content.css" />
+                <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+</head>
+
+<body>
+    <header class="page-header" style="background: linear-gradient(135deg, <%= site.color %>, <%= site.color %>dd);">
+        <h1>
+            <%= site.icon %>
+                <%= locale==='ko' ? site.nameKo : site.name %>
+        </h1>
+        <p class="subtitle">
+            <%= locale==='ko' ? '서버 시간 확인 및 티켓팅 가이드' : 'Server Time Check & Ticketing Guide' %>
+        </p>
+    </header>
+
+    <main class="content-page">
+        <%# 시계 섹션 %>
+            <section class="clock-panel" aria-live="polite">
+                <div class="clock-block single" id="clockBlock">
+                    <h2>
+                        <%= locale==='ko' ? site.nameKo + ' 서버 시간' : site.name + ' Server Time' %>
+                    </h2>
+                    <p id="serverTime" class="clock-value muted" role="status" aria-live="polite" aria-atomic="true">
+                        --:--:--.---
+                    </p>
+                    <p class="clock-meta" id="clockMeta" aria-live="off"></p>
+
+                    <button id="checkTimeBtn" class="alarm-btn" data-url="<%= site.url %>">
+                        <%= locale==='ko' ? '시간 확인' : 'Check Time' %>
+                    </button>
+                </div>
+            </section>
+
+            <%# 사이트별 맞춤 콘텐츠 %>
+                <section class="seo-content">
+                    <h2>
+                        <%= locale==='ko' ? site.nameKo + ' 티켓팅 완벽 가이드' : site.name + ' Ticketing Guide' %>
+                    </h2>
+
+                    <%# 사이트별 콘텐츠는 번역 파일에서 가져옴 %>
+                        <% if (siteContent) { %>
+                            <div class="site-guide-content">
+                                <% if (siteContent.intro) { %>
+                                    <p class="guide-intro">
+                                        <%= siteContent.intro %>
+                                    </p>
+                                    <% } %>
+
+                                        <% if (siteContent.tips && siteContent.tips.length> 0) { %>
+                                            <div class="tips-grid">
+                                                <% siteContent.tips.forEach(tip=> { %>
+                                                    <div class="tip-item">
+                                                        <h4 class="tip-title">💡 <%= tip.title %>
+                                                        </h4>
+                                                        <p class="tip-description">
+                                                            <%= tip.description %>
+                                                        </p>
+                                                    </div>
+                                                    <% }); %>
+                                            </div>
+                                            <% } %>
+
+                                                <% if (siteContent.warnings && siteContent.warnings.length> 0) { %>
+                                                    <div class="warnings-section">
+                                                        <h3>
+                                                            <%= locale==='ko' ? '⚠️ 주의사항' : '⚠️ Important Notes' %>
+                                                        </h3>
+                                                        <ul>
+                                                            <% siteContent.warnings.forEach(warning=> { %>
+                                                                <li>
+                                                                    <%= warning %>
+                                                                </li>
+                                                                <% }); %>
+                                                        </ul>
+                                                    </div>
+                                                    <% } %>
+                            </div>
+                            <% } %>
+                </section>
+
+                <%# 관련 링크 %>
+                    <nav class="internal-links">
+                        <h3>
+                            <%= locale==='ko' ? '관련 페이지' : 'Related Pages' %>
+                        </h3>
+                        <ul>
+                            <li><a href="/<%= locale %>/">
+                                    <%= locale==='ko' ? '메인으로 돌아가기' : 'Back to Main' %>
+                                </a></li>
+                            <li><a href="/<%= locale %>/guide">
+                                    <%= locale==='ko' ? '사용 가이드' : 'Usage Guide' %>
+                                </a></li>
+                        </ul>
+                    </nav>
+    </main>
+
+    <footer class="page-footer">
+        <nav>
+            <a href="/<%= locale %>/">
+                <%= locale==='ko' ? '홈' : 'Home' %>
+            </a>
+            <span aria-hidden="true">·</span>
+            <a href="/<%= locale %>/guide">
+                <%= locale==='ko' ? '가이드' : 'Guide' %>
+            </a>
+            <span aria-hidden="true">·</span>
+            <a href="/<%= locale %>/privacy">
+                <%= locale==='ko' ? '개인정보' : 'Privacy' %>
+            </a>
+        </nav>
+    </footer>
+
+    <script type="module">
+        // 자동으로 해당 사이트 시간 확인
+        const checkBtn = document.getElementById('checkTimeBtn');
+        const targetUrl = checkBtn.dataset.url;
+        const serverTimeEl = document.getElementById('serverTime');
+        const clockMeta = document.getElementById('clockMeta');
+
+        let serverClockBase = null;  // 서버 시간 기준점
+        let localClockBase = null;   // 로컬 시간 기준점
+        let animationFrameId = null;
+
+        // 실시간 시계 업데이트
+        function updateClock() {
+            if (serverClockBase && localClockBase) {
+                const now = performance.now();
+                const elapsed = now - localClockBase;
+                const currentServerTime = serverClockBase + elapsed;
+
+                const date = new Date(currentServerTime);
+                const hours = String(date.getUTCHours()).padStart(2, '0');
+                const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+                const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+                const millis = String(date.getUTCMilliseconds()).padStart(3, '0');
+
+                serverTimeEl.textContent = `${hours}:${minutes}:${seconds}.${millis}`;
+            }
+
+            animationFrameId = requestAnimationFrame(updateClock);
+        }
+
+        checkBtn.addEventListener('click', async () => {
+            serverTimeEl.textContent = 'Loading...';
+            checkBtn.disabled = true;
+
+            // 기존 애니메이션 중지
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+
+            try {
+                const startTime = performance.now();
+
+                const response = await fetch('/api/check-time', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ target_url: targetUrl })
+                });
+
+                const endTime = performance.now();
+                const data = await response.json();
+
+                if (data.server_time_utc) {
+                    // 서버 시간 기준점 설정 (RTT/2 보정 포함)
+                    const serverTime = new Date(data.server_time_utc).getTime();
+                    const rtt = data.latency || (endTime - startTime);
+
+                    serverClockBase = serverTime + (rtt / 2);
+                    localClockBase = endTime;
+
+                    serverTimeEl.classList.remove('muted');
+                    clockMeta.textContent = `Latency: ${Math.round(rtt)}ms`;
+
+                    // 실시간 업데이트 시작
+                    updateClock();
+                } else {
+                    serverTimeEl.textContent = 'Error: Invalid response';
+                }
+            } catch (error) {
+                serverTimeEl.textContent = 'Error';
+                clockMeta.textContent = 'Failed to fetch server time';
+                console.error('Time check error:', error);
+            } finally {
+                checkBtn.disabled = false;
+            }
+        });
+
+        // 페이지 로드 시 자동 확인
+        checkBtn.click();
+    </script>
+</body>
+
+</html>
