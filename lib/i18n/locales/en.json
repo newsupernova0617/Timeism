@@ -1,0 +1,105 @@
+{
+    "meta": {
+        "title": "Server Time Checker | NTP Sync Guide · Timeism",
+        "description": "Check target server's current time instantly. HTTP Date-based measurement with NTP synchronization guidance.",
+        "keywords": "server time, NTP, time sync, ticketing, time checker"
+    },
+    "header": {
+        "title": "Timeism",
+        "subtitle": "Check the target server's current time before ticketing or limited edition purchases to minimize time discrepancies with your local clock."
+    },
+    "form": {
+        "label": "Server URL to Compare",
+        "placeholder": "https://example.com",
+        "hint": "Enter the URL of the site you want to check (e.g., ticketing site, shopping mall)",
+        "button": "Check Time"
+    },
+    "clock": {
+        "serverTime": "Server Current Time",
+        "milliseconds": "Show Milliseconds"
+    },
+    "notification": {
+        "title": "Notification Settings",
+        "subtitle": "Receive an alert when the target time is reached.",
+        "targetTime": "Target Time",
+        "testSound": "Test Alarm Sound"
+    },
+    "content": {
+        "ntpTitle": "Accurate Time with NTP",
+        "ntpDescription": "This service shows an approximate current time by referencing the HTTP Date header from the target server. For more precise timing, we recommend synchronizing your device with an NTP server in advance.",
+        "seoSection": {
+            "title": "Why Server Time Matters",
+            "features": [
+                {
+                    "icon": "⚡",
+                    "title": "Precision Timing",
+                    "description": "In ticketing and limited edition purchases, 0.1 seconds can determine success or failure. Server time synchronization is essential."
+                },
+                {
+                    "icon": "🎯",
+                    "title": "HTTP Date Analysis",
+                    "description": "We analyze the HTTP Date header from target servers to estimate their current time with millisecond precision."
+                },
+                {
+                    "icon": "🔔",
+                    "title": "Smart Alerts",
+                    "description": "Set target time alarms to be notified exactly when you need to take action, ensuring you never miss critical moments."
+                }
+            ],
+            "whatIsServerTime": {
+                "title": "What is Server Time?",
+                "content": "Server time refers to the system clock maintained by the web server hosting a website. Unlike your local computer or smartphone time, which can drift or be manually adjusted, server time is typically synchronized with authoritative time sources. When participating in time-sensitive events like concert ticket sales or course registration, the difference between your local time and the server time can mean the difference between success and disappointment. Even a 2-second discrepancy can result in missing out on limited availability items."
+            },
+            "whyImportant": {
+                "title": "Why is Server Time Synchronization Critical?",
+                "content": "Modern e-commerce and ticketing systems process thousands of requests per second during high-demand events. These systems use server-side timestamps to determine the order of incoming requests. If your local clock is ahead of the server by even 1 second, you might think you're clicking at the exact release time, but the server sees your request as arriving early and may reject it. Conversely, if your clock is behind, you're already competing with users who submitted earlier. Timeism helps you identify and compensate for these time differences."
+            },
+            "howItWorks": {
+                "title": "How Timeism Measures Server Time",
+                "steps": [
+                    "You enter the target website URL in the input field above",
+                    "Timeism sends an HTTP HEAD request to that server",
+                    "The server responds with a Date header containing its current time",
+                    "We calculate network latency (Round-Trip Time) to improve accuracy",
+                    "The estimated server time is displayed with millisecond precision",
+                    "You can now see the exact time difference between your device and the server"
+                ]
+            },
+            "tips": {
+                "title": "Pro Tips for Successful Ticketing",
+                "items": [
+                    {
+                        "title": "Check Server Time 5 Minutes Early",
+                        "description": "Use Timeism to check the target server's time at least 5 minutes before the ticket release. Note the time difference."
+                    },
+                    {
+                        "title": "Remember the Time Offset",
+                        "description": "If your computer is 1.5 seconds ahead of the server, mentally adjust your clicking time by that amount."
+                    },
+                    {
+                        "title": "Practice Refresh Timing",
+                        "description": "Optimal refresh timing is typically 1-2 seconds before the exact release time (server time basis)."
+                    },
+                    {
+                        "title": "Use Wired Internet",
+                        "description": "Wired connections provide more stable latency compared to Wi-Fi, improving time synchronization accuracy."
+                    },
+                    {
+                        "title": "Close Unnecessary Tabs",
+                        "description": "Browser performance impacts your ability to act quickly. Close all unnecessary tabs and extensions."
+                    },
+                    {
+                        "title": "Consider NTP Synchronization",
+                        "description": "For maximum accuracy, synchronize your device with an NTP server before the event. This ensures your local clock is as accurate as possible."
+                    }
+                ]
+            }
+        }
+    },
+    "footer": {
+        "home": "Home",
+        "guide": "Guide",
+        "privacy": "Privacy",
+        "contact": "Contact"
+    }
+}

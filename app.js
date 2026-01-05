@@ -19,6 +19,7 @@ const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
 
 const apiRouter = require('./routes/api');
+const i18n = require('./lib/i18n');
 
 // 환경 변수
 const PORT = process.env.PORT || 3000;
@@ -53,6 +54,17 @@ app.use(express.json({ limit: '64kb' }));
 
 // 4. Morgan: HTTP 로깅
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+
+// 5. i18n: 다국어 지원
+app.use((req, res, next) => {
+  const locale = i18n.detectLocale(req);
+  res.locals.locale = locale;
+  res.locals.t = (key) => i18n.t(locale, key);
+  res.locals.translations = i18n.getTranslations(locale);
+  res.locals.domain = DOMAIN;
+  res.locals.hreflangLinks = i18n.getHreflangLinks(DOMAIN, req.path);
+  next();
+});
 
 // ==================== 레이트 리밋 설정 ====================
 
@@ -151,9 +163,28 @@ app.get('/sitemap.xml', (_req, res) => {
   res.type('application/xml');
   res.send(
     `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>${DOMAIN}/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/en/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/ko/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/" />
     <lastmod>${lastmod}</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -174,17 +205,53 @@ app.get('/sitemap.xml', (_req, res) => {
   );
 });
 
-// Dynamic SEO routes with EJS (must be before static middleware)
-app.get('/', (_req, res) => {
+// ==================== 다국어 라우팅 ====================
+
+// 루트 경로: 브라우저 언어 감지 후 리다이렉트 또는 영어 기본
+app.get('/', (req, res) => {
+  const locale = i18n.detectLocale(req);
+  if (locale !== i18n.DEFAULT_LOCALE) {
+    return res.redirect(`/${locale}/`);
+  }
   res.render('index', { domain: DOMAIN });
 });
 
-app.get('/guide', (_req, res) => {
+// 언어별 메인 페이지
+app.get('/en/', (req, res) => {
+  res.render('index', { domain: DOMAIN });
+});
+
+app.get('/ko/', (req, res) => {
+  res.render('index', { domain: DOMAIN });
+});
+
+// 언어별 가이드 페이지
+app.get('/en/guide', (req, res) => {
   res.render('guide', { domain: DOMAIN });
 });
 
-app.get('/privacy', (_req, res) => {
+app.get('/ko/guide', (req, res) => {
+  res.render('guide', { domain: DOMAIN });
+});
+
+// 언어별 개인정보 페이지
+app.get('/en/privacy', (req, res) => {
   res.render('privacy', { domain: DOMAIN });
+});
+
+app.get('/ko/privacy', (req, res) => {
+  res.render('privacy', { domain: DOMAIN });
+});
+
+// 기존 경로 호환성 유지 (리다이렉트)
+app.get('/guide', (req, res) => {
+  const locale = i18n.detectLocale(req);
+  res.redirect(`/${locale}/guide`);
+});
+
+app.get('/privacy', (req, res) => {
+  const locale = i18n.detectLocale(req);
+  res.redirect(`/${locale}/privacy`);
 });
 
 // Serve static files (CSS, JS, images, etc.)

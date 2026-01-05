@@ -1,47 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= locale %>">
 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Server Time Checker | NTP Sync Guide · Timeism</title>
-  <meta name="description"
-    content="Check the exact server time before ticketing or registration. Simply enter a URL to see HTTP Date-based server time and get NTP synchronization guidance." />
-  <meta name="keywords"
-    content="server time check, ticketing time sync, NTP synchronization, time comparison, limited edition purchase, course registration, time offset, server time measurement" />
+  <title>
+    <%= translations.meta.title %>
+  </title>
+  <meta name="description" content="<%= translations.meta.description %>" />
+  <meta name="keywords" content="<%= translations.meta.keywords %>" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2995631331341713"
     crossorigin="anonymous"></script>
   <meta name="author" content="Timeism" />
-  <link rel="canonical" href="<%= domain %>/" />
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Timeism - Server Time Comparison Service" />
-  <meta property="og:title" content="Server Time Checker | NTP Sync Guide · Timeism" />
-  <meta property="og:description"
-    content="Check target server's current time instantly. HTTP Date-based measurement with NTP synchronization guidance." />
-  <meta property="og:url" content="<%= domain %>/" />
-  <meta property="og:image" content="<%= domain %>/og-image.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:type" content="image/png" />
-  <meta property="og:locale" content="en_US" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Server Time Checker | NTP Sync Guide · Timeism" />
-  <meta name="twitter:description"
-    content="Easily check target server time before ticketing. HTTP Date-based approximation with NTP guidance." />
-  <meta name="twitter:image" content="<%= domain %>/og-image.png" />
-  <meta name="theme-color" content="#1f3c88" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="application-name" content="Timeism" />
-  <meta name="apple-mobile-web-app-title" content="Timeism" />
-  <link rel="stylesheet" href="/css/tokens.css" />
-  <link rel="stylesheet" href="/css/style.css" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
-  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-  <link rel="manifest" href="/site.webmanifest" />
-  <script type="application/ld+json">
+  <link rel="canonical" href="<%= domain %>/<%= locale %>/" />
+
+  <%# hreflang 태그 추가 %>
+    <% hreflangLinks.forEach(link=> { %>
+      <link rel="<%= link.rel %>" hreflang="<%= link.hreflang %>" href="<%= link.href %>" />
+      <% }); %>
+
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Timeism - Server Time Comparison Service" />
+        <meta property="og:title" content="<%= translations.meta.title %>" />
+        <meta property="og:description" content="<%= translations.meta.description %>" />
+        <meta property="og:url" content="<%= domain %>/<%= locale %>/" />
+        <meta property="og:image" content="<%= domain %>/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:locale" content="<%= locale === 'ko' ? 'ko_KR' : 'en_US' %>" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="<%= translations.meta.title %>" />
+        <meta name="twitter:description" content="<%= translations.meta.description %>" />
+        <meta name="twitter:image" content="<%= domain %>/og-image.png" />
+        <meta name="theme-color" content="#1f3c88" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="application-name" content="Timeism" />
+        <meta name="apple-mobile-web-app-title" content="Timeism" />
+        <link rel="stylesheet" href="/css/tokens.css" />
+        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/css/seo-content.css" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
@@ -75,29 +80,38 @@
 
 <body>
   <header class="page-header">
-    <h1>Timeism</h1>
+    <h1>
+      <%= translations.header.title %>
+    </h1>
     <p class="subtitle">
-      Check the target server's current time before ticketing or limited edition purchases to minimize time
-      discrepancies with your local clock.
+      <%= translations.header.subtitle %>
     </p>
   </header>
 
   <main class="layout">
     <section class="primary">
       <form id="checkForm" class="url-form" novalidate>
-        <label class="field-label" for="urlInput">Server URL to Compare</label>
-        <p id="urlHint" class="field-hint">Enter the full URL starting with HTTP or HTTPS.</p>
+        <label class="field-label" for="urlInput">
+          <%= translations.form.label %>
+        </label>
+        <p id="urlHint" class="field-hint">
+          <%= translations.form.hint %>
+        </p>
         <div class="url-form-controls">
-          <input id="urlInput" type="url" inputmode="url" placeholder="https://example.com" autocomplete="off"
-            aria-describedby="urlHint formError" />
-          <button id="checkBtn" type="submit">Check Time</button>
+          <input id="urlInput" type="url" inputmode="url" placeholder="<%= translations.form.placeholder %>"
+            autocomplete="off" aria-describedby="urlHint formError" />
+          <button id="checkBtn" type="submit">
+            <%= translations.form.button %>
+          </button>
         </div>
       </form>
       <p id="formError" class="form-error" role="alert" aria-live="assertive"></p>
 
       <section class="clock-panel" aria-live="polite">
         <div class="clock-block single" id="clockBlock">
-          <h2>Server Current Time</h2>
+          <h2>
+            <%= translations.clock.serverTime %>
+          </h2>
           <p id="serverTime" class="clock-value muted" role="status" aria-live="polite" aria-atomic="true">
             --:--:--.---
           </p>
@@ -109,7 +123,9 @@
                 <label class="toggle-switch" style="margin: 0;">
                   <input type="checkbox" id="showMillis" checked />
                   <span class="slider"></span>
-                  <span class="toggle-label">Show Milliseconds</span>
+                  <span class="toggle-label">
+                    <%= translations.clock.milliseconds %>
+                  </span>
                 </label>
                 <p class="perf-note">※ May slightly impact performance when enabled.</p>
               </div>
@@ -120,8 +136,12 @@
 
       <section class="notification-panel">
         <div class="notification-block">
-          <h2>Notification Settings</h2>
-          <p class="section-hint">Receive an alert when the target time is reached.</p>
+          <h2>
+            <%= translations.notification.title %>
+          </h2>
+          <p class="section-hint">
+            <%= translations.notification.subtitle %>
+          </p>
 
           <div class="notification-modes">
             <div class="mode-content" id="targetTimeMode">
@@ -159,20 +179,115 @@
       </section>
 
       <section class="notice">
-        <h2>Accurate Time with NTP</h2>
+        <h2>
+          <%= translations.content.ntpTitle %>
+        </h2>
         <p>
-          This service shows an approximate current time by referencing the HTTP <code>Date</code> header from the
-          target server. Please note that there may be second-level discrepancies depending on network paths and server
-          environments, so use this for reference purposes.
+          <%= translations.content.ntpDescription %>
         </p>
         <p>
           The most accurate time synchronization is provided by <strong>NTP (Network Time Protocol)</strong>. For
           situations where precise timing is critical, such as ticketing, it's safest to synchronize your device with an
           NTP server in advance. Future versions will offer NTP-based high-precision features. For detailed usage, check
           out the
-          <a href="/guide">Server Time Comparison Guide</a>.
+          <a href="/<%= locale %>/guide">Server Time Comparison Guide</a>.
         </p>
       </section>
+
+      <%# SEO 콘텐츠 섹션 - 애드센스 승인용 %>
+        <section class="seo-content">
+          <h2 class="seo-title">
+            <%= translations.content.seoSection.title %>
+          </h2>
+
+          <%# Feature Cards %>
+            <div class="feature-grid">
+              <% translations.content.seoSection.features.forEach(feature=> { %>
+                <div class="feature-card">
+                  <div class="feature-icon">
+                    <%= feature.icon %>
+                  </div>
+                  <h3 class="feature-title">
+                    <%= feature.title %>
+                  </h3>
+                  <p class="feature-description">
+                    <%= feature.description %>
+                  </p>
+                </div>
+                <% }); %>
+            </div>
+
+            <%# Accordion FAQ Style %>
+              <div class="seo-accordion">
+                <details class="accordion-item">
+                  <summary class="accordion-header">
+                    <span>
+                      <%= translations.content.seoSection.whatIsServerTime.title %>
+                    </span>
+                    <span class="accordion-icon">▼</span>
+                  </summary>
+                  <div class="accordion-content">
+                    <p>
+                      <%= translations.content.seoSection.whatIsServerTime.content %>
+                    </p>
+                  </div>
+                </details>
+
+                <details class="accordion-item">
+                  <summary class="accordion-header">
+                    <span>
+                      <%= translations.content.seoSection.whyImportant.title %>
+                    </span>
+                    <span class="accordion-icon">▼</span>
+                  </summary>
+                  <div class="accordion-content">
+                    <p>
+                      <%= translations.content.seoSection.whyImportant.content %>
+                    </p>
+                  </div>
+                </details>
+
+                <details class="accordion-item">
+                  <summary class="accordion-header">
+                    <span>
+                      <%= translations.content.seoSection.howItWorks.title %>
+                    </span>
+                    <span class="accordion-icon">▼</span>
+                  </summary>
+                  <div class="accordion-content">
+                    <ol class="steps-list">
+                      <% translations.content.seoSection.howItWorks.steps.forEach((step, index)=> { %>
+                        <li>
+                          <%= step %>
+                        </li>
+                        <% }); %>
+                    </ol>
+                  </div>
+                </details>
+
+                <details class="accordion-item">
+                  <summary class="accordion-header">
+                    <span>
+                      <%= translations.content.seoSection.tips.title %>
+                    </span>
+                    <span class="accordion-icon">▼</span>
+                  </summary>
+                  <div class="accordion-content">
+                    <div class="tips-grid">
+                      <% translations.content.seoSection.tips.items.forEach(tip=> { %>
+                        <div class="tip-item">
+                          <h4 class="tip-title">💡 <%= tip.title %>
+                          </h4>
+                          <p class="tip-description">
+                            <%= tip.description %>
+                          </p>
+                        </div>
+                        <% }); %>
+                    </div>
+                  </div>
+                </details>
+              </div>
+        </section>
     </section>
 
     <aside class="sidebar" role="complementary" aria-label="Advertisement Area">
@@ -192,11 +307,17 @@
 
   <footer class="page-footer">
     <nav>
-      <a href="/guide">Guide</a>
+      <a href="/<%= locale %>/guide">
+        <%= translations.footer.guide %>
+      </a>
       <span aria-hidden="true">·</span>
-      <a href="/privacy">Privacy</a>
+      <a href="/<%= locale %>/privacy">
+        <%= translations.footer.privacy %>
+      </a>
       <span aria-hidden="true">·</span>
-      <a href="https://github.com/newsupernova0617/Timeism/issues">Contact</a>
+      <a href="https://github.com/newsupernova0617/Timeism/issues">
+        <%= translations.footer.contact %>
+      </a>
     </nav>
     <p class="footer-copy">Displayed time is an HTTP Date header-based estimate for reference only.</p>
   </footer>
@@ -204,10 +325,7 @@
   <script type="module" src="/js/main.js"></script>
 
   <!-- Advertisement Scripts -->
-  <script type="text/javascript"
-    src="https://pl28277412.effectivegatecpm.com/b6/b8/da/b6b8dab3211cd6c92e2ad216fd078f1a.js"></script>
-  <script type="text/javascript"
-    src="https://pl28277448.effectivegatecpm.com/3a/59/06/3a5906e7b8bcd35c018e8958646d8458.js"></script>
+
 </body>
 
 </html>
