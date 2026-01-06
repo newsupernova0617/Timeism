@@ -199,13 +199,15 @@ app.get('/sitemap.xml', (_req, res) => {
   const targetSites = require('./lib/target-sites');
   const allSites = targetSites.getAllSites();
 
-  // 기본 페이지들
+  // 기본 페이지들 (4개 언어: en, ko, ja, zh-tw)
   let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>${DOMAIN}/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/" />
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/" />
     <lastmod>${lastmod}</lastmod>
     <changefreq>daily</changefreq>
@@ -214,6 +216,8 @@ app.get('/sitemap.xml', (_req, res) => {
   <url>
     <loc>${DOMAIN}/en/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/" />
     <lastmod>${lastmod}</lastmod>
     <changefreq>daily</changefreq>
@@ -222,6 +226,28 @@ app.get('/sitemap.xml', (_req, res) => {
   <url>
     <loc>${DOMAIN}/ko/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/ja/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/zh-tw/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/" />
     <lastmod>${lastmod}</lastmod>
     <changefreq>daily</changefreq>
@@ -242,6 +268,8 @@ app.get('/sitemap.xml', (_req, res) => {
   <url>
     <loc>${DOMAIN}/en/game</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/game" />
+    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/game" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/game" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/game" />
     <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
@@ -250,6 +278,28 @@ app.get('/sitemap.xml', (_req, res) => {
   <url>
     <loc>${DOMAIN}/ko/game</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/game" />
+    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/game" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/game" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/game" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/ja/game</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/game" />
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/game" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/game" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/game" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/zh-tw/game</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/game" />
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/game" />
+    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/game" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/game" />
     <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
@@ -257,11 +307,13 @@ app.get('/sitemap.xml', (_req, res) => {
   </url>
 `;
 
-  // 타겟 사이트 페이지들 추가
+  // 타겟 사이트 페이지들 추가 (4개 언어)
   allSites.forEach(site => {
     sitemap += `  <url>
     <loc>${DOMAIN}/en/sites/${site.id}</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/sites/${site.id}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/sites/${site.id}" />
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
@@ -270,6 +322,28 @@ app.get('/sitemap.xml', (_req, res) => {
   <url>
     <loc>${DOMAIN}/ko/sites/${site.id}</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/sites/${site.id}" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/ja/sites/${site.id}</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/sites/${site.id}" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/zh-tw/sites/${site.id}</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/sites/${site.id}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/sites/${site.id}" />
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
@@ -278,12 +352,14 @@ app.get('/sitemap.xml', (_req, res) => {
 `;
   });
 
-  // 블로그 포스트 추가
+  // 블로그 포스트 추가 (4개 언어)
   const blogData = require('./lib/blog-data');
   blogData.posts.forEach(post => {
     sitemap += `  <url>
     <loc>${DOMAIN}/en/blog/${post.slug}</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/blog/${post.slug}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/blog/${post.slug}" />
     <lastmod>${post.date}</lastmod>
     <changefreq>monthly</changefreq>
@@ -292,6 +368,28 @@ app.get('/sitemap.xml', (_req, res) => {
   <url>
     <loc>${DOMAIN}/ko/blog/${post.slug}</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/blog/${post.slug}" />
+    <lastmod>${post.date}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/ja/blog/${post.slug}</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/blog/${post.slug}" />
+    <lastmod>${post.date}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/zh-tw/blog/${post.slug}</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/blog/${post.slug}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/blog/${post.slug}" />
     <lastmod>${post.date}</lastmod>
     <changefreq>monthly</changefreq>

@@ -227,6 +227,42 @@
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             }
 
+            /* 공유 버튼 스타일 */
+            .share-button {
+                margin-top: 1rem;
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+                background: linear-gradient(135deg, #00cd3c 0%, #00a832 100%);
+                color: white;
+                border: none;
+                border-radius: 50px;
+                cursor: pointer;
+                transition: all 0.3s;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-weight: bold;
+                box-shadow: 0 4px 15px rgba(0, 205, 60, 0.3);
+            }
+
+            .share-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(0, 205, 60, 0.5);
+            }
+
+            .share-button:active {
+                transform: translateY(0);
+            }
+
+            .share-button.disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            .share-icon {
+                font-size: 1.3rem;
+            }
+
             .instructions {
                 background: rgba(255, 193, 7, 0.1);
                 padding: 1rem;
@@ -461,22 +497,30 @@
 
             let message = '';
             let className = '';
+            let emoji = '';
 
             if (absDiff <= 50) {
                 message = '<%= locale==="ko" ? "🎉 완벽합니다!" : locale==="ja" ? "🎉 完璧です！" : locale==="zh-tw" ? "🎉 完美！" : "🎉 Perfect!" %>';
                 className = 'result-perfect';
+                emoji = '🎉';
             } else if (absDiff <= 200) {
                 message = '<%= locale==="ko" ? "👍 훌륭합니다!" : locale==="ja" ? "👍 素晴らしい！" : locale==="zh-tw" ? "👍 很棒！" : "👍 Excellent!" %>';
                 className = 'result-good';
+                emoji = '👍';
             } else if (absDiff <= 500) {
                 message = '<%= locale==="ko" ? "😊 좋아요!" : locale==="ja" ? "😊 良いですね！" : locale==="zh-tw" ? "😊 不錯！" : "😊 Good!" %>';
                 className = 'result-good';
+                emoji = '😊';
             } else {
                 message = '<%= locale==="ko" ? "😅 다시 도전!" : locale==="ja" ? "😅 もう一度！" : locale==="zh-tw" ? "😅 再試一次！" : "😅 Try Again!" %>';
                 className = 'result-late';
+                emoji = '😅';
             }
 
             const sign = diff > 0 ? '+' : '';
+
+            // 공유 버튼 표시 여부 확인
+            const canShare = navigator.share !== undefined;
 
             resultDiv.innerHTML = `
                 <div class="result-display">
@@ -493,11 +537,84 @@
                             locale === 'zh-tw' ? `快了${absDiff}ms` :
                                 `${absDiff}ms early`)}
                     </div>
-                    <button class="restart-button" onclick="resetTimingGame()">
-                        <%= locale==="ko" ? "다시 하기" : locale==="ja" ? "もう一度" : locale==="zh-tw" ? "再玩一次" : "Play Again" %>
-                    </button>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+                        <button class="restart-button" onclick="resetTimingGame()">
+                            <%= locale==="ko" ? "다시 하기" : locale==="ja" ? "もう一度" : locale==="zh-tw" ? "再玩一次" : "Play Again" %>
+                        </button>
+                        ${canShare ? `
+                            <button class="share-button" onclick="shareTimingResult(${diff}, '${emoji}')">
+                                <span class="share-icon">📤</span>
+                                <%= locale==="ko" ? "결과 공유" : locale==="ja" ? "結果を共有" : locale==="zh-tw" ? "分享結果" : "Share Result" %>
+                            </button>
+                        ` : ''}
+                    </div>
                 </div>
             `;
+        }
+
+        // Web Share API를 사용한 공유 함수
+        async function shareTimingResult(diff, emoji) {
+            const absDiff = Math.abs(diff);
+
+            // 다국어 공유 텍스트
+            const shareTexts = {
+                ko: {
+                    title: '⏱️ 내 반응 속도 테스트 결과',
+                    text: `${emoji} 나는 ${absDiff}ms ${diff > 0 ? '늦게' : '빠르게'} 클릭했어요!\n\n당신도 도전해보세요! 🎮`
+                },
+                ja: {
+                    title: '⏱️ 私の反応速度テスト結果',
+                    text: `${emoji} 私は${absDiff}ms ${diff > 0 ? '遅れました' : '早かったです'}！\n\nあなたも挑戦してみてください！ 🎮`
+                },
+                'zh-tw': {
+                    title: '⏱️ 我的反應速度測試結果',
+                    text: `${emoji} 我${diff > 0 ? '慢了' : '快了'}${absDiff}ms！\n\n你也來挑戰看看！ 🎮`
+                },
+                en: {
+                    title: '⏱️ My Reaction Speed Test Result',
+                    text: `${emoji} I was ${absDiff}ms ${diff > 0 ? 'late' : 'early'}!\n\nTry it yourself! 🎮`
+                }
+            };
+
+            const currentLocale = locale || 'en';
+            const shareData = shareTexts[currentLocale] || shareTexts.en;
+
+            const sharePayload = {
+                title: shareData.title,
+                text: shareData.text,
+                url: window.location.href
+            };
+
+            try {
+                await navigator.share(sharePayload);
+                console.log('공유 성공!');
+            } catch (err) {
+                // 사용자가 공유를 취소한 경우 (AbortError)는 무시
+                if (err.name !== 'AbortError') {
+                    console.error('공유 실패:', err);
+                    // Fallback: 클립보드에 복사
+                    fallbackCopyToClipboard(shareData.text + '\n' + window.location.href);
+                }
+            }
+        }
+
+        // Fallback: 클립보드 복사
+        function fallbackCopyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                alert('<%= locale==="ko" ? "클립보드에 복사되었습니다!" : locale==="ja" ? "クリップボードにコピーされました！" : locale==="zh-tw" ? "已複製到剪貼簿！" : "Copied to clipboard!" %>');
+            } catch (err) {
+                console.error('복사 실패:', err);
+            }
+
+            document.body.removeChild(textarea);
         }
 
         function resetTimingGame() {
