@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="<%= locale %>">
+
+<head>
+    <%- include('../partials/meta') %>
+        <title>
+            <%= locale==='ko' ? 'Timeism 블로그' : 'Timeism Blog' %>
+        </title>
+        <meta name="description"
+            content="<%= locale === 'ko' ? '티켓팅 팁, 서버 시간 동기화 원리 등 다양한 정보를 공유합니다.' : 'Insights about time synchronization, ticketing tips, and server time mechanics.' %>">
+        <meta property="og:title" content="<%= locale === 'ko' ? 'Timeism 블로그' : 'Timeism Blog' %>" />
+        <meta property="og:description"
+            content="<%= locale === 'ko' ? '티켓팅 팁과 서버 시간 가이드' : 'Ticketing tips and server time guides' %>" />
+        <link rel="stylesheet" href="/css/tokens.css">
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/seo-content.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <main class="content-wrapper">
+            <header class="page-header">
+                <h1>
+                    <%= locale==='ko' ? 'Timeism 블로그' : 'Timeism Blog' %>
+                </h1>
+                <p class="subtitle">
+                    <%= locale==='ko' ? '0.1초의 차이를 만드는 전문가의 조언' : 'Expert advice that makes a 0.1 second difference' %>
+                </p>
+            </header>
+
+            <div class="blog-grid" style="display: grid; gap: var(--space-4); margin-top: var(--space-6);">
+                <% posts.forEach(post=> { %>
+                    <a href="/<%= locale %>/blog/<%= post.slug %>" class="feature-card"
+                        style="text-decoration: none; color: inherit;">
+                        <div class="feature-icon" style="font-size: 2.5rem; margin-bottom: var(--space-3);">
+                            <%= post.icon %>
+                        </div>
+                        <h2 class="feature-title" style="margin-bottom: var(--space-2);">
+                            <%= locale==='ko' ? post.title.ko : post.title.en %>
+                        </h2>
+                        <p class="feature-desc">
+                            <%= locale==='ko' ? post.description.ko : post.description.en %>
+                        </p>
+                        <div class="post-meta"
+                            style="margin-top: var(--space-3); font-size: var(--font-size-sm); color: var(--color-text-muted);">
+                            <%= post.date %>
+                        </div>
+                    </a>
+                    <% }); %>
+            </div>
+        </main>
+
+        <%- include('../partials/footer') %>
+    </div>
+</body>
+
+</html>

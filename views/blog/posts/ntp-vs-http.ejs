@@ -1,0 +1,63 @@
+<% if (locale==='ko' ) { %>
+    <h2>NTP (Network Time Protocol)란?</h2>
+    <p>
+        NTP는 컴퓨터 시스템 간의 시간을 동기화하기 위한 인터넷 표준 프로토콜입니다.
+        전 세계 곳곳에 있는 매우 정확한 '타임 서버'들로부터 시간을 받아와 내 컴퓨터의 시계를 맞춥니다.
+    </p>
+    <div class="blog-highlight">
+        <p><strong>특징:</strong> OS(윈도우, 맥) 차원에서 시스템 시간을 보정합니다. 장기적으로 시계가 느려지거나 빨라지는 것을 막아줍니다.</p>
+    </div>
+
+    <h2>HTTP Date 헤더란?</h2>
+    <p>
+        우리가 접속하는 웹사이트의 서버(예: 인터파크 서버)는 자신만의 내부 시계를 가지고 있습니다.
+        웹 브라우저가 서버에 요청을 보내면, 서버는 응답 헤더에 <code>Date</code>라는 항목으로 자신의 현재 시간을 알려줍니다.
+    </p>
+
+    <h2>왜 둘이 다를까요?</h2>
+    <p>
+        내 컴퓨터가 NTP로 완벽하게 표준시에 맞춰져 있다 하더라도, <strong>상대방 서버의 시계가 틀려 있을 수 있습니다.</strong>
+        서버 관리자가 시간을 조금 다르게 설정했거나, 서버 자체의 부하로 시간이 밀릴 수 있기 때문입니다.
+    </p>
+
+    <h2>Timeism의 접근 방식</h2>
+    <p>
+        티켓팅에서 중요한 것은 "표준시가 몇 시인가"가 아니라 <strong>"저 서버가 지금 몇 시라고 생각하는가"</strong>입니다.
+        그래서 Timeism은 표준시(NTP) 대신 <strong>타겟 서버의 HTTP 시간</strong>을 직접 측정하여 보여줍니다.
+        이것이 Timeism이 네이버 시계나 표준 시계보다 티켓팅에 더 유리한 이유입니다.
+    </p>
+
+    <% } else { %>
+        <h2>What is NTP (Network Time Protocol)?</h2>
+        <p>
+            NTP is the internet standard protocol for synchronizing time between computer systems.
+            It fetches time from highly accurate 'time servers' around the world to adjust your computer's clock.
+        </p>
+        <div class="blog-highlight">
+            <p><strong>Feature:</strong> Adjusts system time at the OS level (Windows, Mac). Prevents the clock from
+                drifting over the long term.</p>
+        </div>
+
+        <h2>What is HTTP Date Header?</h2>
+        <p>
+            The server hosting the website we visit (e.g., Ticketmaster server) has its own internal clock.
+            When a web browser sends a request, the server responds with a <code>Date</code> header indicating its
+            current time.
+        </p>
+
+        <h2>Why do they differ?</h2>
+        <p>
+            Even if your computer is perfectly synced to standard time via NTP, <strong>the target server's clock might
+                be wrong.</strong>
+            The server administrator might have set it differently, or server load might cause drift.
+        </p>
+
+        <h2>Timeism's Approach</h2>
+        <p>
+            In ticketing, what matters is not "what is the standard time" but <strong>"what time does THAT server think
+                it is?"</strong>
+            That's why Timeism measures the <strong>target server's HTTP time</strong> directly instead of standard time
+            (NTP).
+            This is why Timeism is more advantageous for ticketing than standard clocks.
+        </p>
+        <% } %>

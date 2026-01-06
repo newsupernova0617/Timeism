@@ -1,0 +1,151 @@
+/* 실시간 트렌드 사이트 섹션 */
+.trending-sites {
+    margin: 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 87, 34, 0.05) 0%, rgba(244, 67, 54, 0.05) 100%);
+    border-radius: 12px;
+    border: 2px solid rgba(255, 87, 34, 0.2);
+}
+
+.trending-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.trending-subtitle {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+}
+
+.trending-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.trending-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.trending-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 87, 34, 0.3);
+    transform: translateX(4px);
+}
+
+.trending-rank {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ff5722;
+    min-width: 2rem;
+    text-align: center;
+}
+
+.trending-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.trending-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.trending-url {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.trending-count {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+/* 로딩 상태 */
+.trending-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 2rem;
+    color: var(--color-text-secondary);
+}
+
+.loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #ff5722;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 빈 상태 */
+.trending-empty {
+    text-align: center;
+    padding: 2rem;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+    .trending-sites {
+        margin: 1.5rem 0;
+        padding: 1rem;
+    }
+
+    .trending-title {
+        font-size: 1rem;
+    }
+
+    .trending-item {
+        padding: 0.6rem 0.8rem;
+    }
+
+    .trending-rank {
+        font-size: 1rem;
+        min-width: 1.5rem;
+    }
+
+    .trending-name {
+        font-size: 0.85rem;
+    }
+
+    .trending-url {
+        font-size: 0.7rem;
+    }
+
+    .trending-count {
+        font-size: 0.75rem;
+    }
+}

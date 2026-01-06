@@ -20,12 +20,13 @@ const {
   getAnalyticsPerformance
 } = require('../lib/repository');
 const { normalizeIp, hashIp } = require('../lib/identity');
+const { apiLimiter, trendingLimiter } = require('../middleware/rate-limiter');
 
 const router = express.Router();
 
 // ==================== POST /api/check-time ====================
-// 대상 URL의 서버 시간 조회 (RTT 보정)
-router.post('/check-time', async (req, res) => {
+// 대상 URL의 서버 시간 조회 (RTT 보정) - Rate Limited: 10 requests/분
+router.post('/check-time', apiLimiter, async (req, res) => {
   const targetUrl = req.body?.target_url;
 
   // URL 유효성 검사
@@ -39,16 +40,26 @@ router.post('/check-time', async (req, res) => {
   try {
     // 서버 시간 측정
     const result = await measureServerTime(targetUrl);
+
+    // Timeism 서버의 정확한 밀리초 타임스탬프 (HTTP Date 헤더 정밀도 한계 보완)
+    const timeismServerTimeMs = Date.now();
+
     const responsePayload = {
       target_url: targetUrl,
       server_time_utc: result.serverTimeUtcIso,
-      server_time_estimated_epoch_ms: result.serverTimeEstimatedEpochMs
+      server_time_estimated_epoch_ms: result.serverTimeEstimatedEpochMs,
+      timeism_server_time_ms: timeismServerTimeMs  // 새로 추가: Timeism 서버 기준 시각
     };
 
     // 디버그 모드: RTT 포함
     if (req.query.debug === '1') {
       responsePayload.rtt_ms = result.rttMs;
     }
+
+    // 캐싱 방지 (시간 데이터는 절대 캐시되면 안 됨!)
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
 
     return res.json(responsePayload);
   } catch (err) {
@@ -308,6 +319,61 @@ router.get('/analytics/summary', (req, res) => {
   } catch (err) {
     console.error('Failed to get analytics summary:', err);
     return res.status(500).json({ error: 'DB_ERROR', message: 'Failed to retrieve analytics.' });
+  }
+});
+
+// ==================== GET /api/trending-urls ====================
+// 언어권별 실시간 트렌드 URL (최근 1시간)
+router.get('/trending-urls', trendingLimiter, (req, res) => {
+  try {
+    const locale = req.query.locale || 'en';
+    const limit = Math.min(parseInt(req.query.limit) || 5, 10);
+
+    const db = require('../db').getSqlite();
+
+    // 최근 1시간 동안의 트렌드 URL 조회
+    const trending = db.prepare(`
+      SELECT 
+        target_url,
+        COUNT(*) as check_count,
+        MAX(timestamp) as last_checked
+      FROM events
+      WHERE locale = ?
+        AND target_url IS NOT NULL
+        AND target_url != ''
+        AND timestamp > datetime('now', '-1 hour')
+        AND event_type = 'url_check'
+      GROUP BY target_url
+      ORDER BY check_count DESC, last_checked DESC
+      LIMIT ?
+    `).all(locale, limit);
+
+    // URL에서 도메인 이름 추출
+    const trendingWithNames = trending.map(item => {
+      let displayName = item.target_url;
+      try {
+        const url = new URL(item.target_url);
+        displayName = url.hostname.replace('www.', '');
+      } catch (e) {
+        // URL 파싱 실패 시 그대로 사용
+      }
+
+      return {
+        url: item.target_url,
+        name: displayName,
+        count: item.check_count,
+        lastChecked: item.last_checked
+      };
+    });
+
+    return res.json({
+      locale,
+      trending: trendingWithNames,
+      timestamp: new Date().toISOString()
+    });
+  } catch (err) {
+    console.error('Failed to get trending URLs:', err);
+    return res.status(500).json({ error: 'DB_ERROR', message: 'Failed to retrieve trending URLs.' });
   }
 });
 

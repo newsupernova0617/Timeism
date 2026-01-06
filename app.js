@@ -19,13 +19,49 @@ const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
 
 const apiRouter = require('./routes/api');
+const commentsRouter = require('./routes/comments');
 const i18n = require('./lib/i18n');
+const repository = require('./lib/repository');
+const { apiLimiter, trendingLimiter, strictLimiter } = require('./middleware/rate-limiter');
 
 // 환경 변수
 const PORT = process.env.PORT || 3000;
 const DOMAIN = process.env.DOMAIN || 'https://timeism.keero.site';
 
 const app = express();
+
+// 트렌드 통계 가져오기 함수
+async function getTrendsStats() {
+  try {
+    // 인기 URL 상위 10개
+    const topUrls = repository.getTopUrls(10);
+
+    // 시간대별 통계 (0-23시)
+    const hourlyStats = repository.getHourlyStats();
+
+    // 전체 통계
+    const totalChecks = repository.getTotalChecks();
+    const uniqueUrls = repository.getUniqueUrlsCount();
+    const todayChecks = repository.getTodayChecks();
+
+    return {
+      topUrls,
+      hourlyStats,
+      totalChecks,
+      uniqueUrls,
+      todayChecks
+    };
+  } catch (error) {
+    console.error('Error getting trends stats:', error);
+    return {
+      topUrls: [],
+      hourlyStats: [],
+      totalChecks: 0,
+      uniqueUrls: 0,
+      todayChecks: 0
+    };
+  }
+}
 
 // ==================== 뷰 엔진 설정 ====================
 // EJS 템플릿 엔진 사용 (동적 메타 태그 생성)
@@ -137,6 +173,7 @@ app.use('/api/session-init', sessionInitLimiter);
 
 // API 라우터 연결
 app.use('/api', apiRouter);
+app.use('/api', commentsRouter);
 
 // 정적 파일 디렉토리
 const staticDir = path.join(__dirname, 'public');
@@ -202,6 +239,22 @@ app.get('/sitemap.xml', (_req, res) => {
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>${DOMAIN}/en/game</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/game" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/game" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/ko/game</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/game" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/game" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 `;
 
   // 타겟 사이트 페이지들 추가
@@ -225,10 +278,74 @@ app.get('/sitemap.xml', (_req, res) => {
 `;
   });
 
+  // 블로그 포스트 추가
+  const blogData = require('./lib/blog-data');
+  blogData.posts.forEach(post => {
+    sitemap += `  <url>
+    <loc>${DOMAIN}/en/blog/${post.slug}</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/blog/${post.slug}" />
+    <lastmod>${post.date}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/ko/blog/${post.slug}</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/blog/${post.slug}" />
+    <lastmod>${post.date}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+`;
+  });
+
   sitemap += `</urlset>`;
 
   res.type('application/xml');
   res.send(sitemap);
+});
+
+// ==================== 블로그 라우팅 ====================
+const blogData = require('./lib/blog-data');
+
+// 블로그 목록
+app.get(['/en/blog', '/ko/blog'], (req, res) => {
+  const locale = req.path.startsWith('/ko') ? 'ko' : 'en';
+  const translations = locale === 'ko'
+    ? require('./lib/i18n/locales/ko.json')
+    : require('./lib/i18n/locales/en.json');
+
+  res.render('blog/index', {
+    locale,
+    posts: blogData.posts,
+    domain: DOMAIN,
+    translations,
+    siteId: 'blog' // 헤더/푸터 등에서 조건부 렌더링 필요 시 사용
+  });
+});
+
+// 블로그 상세
+app.get(['/en/blog/:slug', '/ko/blog/:slug'], (req, res) => {
+  const locale = req.path.startsWith('/ko') ? 'ko' : 'en';
+  const translations = locale === 'ko'
+    ? require('./lib/i18n/locales/ko.json')
+    : require('./lib/i18n/locales/en.json');
+
+  const post = blogData.posts.find(p => p.slug === req.params.slug);
+
+  if (!post) {
+    // 404 처리 (임시로 메인으로 리다이렉트)
+    return res.redirect(`/${locale}/blog`);
+  }
+
+  res.render('blog/post', {
+    locale,
+    post,
+    domain: DOMAIN,
+    translations,
+    siteId: 'blog'
+  });
 });
 
 // ==================== 다국어 라우팅 ====================
@@ -251,12 +368,28 @@ app.get('/ko/', (req, res) => {
   res.render('index', { domain: DOMAIN });
 });
 
+app.get('/ja/', (req, res) => {
+  res.render('index', { domain: DOMAIN });
+});
+
+app.get('/zh-tw/', (req, res) => {
+  res.render('index', { domain: DOMAIN });
+});
+
 // 언어별 가이드 페이지
 app.get('/en/guide', (req, res) => {
   res.render('guide', { domain: DOMAIN });
 });
 
 app.get('/ko/guide', (req, res) => {
+  res.render('guide', { domain: DOMAIN });
+});
+
+app.get('/ja/guide', (req, res) => {
+  res.render('guide', { domain: DOMAIN });
+});
+
+app.get('/zh-tw/guide', (req, res) => {
   res.render('guide', { domain: DOMAIN });
 });
 
@@ -267,6 +400,189 @@ app.get('/en/privacy', (req, res) => {
 
 app.get('/ko/privacy', (req, res) => {
   res.render('privacy', { domain: DOMAIN });
+});
+
+app.get('/ja/privacy', (req, res) => {
+  res.render('privacy', { domain: DOMAIN });
+});
+
+app.get('/zh-tw/privacy', (req, res) => {
+  res.render('privacy', { domain: DOMAIN });
+});
+
+// 언어별 게임 페이지
+app.get('/en/game', (req, res) => {
+  res.render('game', { domain: DOMAIN });
+});
+
+app.get('/ko/game', (req, res) => {
+  res.render('game', { domain: DOMAIN });
+});
+
+app.get('/ja/game', (req, res) => {
+  res.render('game', { domain: DOMAIN });
+});
+
+app.get('/zh-tw/game', (req, res) => {
+  res.render('game', { domain: DOMAIN });
+});
+
+// 언어별 트렌드 분석 페이지
+app.get('/en/trends', async (req, res) => {
+  try {
+    const stats = await getTrendsStats();
+    res.render('trends', {
+      domain: DOMAIN,
+      locale: 'en',
+      ...stats
+    });
+  } catch (error) {
+    console.error('Trends page error:', error);
+    res.render('trends', {
+      domain: DOMAIN,
+      locale: 'en',
+      topUrls: [],
+      hourlyStats: [],
+      totalChecks: 0,
+      uniqueUrls: 0,
+      todayChecks: 0
+    });
+  }
+});
+
+app.get('/ko/trends', async (req, res) => {
+  try {
+    const stats = await getTrendsStats();
+    res.render('trends', {
+      domain: DOMAIN,
+      locale: 'ko',
+      ...stats
+    });
+  } catch (error) {
+    console.error('Trends page error:', error);
+    res.render('trends', {
+      domain: DOMAIN,
+      locale: 'ko',
+      topUrls: [],
+      hourlyStats: [],
+      totalChecks: 0,
+      uniqueUrls: 0,
+      todayChecks: 0
+    });
+  }
+});
+
+app.get('/ja/trends', async (req, res) => {
+  try {
+    const stats = await getTrendsStats();
+    res.render('trends', {
+      domain: DOMAIN,
+      locale: 'ja',
+      ...stats
+    });
+  } catch (error) {
+    console.error('Trends page error:', error);
+    res.render('trends', {
+      domain: DOMAIN,
+      locale: 'ja',
+      topUrls: [],
+      hourlyStats: [],
+      totalChecks: 0,
+      uniqueUrls: 0,
+      todayChecks: 0
+    });
+  }
+});
+
+app.get('/zh-tw/trends', async (req, res) => {
+  try {
+    const stats = await getTrendsStats();
+    res.render('trends', {
+      domain: DOMAIN,
+      locale: 'zh-tw',
+      ...stats
+    });
+  } catch (error) {
+    console.error('Trends page error:', error);
+    res.render('trends', {
+      domain: DOMAIN,
+      locale: 'zh-tw',
+      topUrls: [],
+      hourlyStats: [],
+      totalChecks: 0,
+      uniqueUrls: 0,
+      todayChecks: 0
+    });
+  }
+});
+
+// 언어별 설문조사 페이지
+app.get('/en/survey', (req, res) => {
+  res.render('survey', {
+    domain: DOMAIN,
+    locale: 'en',
+    submitted: false
+  });
+});
+
+app.post('/en/survey', async (req, res) => {
+  // TODO: Save survey response to DB
+  res.render('survey', {
+    domain: DOMAIN,
+    locale: 'en',
+    submitted: true
+  });
+});
+
+app.get('/ko/survey', (req, res) => {
+  res.render('survey', {
+    domain: DOMAIN,
+    locale: 'ko',
+    submitted: false
+  });
+});
+
+app.post('/ko/survey', async (req, res) => {
+  // TODO: Save survey response to DB
+  res.render('survey', {
+    domain: DOMAIN,
+    locale: 'ko',
+    submitted: true
+  });
+});
+
+app.get('/ja/survey', (req, res) => {
+  res.render('survey', {
+    domain: DOMAIN,
+    locale: 'ja',
+    submitted: false
+  });
+});
+
+app.post('/ja/survey', async (req, res) => {
+  // TODO: Save survey response to DB
+  res.render('survey', {
+    domain: DOMAIN,
+    locale: 'ja',
+    submitted: true
+  });
+});
+
+app.get('/zh-tw/survey', (req, res) => {
+  res.render('survey', {
+    domain: DOMAIN,
+    locale: 'zh-tw',
+    submitted: false
+  });
+});
+
+app.post('/zh-tw/survey', async (req, res) => {
+  // TODO: Save survey response to DB
+  res.render('survey', {
+    domain: DOMAIN,
+    locale: 'zh-tw',
+    submitted: true
+  });
 });
 
 // ==================== 타겟 사이트 전용 페이지 ====================

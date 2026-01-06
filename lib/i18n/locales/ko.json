@@ -16,13 +16,25 @@
     },
     "clock": {
         "serverTime": "서버 현재 시간",
-        "milliseconds": "밀리초 표시"
+        "milliseconds": "밀리초 표시",
+        "performanceNote": "※ 활성화 시 성능에 약간 영향을 줄 수 있습니다."
     },
     "notification": {
         "title": "알림 설정",
         "subtitle": "목표 시간에 도달하면 알림을 받습니다.",
         "targetTime": "목표 시간",
-        "testSound": "알람 소리 테스트"
+        "testSound": "알람 소리 테스트",
+        "preAlarms": "사전 알람",
+        "oneMinBefore": "1분 전",
+        "twoMinBefore": "2분 전",
+        "threeMinBefore": "3분 전"
+    },
+    "display": {
+        "title": "화면 설정",
+        "hideDate": "날짜 숨기기",
+        "colorMode": "색상 모드",
+        "normalColor": "기본 색상",
+        "noRedColor": "빨간색 제거"
     },
     "content": {
         "ntpTitle": "NTP로 정확한 시간 확인",
@@ -96,9 +108,42 @@
             }
         }
     },
+    "practiceGame": {
+        "title": "티켓팅 연습 게임",
+        "subtitle": "빠른 클릭 반응 속도를 훈련하세요",
+        "start": "게임 시작",
+        "score": "점수",
+        "timeLeft": "남은 시간",
+        "clickTarget": "목표를 클릭하세요!",
+        "gameOver": "게임 종료",
+        "finalScore": "최종 점수",
+        "playAgain": "다시 하기",
+        "instructions": "나타나는 목표물을 최대한 빠르게 클릭하세요. 30초 동안 얼마나 많이 클릭할 수 있나요?"
+    },
+    "trends": {
+        "title": "Timeism 트렌드",
+        "subtitle": "오늘 가장 많이 확인된 사이트",
+        "topSites": "인기 사이트 TOP 10",
+        "rank": "순위",
+        "siteName": "사이트",
+        "checkCount": "확인 횟수",
+        "noData": "아직 데이터가 없습니다",
+        "updated": "업데이트"
+    },
+    "survey": {
+        "title": "설문조사",
+        "subtitle": "여러분의 의견을 들려주세요",
+        "currentSurvey": "진행 중인 설문",
+        "question": "질문",
+        "submit": "투표하기",
+        "results": "결과 보기",
+        "totalVotes": "총 투표 수",
+        "thankYou": "투표해 주셔서 감사합니다!",
+        "alreadyVoted": "이미 투표하셨습니다"
+    },
     "footer": {
-        "home": "홈",
         "guide": "가이드",
+        "blog": "블로그",
         "privacy": "개인정보",
         "contact": "문의"
     },

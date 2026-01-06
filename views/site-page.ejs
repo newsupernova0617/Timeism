@@ -51,76 +51,78 @@
                     </h2>
                     <p id="serverTime" class="clock-value muted" role="status" aria-live="polite" aria-atomic="true">
                         --:--:--.---
-                    </p>
-                    <p class="clock-meta" id="clockMeta" aria-live="off"></p>
+                        <%- include('partials/header') %>
 
-                    <button id="checkTimeBtn" class="alarm-btn" data-url="<%= site.url %>">
-                        <%= locale==='ko' ? '시간 확인' : 'Check Time' %>
-                    </button>
-                </div>
-            </section>
+                            <main class="layout">
+                                <%# Existing content %>
+                                    <section class="clock-panel" aria-live="polite">
+                                        <div class="clock-block single" id="clockBlock">
+                                            <h2>
+                                                <%= site.name %> Server Time
+                                            </h2>
+                                            <div class="target-url">
+                                                <%= site.url %>
+                                            </div>
+                                            <p id="serverTime" class="clock-value" role="status" aria-live="polite"
+                                                aria-atomic="true">--:--:--.---</p>
+                                            <p class="clock-meta" id="clockMeta" aria-live="off"></p>
+                                            <div id="loadingSpinner" class="spinner"></div>
 
-            <%# 사이트별 맞춤 콘텐츠 %>
-                <section class="seo-content">
-                    <h2>
-                        <%= locale==='ko' ? site.nameKo + ' 티켓팅 완벽 가이드' : site.name + ' Ticketing Guide' %>
-                    </h2>
+                                            <button id="checkTimeBtn" class="alarm-btn" data-url="<%= site.url %>">
+                                                <%= locale==='ko' ? '시간 확인' : 'Check Time' %>
+                                            </button>
+                                        </div>
+                                    </section>
 
-                    <%# 사이트별 콘텐츠는 번역 파일에서 가져옴 %>
-                        <% if (siteContent) { %>
-                            <div class="site-guide-content">
-                                <% if (siteContent.intro) { %>
-                                    <p class="guide-intro">
-                                        <%= siteContent.intro %>
-                                    </p>
-                                    <% } %>
+                                    <% if (siteContent) { %>
+                                        <section class="seo-content">
+                                            <h2>
+                                                <%= siteContent.title %>
+                                            </h2>
+                                            <p>
+                                                <%= siteContent.description %>
+                                            </p>
 
-                                        <% if (siteContent.tips && siteContent.tips.length> 0) { %>
-                                            <div class="tips-grid">
+                                            <div class="site-tips">
                                                 <% siteContent.tips.forEach(tip=> { %>
-                                                    <div class="tip-item">
-                                                        <h4 class="tip-title">💡 <%= tip.title %>
-                                                        </h4>
-                                                        <p class="tip-description">
+                                                    <div class="tip-card">
+                                                        <h3>
+                                                            <%= tip.title %>
+                                                        </h3>
+                                                        <p>
                                                             <%= tip.description %>
                                                         </p>
                                                     </div>
-                                                    <% }); %>
+                                                    <h3>
+                                                        <%= locale==='ko' ? '⚠️ 주의사항' : '⚠️ Important Notes' %>
+                                                    </h3>
+                                                    <ul>
+                                                        <% siteContent.warnings.forEach(warning=> { %>
+                                                            <li>
+                                                                <%= warning %>
+                                                            </li>
+                                                            <% }); %>
+                                                    </ul>
                                             </div>
                                             <% } %>
+                </div>
+                <% } %>
+            </section>
 
-                                                <% if (siteContent.warnings && siteContent.warnings.length> 0) { %>
-                                                    <div class="warnings-section">
-                                                        <h3>
-                                                            <%= locale==='ko' ? '⚠️ 주의사항' : '⚠️ Important Notes' %>
-                                                        </h3>
-                                                        <ul>
-                                                            <% siteContent.warnings.forEach(warning=> { %>
-                                                                <li>
-                                                                    <%= warning %>
-                                                                </li>
-                                                                <% }); %>
-                                                        </ul>
-                                                    </div>
-                                                    <% } %>
-                            </div>
-                            <% } %>
-                </section>
-
-                <%# 관련 링크 %>
-                    <nav class="internal-links">
-                        <h3>
-                            <%= locale==='ko' ? '관련 페이지' : 'Related Pages' %>
-                        </h3>
-                        <ul>
-                            <li><a href="/<%= locale %>/">
-                                    <%= locale==='ko' ? '메인으로 돌아가기' : 'Back to Main' %>
-                                </a></li>
-                            <li><a href="/<%= locale %>/guide">
-                                    <%= locale==='ko' ? '사용 가이드' : 'Usage Guide' %>
-                                </a></li>
-                        </ul>
-                    </nav>
+            <%# 관련 링크 %>
+                <nav class="internal-links">
+                    <h3>
+                        <%= locale==='ko' ? '관련 페이지' : 'Related Pages' %>
+                    </h3>
+                    <ul>
+                        <li><a href="/<%= locale %>/">
+                                <%= locale==='ko' ? '메인으로 돌아가기' : 'Back to Main' %>
+                            </a></li>
+                        <li><a href="/<%= locale %>/guide">
+                                <%= locale==='ko' ? '사용 가이드' : 'Usage Guide' %>
+                            </a></li>
+                    </ul>
+                </nav>
     </main>
 
     <footer class="page-footer">

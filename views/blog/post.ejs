@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="<%= locale %>">
+
+<head>
+    <%- include('../partials/meta') %>
+        <title>
+            <%= locale==='ko' ? post.title.ko : post.title.en %> - Timeism Blog
+        </title>
+        <meta name="description" content="<%= locale === 'ko' ? post.description.ko : post.description.en %>">
+        <meta property="og:title" content="<%= locale === 'ko' ? post.title.ko : post.title.en %>" />
+        <meta property="og:description" content="<%= locale === 'ko' ? post.description.ko : post.description.en %>" />
+        <link rel="stylesheet" href="/css/tokens.css">
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/seo-content.css">
+        <style>
+            .blog-content {
+                max-width: 800px;
+                margin: 0 auto;
+                line-height: 1.7;
+                font-size: 1.05rem;
+            }
+
+            .blog-content h2 {
+                margin-top: var(--space-8);
+                margin-bottom: var(--space-4);
+                font-size: var(--font-size-xl);
+                color: var(--color-brand);
+            }
+
+            .blog-content h3 {
+                margin-top: var(--space-6);
+                margin-bottom: var(--space-3);
+                font-size: var(--font-size-lg);
+            }
+
+            .blog-content p,
+            .blog-content ul,
+            .blog-content ol {
+                margin-bottom: var(--space-4);
+            }
+
+            .blog-content ul,
+            .blog-content ol {
+                padding-left: var(--space-5);
+            }
+
+            .blog-content li {
+                margin-bottom: var(--space-2);
+            }
+
+            .blog-highlight {
+                background: var(--color-surface-muted);
+                padding: var(--space-4);
+                border-radius: var(--radius-md);
+                border-left: 4px solid var(--color-brand);
+                margin: var(--space-6) 0;
+            }
+        </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <main class="content-wrapper">
+            <article class="blog-post">
+                <header class="page-header">
+                    <div class="post-icon" style="font-size: 3rem; margin-bottom: var(--space-3);">
+                        <%= post.icon %>
+                    </div>
+                    <h1>
+                        <%= locale==='ko' ? post.title.ko : post.title.en %>
+                    </h1>
+                    <p class="subtitle">
+                        <%= post.date %> · Timeism Guide
+                    </p>
+                </header>
+
+                <div class="blog-content">
+                    <%# Include the specific post content based on slug %>
+                        <%- include('posts/' + post.slug) %>
+                </div>
+
+                <div class="post-footer" style="margin-top: var(--space-8); text-align: center;">
+                    <a href="/<%= locale %>/blog" class="submit-btn"
+                        style="display: inline-block; width: auto; text-decoration: none;">
+                        <%= locale==='ko' ? '목록으로 돌아가기' : 'Back to Blog' %>
+                    </a>
+                </div>
+            </article>
+
+            <%- include('../partials/comments', { locale: locale, pageId: 'blog-' + post.slug }) %>
+        </main>
+
+        <%- include('../partials/footer') %>
+    </div>
+</body>
+
+</html>

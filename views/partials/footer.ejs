@@ -1,0 +1,32 @@
+<footer class="page-footer">
+    <nav>
+        <a href="/<%= locale %>/guide">
+            <%= translations.footer.guide %>
+        </a>
+        <span aria-hidden="true">·</span>
+        <a href="/<%= locale %>/blog">
+            <%= translations.footer.blog %>
+        </a>
+        <span aria-hidden="true">·</span>
+        <a href="/<%= locale %>/game">
+            <%= locale==='ko' ? '게임' : locale==='ja' ? 'ゲーム' : locale==='zh-tw' ? '遊戲' : 'Game' %>
+        </a>
+        <span aria-hidden="true">·</span>
+        <a href="/<%= locale %>/trends">
+            <%= locale==='ko' ? '트렌드' : locale==='ja' ? 'トレンド' : locale==='zh-tw' ? '趨勢' : 'Trends' %>
+        </a>
+        <span aria-hidden="true">·</span>
+        <a href="/<%= locale %>/survey">
+            <%= locale==='ko' ? '설문조사' : locale==='ja' ? 'アンケート' : locale==='zh-tw' ? '問卷' : 'Survey' %>
+        </a>
+        <span aria-hidden="true">·</span>
+        <a href="/<%= locale %>/privacy">
+            <%= translations.footer.privacy %>
+        </a>
+        <span aria-hidden="true">·</span>
+        <a href="https://github.com/newsupernova0617/Timeism/issues">
+            <%= translations.footer.contact %>
+        </a>
+    </nav>
+    <p class="footer-copy">Displayed time is an HTTP Date header-based estimate for reference only.</p>
+</footer>

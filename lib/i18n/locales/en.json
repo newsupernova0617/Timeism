@@ -16,13 +16,25 @@
     },
     "clock": {
         "serverTime": "Server Current Time",
-        "milliseconds": "Show Milliseconds"
+        "milliseconds": "Show Milliseconds",
+        "performanceNote": "* May slightly impact performance when enabled."
     },
     "notification": {
         "title": "Notification Settings",
-        "subtitle": "Receive an alert when the target time is reached.",
+        "subtitle": "Get notified when target time is reached.",
         "targetTime": "Target Time",
-        "testSound": "Test Alarm Sound"
+        "testSound": "Test Alarm Sound",
+        "preAlarms": "Pre-Alarms",
+        "oneMinBefore": "1 min before",
+        "twoMinBefore": "2 min before",
+        "threeMinBefore": "3 min before"
+    },
+    "display": {
+        "title": "Display Settings",
+        "hideDate": "Hide Date",
+        "colorMode": "Color Mode",
+        "normalColor": "Normal Color",
+        "noRedColor": "No Red Color"
     },
     "content": {
         "ntpTitle": "Accurate Time with NTP",
@@ -96,10 +108,44 @@
             }
         }
     },
+    "practiceGame": {
+        "title": "Ticketing Practice Game",
+        "subtitle": "Train your click reaction speed",
+        "start": "Start Game",
+        "score": "Score",
+        "timeLeft": "Time Left",
+        "clickTarget": "Click the target!",
+        "gameOver": "Game Over",
+        "finalScore": "Final Score",
+        "playAgain": "Play Again",
+        "instructions": "Click the appearing targets as fast as you can. How many can you click in 30 seconds?"
+    },
+    "trends": {
+        "title": "Timeism Trends",
+        "subtitle": "Most checked sites today",
+        "topSites": "TOP 10 Popular Sites",
+        "rank": "Rank",
+        "siteName": "Site",
+        "checkCount": "Check Count",
+        "noData": "No data yet",
+        "updated": "Updated"
+    },
+    "survey": {
+        "title": "Survey",
+        "subtitle": "Share your opinion",
+        "currentSurvey": "Current Survey",
+        "question": "Question",
+        "submit": "Submit Vote",
+        "results": "View Results",
+        "totalVotes": "Total Votes",
+        "thankYou": "Thank you for voting!",
+        "alreadyVoted": "You have already voted"
+    },
     "footer": {
         "home": "Home",
         "guide": "Guide",
         "privacy": "Privacy",
+        "blog": "Blog",
         "contact": "Contact"
     },
     "sites": {

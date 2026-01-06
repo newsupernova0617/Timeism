@@ -2,33 +2,26 @@
 <html lang="en">
 
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2995631331341713"
-    crossorigin="anonymous"></script>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Server Time Comparison Guide | NTP Synchronization Guide</title>
-  <meta name="description"
-    content="Learn how to use the server time comparison service and master accurate time synchronization through NTP." />
-  <link rel="canonical" href="<%= domain %>/guide" />
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="Server Time Comparison Guide | NTP Synchronization Guide" />
-  <meta property="og:description"
-    content="From checking server time before ticketing to NTP-based time synchronization methods, a complete guide to using the server time comparison service." />
-  <meta property="og:url" content="<%= domain %>/guide" />
-  <meta property="og:image" content="<%= domain %>/og-image.png" />
-  <meta property="og:locale" content="en_US" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Server Time Comparison Guide | NTP Synchronization Guide" />
-  <meta name="twitter:description"
-    content="Check server time comparison service instructions and NTP time synchronization tips." />
-  <meta name="twitter:image" content="<%= domain %>/og-image.png" />
-  <meta name="theme-color" content="#1f3c88" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="application-name" content="Timeism" />
-  <link rel="stylesheet" href="/css/tokens.css" />
-  <link rel="stylesheet" href="/css/style.css" />
-  <script type="application/ld+json">
+  <%- include('partials/meta') %>
+    <title>Server Time Comparison Guide | NTP Synchronization Guide</title>
+    <meta name="description"
+      content="Learn how to use the server time comparison service and master accurate time synchronization through NTP." />
+    <link rel="canonical" href="<%= domain %>/guide" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Server Time Comparison Guide | NTP Synchronization Guide" />
+    <meta property="og:description"
+      content="From checking server time before ticketing to NTP-based time synchronization methods, a complete guide to using the server time comparison service." />
+    <meta property="og:url" content="<%= domain %>/guide" />
+    <meta property="og:image" content="<%= domain %>/og-image.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Server Time Comparison Guide | NTP Synchronization Guide" />
+    <meta name="twitter:description"
+      content="Check server time comparison service instructions and NTP time synchronization tips." />
+    <meta name="twitter:image" content="<%= domain %>/og-image.png" />
+
+    <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -71,78 +64,65 @@
 </head>
 
 <body>
-  <header class="page-header">
-    <h1>Server Time Comparison Service Guide</h1>
-    <p class="subtitle">A user guide anyone can understand.</p>
-  </header>
+  <%- include('partials/header') %>
 
-  <main class="content-page">
-    <nav class="breadcrumb" aria-label="breadcrumb">
-      <a href="/">Home</a>
-      <span>/</span>
-      <span>Guide</span>
-    </nav>
+    <main class="content-page">
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <span>Guide</span>
+      </nav>
 
-    <section>
-      <h2>1. How do I use it?</h2>
-      <p>
-        Simply enter the target website's URL in the main page input field and click <strong>Check Time</strong> to see
-        an approximate current time based on the server. No login or additional information is required.
-      </p>
-    </section>
+      <section>
+        <h2>1. How do I use it?</h2>
+        <p>
+          Simply enter the target website's URL in the main page input field and click <strong>Check Time</strong> to
+          see
+          an approximate current time based on the server. No login or additional information is required.
+        </p>
+      </section>
 
-    <section>
-      <h2>2. Why is NTP more accurate?</h2>
-      <p>
-        NTP (Network Time Protocol) synchronizes device time with millisecond-level accuracy by comparing and correcting
-        multiple layers of standard time. In situations where timing precision is critical, such as ticketing,
-        synchronizing your device with NTP in advance is the safest approach.
-      </p>
-    </section>
+      <section>
+        <h2>2. Why is NTP more accurate?</h2>
+        <p>
+          NTP (Network Time Protocol) synchronizes device time with millisecond-level accuracy by comparing and
+          correcting
+          multiple layers of standard time. In situations where timing precision is critical, such as ticketing,
+          synchronizing your device with NTP in advance is the safest approach.
+        </p>
+      </section>
 
-    <section>
-      <h2>3. What does this service provide?</h2>
-      <p>
-        We check the time in the header response from your entered URL and display it <strong>as a reference</strong>.
-        Due to network path and server environment characteristics, there may be errors of tens to hundreds of
-        milliseconds, so please use it as a reference alongside NTP-based device time.
-      </p>
-    </section>
+      <section>
+        <h2>3. What does this service provide?</h2>
+        <p>
+          We check the time in the header response from your entered URL and display it <strong>as a reference</strong>.
+          Due to network path and server environment characteristics, there may be errors of tens to hundreds of
+          milliseconds, so please use it as a reference alongside NTP-based device time.
+        </p>
+      </section>
 
-    <section>
-      <h2>4. When will more accurate features be available?</h2>
-      <p>
-        In future versions, we plan to provide reference time synchronized with our own NTP server, making it easy to
-        check high-precision time on various devices. We will notify you when the update is complete.
-      </p>
-    </section>
+      <section>
+        <h2>4. When will more accurate features be available?</h2>
+        <p>
+          In future versions, we plan to provide reference time synchronized with our own NTP server, making it easy to
+          check high-precision time on various devices. We will notify you when the update is complete.
+        </p>
+      </section>
 
-    <hr style="margin: 2rem 0; border: none; border-top: 1px solid #ddd;" />
+      <hr style="margin: 2rem 0; border: none; border-top: 1px solid #ddd;" />
 
-    <nav class="internal-links" style="margin-top: 2rem;">
-      <h3>Related Pages</h3>
-      <ul>
-        <li><a href="/">Back to Main</a></li>
-        <li><a href="/privacy">Privacy Policy</a></li>
-      </ul>
-    </nav>
-  </main>
+      <nav class="internal-links" style="margin-top: 2rem;">
+        <h3>Related Pages</h3>
+        <ul>
+          <li><a href="/">Back to Main</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+        </ul>
+      </nav>
+    </main>
 
-  <footer class="page-footer">
-    <nav>
-      <a href="/">Home</a>
-      <span aria-hidden="true">·</span>
-      <a href="/privacy">Privacy</a>
-      <span aria-hidden="true">·</span>
-      <a href="https://github.com/newsupernova0617/Timeism/issues">Contact</a>
-    </nav>
-  </footer>
+    <%- include('partials/footer') %>
 
-  <!-- Advertisement Scripts -->
-  <script type="text/javascript"
-    src="https://pl28277412.effectivegatecpm.com/b6/b8/da/b6b8dab3211cd6c92e2ad216fd078f1a.js"></script>
-  <script type="text/javascript"
-    src="https://pl28277448.effectivegatecpm.com/3a/59/06/3a5906e7b8bcd35c018e8958646d8458.js"></script>
+
 </body>
 
 </html>

@@ -1,0 +1,71 @@
+<% if (locale==='ko' ) { %>
+    <h2>1. 사전 로그인 및 본인인증</h2>
+    <p>
+        가장 기본적인 실수입니다. 티켓 오픈 10분 전에는 반드시 로그인을 완료하고,
+        마이페이지에서 본인인증 여부를 확인하세요.
+        티켓팅 도중에 본인인증 팝업이 뜨면 이미 실패한 것이나 다름없습니다.
+    </p>
+
+    <h2>2. 결제 수단 미리 등록</h2>
+    <p>
+        무통장 입금은 가장 빠르고 안전한 방법이지만, 최근에는 무통장 입금을 막아두는 공연도 많습니다.
+        따라서 '원클릭 결제'나 '간편 결제' 수단을 미리 등록해두는 것이 중요합니다.
+        생년월일 입력 등 결제 비밀번호 외의 추가 정보를 요구하지 않는지 미리 테스트해보세요.
+    </p>
+
+    <h2>3. 팝업 차단 해제</h2>
+    <p>
+        브라우저의 팝업 차단 기능이 켜져 있으면 예매 창이 뜨지 않을 수 있습니다.
+        해당 예매 사이트의 팝업은 항상 허용으로 설정해두세요.
+    </p>
+
+    <h2>4. 0.1초의 정확도, 서버 시간</h2>
+    <p>
+        네이버 시계나 휴대폰 시계를 믿지 마세요.
+        Timeism을 사용하여 해당 예매 사이트 서버의 정확한 시간을 확인해야 합니다.
+        58초, 59초, 00초... 정확히 언제 새로고침을 해야 예매 버튼이 활성화되는지
+        이전 경험이나 커뮤니티 정보를 통해 파악하고 Timeism을 보며 타이밍을 맞추세요.
+    </p>
+
+    <h2>5. 실패해도 포기하지 않기 (취소표)</h2>
+    <p>
+        오픈 직후에 좌석을 잡지 못했다고 해서 끝난 것이 아닙니다.
+        결제 단계에서 튕긴 표들이 5~7분 뒤에 다시 풀리는 경우가 많습니다.
+        또한 무통장 입금 미입금 취소표가 풀리는 새벽 시간대를 노리는 것도 좋은 전략입니다.
+    </p>
+
+    <% } else { %>
+        <h2>1. Pre-login and Verification</h2>
+        <p>
+            This is the most basic mistake. Make sure to log in at least 10 minutes before ticket opening
+            and check your account verification status.
+            If a verification popup appears during ticketing, you have likely already failed.
+        </p>
+
+        <h2>2. Register Payment Methods in Advance</h2>
+        <p>
+            Bank transfer is often the fastest method, but many events now block it.
+            Therefore, it is crucial to register 'One-Click Payment' or 'Easy Payment' methods in advance.
+            Test beforehand to see if they require extra information like date of birth.
+        </p>
+
+        <h2>3. Disable Popup Blockers</h2>
+        <p>
+            If your browser's popup blocker is on, the booking window may not open.
+            Always set popups to 'Allow' for the ticketing site.
+        </p>
+
+        <h2>4. Precision of 0.1 Seconds, Server Time</h2>
+        <p>
+            Do not trust standard clocks or your phone time.
+            Use Timeism to check the exact server time of the ticketing site.
+            Know exactly when to refresh—58s, 59s, or 00s—based on community tips and match it with Timeism.
+        </p>
+
+        <h2>5. Don't Give Up (Cancelled Tickets)</h2>
+        <p>
+            Just because you missed seats at opening doesn't mean it's over.
+            Tickets bounced during payment often reappear 5-7 minutes later.
+            Also, target the late-night hours when unpaid bank transfer tickets are released.
+        </p>
+        <% } %>

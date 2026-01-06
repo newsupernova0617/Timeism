@@ -2,52 +2,31 @@
 <html lang="<%= locale %>">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>
-    <%= translations.meta.title %>
-  </title>
-  <meta name="description" content="<%= translations.meta.description %>" />
-  <meta name="keywords" content="<%= translations.meta.keywords %>" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2995631331341713"
-    crossorigin="anonymous"></script>
-  <meta name="author" content="Timeism" />
-  <link rel="canonical" href="<%= domain %>/<%= locale %>/" />
+  <%- include('partials/meta') %>
+    <title>
+      <%= translations.meta.title %>
+    </title>
+    <meta name="description" content="<%= translations.meta.description %>" />
+    <meta name="keywords" content="<%= translations.meta.keywords %>" />
+    <link rel="canonical" href="<%= domain %>/<%= locale %>/" />
 
-  <%# hreflang 태그 추가 %>
-    <% hreflangLinks.forEach(link=> { %>
-      <link rel="<%= link.rel %>" hreflang="<%= link.hreflang %>" href="<%= link.href %>" />
-      <% }); %>
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Timeism - Server Time Comparison Service" />
+    <meta property="og:title" content="<%= translations.meta.title %>" />
+    <meta property="og:description" content="<%= translations.meta.description %>" />
+    <meta property="og:url" content="<%= domain %>/<%= locale %>/" />
+    <meta property="og:image" content="<%= domain %>/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:locale" content="<%= locale === 'ko' ? 'ko_KR' : 'en_US' %>" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="<%= translations.meta.title %>" />
+    <meta name="twitter:description" content="<%= translations.meta.description %>" />
+    <meta name="twitter:image" content="<%= domain %>/og-image.png" />
 
-        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Timeism - Server Time Comparison Service" />
-        <meta property="og:title" content="<%= translations.meta.title %>" />
-        <meta property="og:description" content="<%= translations.meta.description %>" />
-        <meta property="og:url" content="<%= domain %>/<%= locale %>/" />
-        <meta property="og:image" content="<%= domain %>/og-image.png" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:type" content="image/png" />
-        <meta property="og:locale" content="<%= locale === 'ko' ? 'ko_KR' : 'en_US' %>" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="<%= translations.meta.title %>" />
-        <meta name="twitter:description" content="<%= translations.meta.description %>" />
-        <meta name="twitter:image" content="<%= domain %>/og-image.png" />
-        <meta name="theme-color" content="#1f3c88" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="application-name" content="Timeism" />
-        <meta name="apple-mobile-web-app-title" content="Timeism" />
-        <link rel="stylesheet" href="/css/tokens.css" />
-        <link rel="stylesheet" href="/css/style.css" />
-        <link rel="stylesheet" href="/css/seo-content.css" />
-        <link rel="stylesheet" href="/css/quick-sites.css" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
-        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <script type="application/ld+json">
+    <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
@@ -80,275 +59,462 @@
 </head>
 
 <body>
-  <header class="page-header">
-    <h1>
-      <%= translations.header.title %>
-    </h1>
-    <p class="subtitle">
-      <%= translations.header.subtitle %>
-    </p>
-  </header>
+  <%- include('partials/header') %>
 
-  <main class="layout">
-    <section class="primary">
-      <form id="checkForm" class="url-form" novalidate>
-        <label class="field-label" for="urlInput">
-          <%= translations.form.label %>
-        </label>
-        <p id="urlHint" class="field-hint">
-          <%= translations.form.hint %>
-        </p>
-        <div class="url-form-controls">
-          <input id="urlInput" type="url" inputmode="url" placeholder="<%= translations.form.placeholder %>"
-            autocomplete="off" aria-describedby="urlHint formError" />
-          <button id="checkBtn" type="submit">
-            <%= translations.form.button %>
-          </button>
-        </div>
-      </form>
-      <p id="formError" class="form-error" role="alert" aria-live="assertive"></p>
-
-      <section class="clock-panel" aria-live="polite">
-        <div class="clock-block single" id="clockBlock">
-          <h2>
-            <%= translations.clock.serverTime %>
-          </h2>
-          <p id="serverTime" class="clock-value muted" role="status" aria-live="polite" aria-atomic="true">
-            --:--:--.---
-          </p>
-          <p class="clock-meta" id="clockMeta" aria-live="off"></p>
-
-          <div class="clock-settings">
-            <div class="setting-group">
-              <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
-                <label class="toggle-switch" style="margin: 0;">
-                  <input type="checkbox" id="showMillis" checked />
-                  <span class="slider"></span>
-                  <span class="toggle-label">
-                    <%= translations.clock.milliseconds %>
-                  </span>
-                </label>
-                <p class="perf-note">※ May slightly impact performance when enabled.</p>
-              </div>
+    <%# 3단 레이아웃 컨테이너 %>
+      <div class="three-column-layout">
+        <%# 왼쪽 광고 %>
+          <aside class="left-ads" aria-label="Left Advertisement">
+            <!-- 왼쪽 광고 #1 -->
+            <div class="ad-banner ad-banner-left">
+              <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2995631331341713"
+                data-ad-slot="1111111111" data-ad-format="vertical" data-full-width-responsive="false"></ins>
+              <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
             </div>
-          </div>
-        </div>
-      </section>
 
-      <%# 인기 사이트 빠른 링크 - 알림 설정 위로 이동 %>
-        <section class="popular-sites-compact">
-          <h3 class="sites-compact-title">
-            <%= locale==='ko' ? '⚡ 인기 사이트 빠른 확인' : '⚡ Popular Sites Quick Check' %>
-          </h3>
+            <!-- 왼쪽 광고 #2 -->
+            <div class="ad-banner ad-banner-left">
+              <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2995631331341713"
+                data-ad-slot="2222222222" data-ad-format="vertical" data-full-width-responsive="false"></ins>
+              <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+            </div>
+          </aside>
 
-          <div class="sites-compact-grid">
-            <%# 한국 사이트 (한국어 우선) %>
-              <% if (locale==='ko' ) { %>
-                <button class="site-quick-btn" data-url="https://ticket.interpark.com" data-name="인터파크"
-                  style="border-color: #e60012;">
-                  <span class="site-icon-sm">🎫</span>
-                  <span class="site-name-sm">인터파크</span>
-                </button>
-                <button class="site-quick-btn" data-url="https://ticket.melon.com" data-name="멜론티켓"
-                  style="border-color: #00cd3c;">
-                  <span class="site-icon-sm">🎵</span>
-                  <span class="site-name-sm">멜론티켓</span>
-                </button>
-                <button class="site-quick-btn" data-url="https://ticket.yes24.com" data-name="YES24"
-                  style="border-color: #0066cc;">
-                  <span class="site-icon-sm">📚</span>
-                  <span class="site-name-sm">YES24</span>
-                </button>
-                <button class="site-quick-btn" data-url="https://www.coupang.com" data-name="쿠팡"
-                  style="border-color: #ff5a00;">
-                  <span class="site-icon-sm">🛒</span>
-                  <span class="site-name-sm">쿠팡</span>
-                </button>
-                <% } else { %>
-                  <%# 영어권 사이트 (영어 우선) %>
-                    <button class="site-quick-btn" data-url="https://www.ticketmaster.com" data-name="Ticketmaster"
-                      style="border-color: #026cdf;">
-                      <span class="site-icon-sm">🎟️</span>
-                      <span class="site-name-sm">Ticketmaster</span>
-                    </button>
-                    <button class="site-quick-btn" data-url="https://www.stubhub.com" data-name="StubHub"
-                      style="border-color: #003168;">
-                      <span class="site-icon-sm">🎭</span>
-                      <span class="site-name-sm">StubHub</span>
-                    </button>
-                    <button class="site-quick-btn" data-url="https://www.amazon.com" data-name="Amazon"
-                      style="border-color: #ff9900;">
-                      <span class="site-icon-sm">📦</span>
-                      <span class="site-name-sm">Amazon</span>
-                    </button>
-                    <button class="site-quick-btn" data-url="https://www.ebay.com" data-name="eBay"
-                      style="border-color: #e53238;">
-                      <span class="site-icon-sm">🏪</span>
-                      <span class="site-name-sm">eBay</span>
-                    </button>
-                    <% } %>
-          </div>
-        </section>
-
-        <section class="notification-panel">
-          <div class="notification-block">
-            <h2>
-              <%= translations.notification.title %>
-            </h2>
-            <p class="section-hint">
-              <%= translations.notification.subtitle %>
-            </p>
-
-            <div class="notification-modes">
-              <div class="mode-content" id="targetTimeMode">
-                <div class="input-group">
-                  <label for="targetTime">Set Target Time</label>
-                  <div class="time-input-simple">
-                    <input type="time" id="targetTime" class="time-input" step="1" />
-                    <button type="button" id="setTargetAlarm" class="alarm-btn">
-                      <span class="btn-icon">🔔</span>
-                      <span>Set Alarm</span>
+          <%# 중앙 메인 콘텐츠 %>
+            <main class="layout">
+              <section class="primary">
+                <form id="checkForm" class="url-form" novalidate>
+                  <label class="field-label" for="urlInput">
+                    <%= translations.form.label %>
+                  </label>
+                  <p id="urlHint" class="field-hint">
+                    <%= translations.form.hint %>
+                  </p>
+                  <div class="url-form-controls">
+                    <input id="urlInput" type="url" inputmode="url" placeholder="<%= translations.form.placeholder %>"
+                      autocomplete="off" aria-describedby="urlHint formError" />
+                    <button id="checkBtn" type="submit">
+                      <%= translations.form.button %>
                     </button>
                   </div>
-                </div>
-              </div>
-            </div>
+                </form>
+                <p id="formError" class="form-error" role="alert" aria-live="assertive"></p>
 
-            <div class="alarm-status hidden" id="alarmStatus">
-              <div class="status-info">
-                <span class="status-icon">🔔</span>
-                <div class="status-text">
-                  <strong id="alarmTitle">Alarm Active</strong>
-                  <p id="alarmTime"></p>
-                </div>
-              </div>
-              <button type="button" id="cancelAlarm" class="cancel-btn">Cancel</button>
-            </div>
-
-            <div class="dev-section">
-              <details>
-                <summary>🔧 Test Sound</summary>
-                <button type="button" id="testAlarmBtn" class="test-btn">Test Alarm Sound</button>
-              </details>
-            </div>
-          </div>
-        </section>
-
-        <section class="notice">
-          <h2>
-            <%= translations.content.ntpTitle %>
-          </h2>
-          <p>
-            <%= translations.content.ntpDescription %>
-          </p>
-          <p>
-            The most accurate time synchronization is provided by <strong>NTP (Network Time Protocol)</strong>. For
-            situations where precise timing is critical, such as ticketing, it's safest to synchronize your device with
-            an
-            NTP server in advance. Future versions will offer NTP-based high-precision features. For detailed usage,
-            check
-            out the
-            <a href="/<%= locale %>/guide">Server Time Comparison Guide</a>.
-          </p>
-        </section>
-
-        <%# SEO 콘텐츠 섹션 - 애드센스 승인용 %>
-          <section class="seo-content">
-            <h2 class="seo-title">
-              <%= translations.content.seoSection.title %>
-            </h2>
-
-            <%# Feature Cards %>
-              <div class="feature-grid">
-                <% translations.content.seoSection.features.forEach(feature=> { %>
-                  <div class="feature-card">
-                    <div class="feature-icon">
-                      <%= feature.icon %>
-                    </div>
-                    <h3 class="feature-title">
-                      <%= feature.title %>
-                    </h3>
-                    <p class="feature-description">
-                      <%= feature.description %>
+                <section class="clock-panel" aria-live="polite">
+                  <div class="clock-block single" id="clockBlock">
+                    <h2>
+                      <%= translations.clock.serverTime %>
+                    </h2>
+                    <p id="serverTime" class="clock-value muted" role="status" aria-live="polite" aria-atomic="true">
+                      --:--:--.---
                     </p>
-                  </div>
-                  <% }); %>
-              </div>
+                    <p class="clock-meta" id="clockMeta" aria-live="off"></p>
 
-              <%# Accordion FAQ Style %>
-                <div class="seo-accordion">
-                  <details class="accordion-item">
-                    <summary class="accordion-header">
-                      <span>
-                        <%= translations.content.seoSection.whatIsServerTime.title %>
-                      </span>
-                      <span class="accordion-icon">▼</span>
-                    </summary>
-                    <div class="accordion-content">
-                      <p>
-                        <%= translations.content.seoSection.whatIsServerTime.content %>
-                      </p>
-                    </div>
-                  </details>
-
-                  <details class="accordion-item">
-                    <summary class="accordion-header">
-                      <span>
-                        <%= translations.content.seoSection.whyImportant.title %>
-                      </span>
-                      <span class="accordion-icon">▼</span>
-                    </summary>
-                    <div class="accordion-content">
-                      <p>
-                        <%= translations.content.seoSection.whyImportant.content %>
-                      </p>
-                    </div>
-                  </details>
-
-                  <details class="accordion-item">
-                    <summary class="accordion-header">
-                      <span>
-                        <%= translations.content.seoSection.howItWorks.title %>
-                      </span>
-                      <span class="accordion-icon">▼</span>
-                    </summary>
-                    <div class="accordion-content">
-                      <ol class="steps-list">
-                        <% translations.content.seoSection.howItWorks.steps.forEach((step, index)=> { %>
-                          <li>
-                            <%= step %>
-                          </li>
-                          <% }); %>
-                      </ol>
-                    </div>
-                  </details>
-
-                  <details class="accordion-item">
-                    <summary class="accordion-header">
-                      <span>
-                        <%= translations.content.seoSection.tips.title %>
-                      </span>
-                      <span class="accordion-icon">▼</span>
-                    </summary>
-                    <div class="accordion-content">
-                      <div class="tips-grid">
-                        <% translations.content.seoSection.tips.items.forEach(tip=> { %>
-                          <div class="tip-item">
-                            <h4 class="tip-title">💡 <%= tip.title %>
-                            </h4>
-                            <p class="tip-description">
-                              <%= tip.description %>
-                            </p>
-                          </div>
-                          <% }); %>
+                    <!-- 시간대 경고 -->
+                    <div id="timezoneWarning" class="timezone-warning" style="display: none;" role="alert">
+                      <div class="warning-icon">⚠️</div>
+                      <div class="warning-content">
+                        <strong id="warningTitle"></strong>
+                        <div id="warningDetails"></div>
                       </div>
                     </div>
-                  </details>
-                </div>
-          </section>
 
-          <!-- 인기 사이트 빠른 링크 - 주석 처리 (상단 컴팩트 버전 사용) -->
-          <!-- 
+                    <div class="clock-settings">
+                      <div class="setting-group">
+                        <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                          <label class="toggle-switch" style="margin: 0;">
+                            <input type="checkbox" id="showMillis" checked />
+                            <span class="slider"></span>
+                            <span class="toggle-label">
+                              <%= translations.clock.milliseconds %>
+                            </span>
+                          </label>
+                          <p class="perf-note">
+                            <%= translations.clock.performanceNote %>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <%# Phase 1: 배너 광고 #1 - 시계 패널 아래 %>
+                  <div class="ad-banner ad-banner-primary">
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2995631331341713"
+                      data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    <script>
+                      (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                  </div>
+
+                  <%# 실시간 인기 사이트 - NEW! %>
+                    <section class="trending-sites" id="trendingSites">
+                      <h3 class="trending-title">
+                        <%= locale==='ko' ? '🔥 실시간 인기 사이트' : locale==='ja' ? '🔥 リアルタイム人気サイト' : locale==='zh-tw'
+                          ? '🔥 即時熱門網站' : '🔥 Trending Sites' %>
+                          <span class="trending-subtitle">
+                            <%= locale==='ko' ? '(최근 1시간)' : locale==='ja' ? '(過去1時間)' : locale==='zh-tw' ? '(最近1小時)'
+                              : '(Last 1 hour)' %>
+                          </span>
+                      </h3>
+
+                      <div class="trending-list" id="trendingList">
+                        <div class="trending-loading">
+                          <span class="loading-spinner"></span>
+                          <%= locale==='ko' ? '로딩 중...' : locale==='ja' ? '読み込み中...' : locale==='zh-tw' ? '載入中...'
+                            : 'Loading...' %>
+                        </div>
+                      </div>
+                    </section>
+
+                    <%# 인기 사이트 빠른 링크 - 알림 설정 위로 이동 %>
+                      <section class="popular-sites-compact">
+                        <h3 class="sites-compact-title">
+                          <%= locale==='ko' ? '⚡ 인기 사이트 빠른 확인' : locale==='ja' ? '⚡ 人気サイトクイックチェック' : locale==='zh-tw'
+                            ? '⚡ 熱門網站快速確認' : '⚡ Popular Sites Quick Check' %>
+                        </h3>
+
+                        <div class="sites-compact-grid">
+                          <%# 한국 사이트 %>
+                            <% if (locale==='ko' ) { %>
+                              <button class="site-quick-btn" data-url="https://ticket.interpark.com" data-name="인터파크"
+                                style="border-color: #e60012;">
+                                <span class="site-icon-sm">🎫</span>
+                                <span class="site-name-sm">인터파크</span>
+                              </button>
+                              <button class="site-quick-btn" data-url="https://ticket.melon.com" data-name="멜론티켓"
+                                style="border-color: #00cd3c;">
+                                <span class="site-icon-sm">🎵</span>
+                                <span class="site-name-sm">멜론티켓</span>
+                              </button>
+                              <button class="site-quick-btn" data-url="https://ticket.yes24.com" data-name="YES24"
+                                style="border-color: #0066cc;">
+                                <span class="site-icon-sm">📚</span>
+                                <span class="site-name-sm">YES24</span>
+                              </button>
+                              <button class="site-quick-btn" data-url="https://www.coupang.com" data-name="쿠팡"
+                                style="border-color: #ff5a00;">
+                                <span class="site-icon-sm">🛒</span>
+                                <span class="site-name-sm">쿠팡</span>
+                              </button>
+                              <% } else if (locale==='zh-tw' ) { %>
+                                <%# 대만/홍콩 사이트 %>
+                                  <button class="site-quick-btn" data-url="https://kktix.com" data-name="KKTIX"
+                                    style="border-color: #ff6600;">
+                                    <span class="site-icon-sm">🎫</span>
+                                    <span class="site-name-sm">KKTIX</span>
+                                  </button>
+                                  <button class="site-quick-btn" data-url="https://www.ticketmaster.com.tw"
+                                    data-name="拓元售票" style="border-color: #026cdf;">
+                                    <span class="site-icon-sm">🎟️</span>
+                                    <span class="site-name-sm">拓元售票</span>
+                                  </button>
+                                  <button class="site-quick-btn" data-url="https://shopee.tw" data-name="蝦皮購物"
+                                    style="border-color: #ee4d2d;">
+                                    <span class="site-icon-sm">🛒</span>
+                                    <span class="site-name-sm">蝦皮購物</span>
+                                  </button>
+                                  <button class="site-quick-btn" data-url="https://www.momoshop.com.tw"
+                                    data-name="momo購物網" style="border-color: #ff0090;">
+                                    <span class="site-icon-sm">🛍️</span>
+                                    <span class="site-name-sm">momo購物網</span>
+                                  </button>
+                                  <% } else if (locale==='ja' ) { %>
+                                    <%# 일본 사이트 %>
+                                      <button class="site-quick-btn" data-url="https://eplus.jp" data-name="イープラス"
+                                        style="border-color: #ff0000;">
+                                        <span class="site-icon-sm">🎫</span>
+                                        <span class="site-name-sm">イープラス</span>
+                                      </button>
+                                      <button class="site-quick-btn" data-url="https://t.pia.jp" data-name="チケットぴあ"
+                                        style="border-color: #0066cc;">
+                                        <span class="site-icon-sm">🎟️</span>
+                                        <span class="site-name-sm">チケットぴあ</span>
+                                      </button>
+                                      <button class="site-quick-btn" data-url="https://www.rakuten.co.jp"
+                                        data-name="楽天市場" style="border-color: #bf0000;">
+                                        <span class="site-icon-sm">🛒</span>
+                                        <span class="site-name-sm">楽天市場</span>
+                                      </button>
+                                      <button class="site-quick-btn" data-url="https://www.amazon.co.jp"
+                                        data-name="Amazon JP" style="border-color: #ff9900;">
+                                        <span class="site-icon-sm">📦</span>
+                                        <span class="site-name-sm">Amazon JP</span>
+                                      </button>
+                                      <% } else { %>
+                                        <%# 영어권 사이트 %>
+                                          <button class="site-quick-btn" data-url="https://www.ticketmaster.com"
+                                            data-name="Ticketmaster" style="border-color: #026cdf;">
+                                            <span class="site-icon-sm">🎟️</span>
+                                            <span class="site-name-sm">Ticketmaster</span>
+                                          </button>
+                                          <button class="site-quick-btn" data-url="https://www.stubhub.com"
+                                            data-name="StubHub" style="border-color: #003168;">
+                                            <span class="site-icon-sm">🎭</span>
+                                            <span class="site-name-sm">StubHub</span>
+                                          </button>
+                                          <button class="site-quick-btn" data-url="https://www.amazon.com"
+                                            data-name="Amazon" style="border-color: #ff9900;">
+                                            <span class="site-icon-sm">📦</span>
+                                            <span class="site-name-sm">Amazon</span>
+                                          </button>
+                                          <button class="site-quick-btn" data-url="https://www.ebay.com"
+                                            data-name="eBay" style="border-color: #e53238;">
+                                            <span class="site-icon-sm">🏪</span>
+                                            <span class="site-name-sm">eBay</span>
+                                          </button>
+                                          <button class="site-quick-btn" data-url="https://www.eventbrite.com"
+                                            data-name="Eventbrite" style="border-color: #f05537;">
+                                            <span class="site-icon-sm">🎉</span>
+                                            <span class="site-name-sm">Eventbrite</span>
+                                          </button>
+                                          <% } %>
+                        </div>
+                      </section>
+
+                      <section class="notification-panel">
+                        <div class="notification-block">
+                          <h2>
+                            <%= translations.notification.title %>
+                          </h2>
+                          <p class="section-hint">
+                            <%= translations.notification.subtitle %>
+                          </p>
+
+                          <div class="notification-modes">
+                            <div class="mode-content" id="targetTimeMode">
+                              <div class="input-group">
+                                <label for="targetTime">Set Target Time</label>
+                                <div class="time-input-simple">
+                                  <input type="time" id="targetTime" class="time-input" step="1" />
+                                  <button type="button" id="setTargetAlarm" class="alarm-btn">
+                                    <span class="btn-icon">🔔</span>
+                                    <span>Set Alarm</span>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="alarm-status hidden" id="alarmStatus">
+                            <div class="status-info">
+                              <span class="status-icon">🔔</span>
+                              <div class="status-text">
+                                <strong id="alarmTitle">Alarm Active</strong>
+                                <p id="alarmTime">--:--:--</p>
+                              </div>
+                            </div>
+                            <button type="button" id="cancelAlarm" class="btn-secondary">
+                              <span>Cancel</span>
+                            </button>
+                          </div>
+
+                          <%# 사전 알람 설정 %>
+                            <div class="pre-alarms-section" style="margin-top: 1rem;">
+                              <h3 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--color-text-secondary);">
+                                <%= translations.notification.preAlarms %>
+                              </h3>
+                              <div class="checkbox-group" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                <label class="checkbox-label">
+                                  <input type="checkbox" id="preAlarm1Min" class="pre-alarm-checkbox">
+                                  <span>
+                                    <%= translations.notification.oneMinBefore %>
+                                  </span>
+                                </label>
+                                <label class="checkbox-label">
+                                  <input type="checkbox" id="preAlarm2Min" class="pre-alarm-checkbox">
+                                  <span>
+                                    <%= translations.notification.twoMinBefore %>
+                                  </span>
+                                </label>
+                                <label class="checkbox-label">
+                                  <input type="checkbox" id="preAlarm3Min" class="pre-alarm-checkbox">
+                                  <span>
+                                    <%= translations.notification.threeMinBefore %>
+                                  </span>
+                                </label>
+                              </div>
+                            </div>
+
+                            <%# 화면 설정 %>
+                              <div class="display-settings-section"
+                                style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border);">
+                                <h3
+                                  style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--color-text-secondary);">
+                                  <%= translations.display.title %>
+                                </h3>
+                                <div class="checkbox-group" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                  <label class="checkbox-label">
+                                    <input type="checkbox" id="hideDateToggle">
+                                    <span>
+                                      <%= translations.display.hideDate %>
+                                    </span>
+                                  </label>
+                                  <label class="checkbox-label">
+                                    <input type="checkbox" id="noRedColorToggle">
+                                    <span>
+                                      <%= translations.display.noRedColor %>
+                                    </span>
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="test-sound-row">
+                                <button type="button" id="testSound" class="btn-secondary">
+                                  <span class="btn-icon">🔊</span>
+                                  <span>
+                                    <%= translations.notification.testSound %>
+                                  </span>
+                                </button>
+                              </div>
+                        </div>
+                      </section>
+
+                      <%# Phase 2: 배너 광고 #2 - 알림 설정 아래 %>
+                        <div class="ad-banner ad-banner-secondary">
+                          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2995631331341713"
+                            data-ad-slot="0987654321" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                          <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                          </script>
+                        </div>
+
+                        <section class="notice">
+                          <h2>
+                            <%= translations.content.ntpTitle %>
+                          </h2>
+                          <p>
+                            <%= translations.content.ntpDescription %>
+                          </p>
+                          <p>
+                            The most accurate time synchronization is provided by <strong>NTP (Network Time
+                              Protocol)</strong>. For
+                            situations where precise timing is critical, such as ticketing, it's safest to synchronize
+                            your
+                            device
+                            with
+                            an
+                            NTP server in advance. Future versions will offer NTP-based high-precision features. For
+                            detailed
+                            usage,
+                            check
+                            out the
+                            <a href="/<%= locale %>/guide">Server Time Comparison Guide</a>.
+                          </p>
+                        </section>
+
+                        <%# SEO 콘텐츠 섹션 - 애드센스 승인용 %>
+                          <section class="seo-content">
+                            <h2 class="seo-title">
+                              <%= translations.content.seoSection.title %>
+                            </h2>
+
+                            <%# Feature Cards %>
+                              <div class="feature-grid">
+                                <% translations.content.seoSection.features.forEach(feature=> { %>
+                                  <div class="feature-card">
+                                    <div class="feature-icon">
+                                      <%= feature.icon %>
+                                    </div>
+                                    <h3 class="feature-title">
+                                      <%= feature.title %>
+                                    </h3>
+                                    <p class="feature-description">
+                                      <%= feature.description %>
+                                    </p>
+                                  </div>
+                                  <% }); %>
+                              </div>
+
+                              <%# Accordion FAQ Style %>
+                                <div class="seo-accordion">
+                                  <details class="accordion-item">
+                                    <summary class="accordion-header">
+                                      <span>
+                                        <%= translations.content.seoSection.whatIsServerTime.title %>
+                                      </span>
+                                      <span class="accordion-icon">▼</span>
+                                    </summary>
+                                    <div class="accordion-content">
+                                      <p>
+                                        <%= translations.content.seoSection.whatIsServerTime.content %>
+                                      </p>
+                                    </div>
+                                  </details>
+
+                                  <details class="accordion-item">
+                                    <summary class="accordion-header">
+                                      <span>
+                                        <%= translations.content.seoSection.whyImportant.title %>
+                                      </span>
+                                      <span class="accordion-icon">▼</span>
+                                    </summary>
+                                    <div class="accordion-content">
+                                      <p>
+                                        <%= translations.content.seoSection.whyImportant.content %>
+                                      </p>
+                                    </div>
+                                  </details>
+
+                                  <%# Phase 2: 배너 광고 #3 - SEO 콘텐츠 중간 %>
+                                    <!-- <div class="ad-banner ad-banner-content">
+                                    <ins class="adsbygoogle" style="display:block; text-align:center;"
+                                      data-ad-layout="in-article" data-ad-format="fluid"
+                                      data-ad-client="ca-pub-2995631331341713" data-ad-slot="1122334455"></ins>
+                                    <script>
+                                      (adsbygoogle = window.adsbygoogle || []).push({});
+                                    </script>
+                                  </div> -->
+
+                                    <details class="accordion-item">
+                                      <summary class="accordion-header">
+                                        <span>
+                                          <%= translations.content.seoSection.howItWorks.title %>
+                                        </span>
+                                        <span class="accordion-icon">▼</span>
+                                      </summary>
+                                      <div class="accordion-content">
+                                        <ol class="steps-list">
+                                          <% translations.content.seoSection.howItWorks.steps.forEach((step, index)=> {
+                                            %>
+                                            <li>
+                                              <%= step %>
+                                            </li>
+                                            <% }); %>
+                                        </ol>
+                                      </div>
+                                    </details>
+
+                                    <details class="accordion-item">
+                                      <summary class="accordion-header">
+                                        <span>
+                                          <%= translations.content.seoSection.tips.title %>
+                                        </span>
+                                        <span class="accordion-icon">▼</span>
+                                      </summary>
+                                      <div class="accordion-content">
+                                        <div class="tips-grid">
+                                          <% translations.content.seoSection.tips.items.forEach(tip=> { %>
+                                            <div class="tip-item">
+                                              <h4 class="tip-title">💡 <%= tip.title %>
+                                              </h4>
+                                              <p class="tip-description">
+                                                <%= tip.description %>
+                                              </p>
+                                            </div>
+                                            <% }); %>
+                                        </div>
+                                      </div>
+                                    </details>
+                                </div>
+                          </section>
+
+                          <!-- 인기 사이트 빠른 링크 - 주석 처리 (상단 컴팩트 버전 사용) -->
+                          <!-- 
             <section class="popular-sites">
               <h2 class="seo-title">
                 <%= locale==='ko' ? '인기 사이트 빠른 확인' : 'Popular Sites Quick Check' %>
@@ -417,43 +583,29 @@
               </div>
             </section>
             -->
-    </section>
+              </section>
+            </main>
 
-    <aside class="sidebar" role="complementary" aria-label="Advertisement Area">
-      <div class="ad-slot" aria-hidden="true">
-        <p class="ad-placeholder">Advertisement</p>
+            <%# 실시간 댓글 사이드바 %>
+              <aside class="sidebar" role="complementary" aria-label="Live Comments">
+                <%- include('partials/comments', { locale: locale, pageId: 'main-page' }) %>
+
+                  <!-- 오른쪽 광고 - 댓글 아래 -->
+                  <div class="ad-banner ad-banner-right" style="margin-top: 1.5rem;">
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2995631331341713"
+                      data-ad-slot="3333333333" data-ad-format="vertical" data-full-width-responsive="false"></ins>
+                    <script>
+                      (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                  </div>
+              </aside>
       </div>
 
-      <div class="ad-slot" aria-hidden="true">
-        <p class="ad-placeholder">Advertisement</p>
-      </div>
+      <%- include('partials/footer') %>
 
-      <div class="ad-slot" aria-hidden="true">
-        <p class="ad-placeholder">Advertisement</p>
-      </div>
-    </aside>
-  </main>
+        <script type="module" src="/js/main.js"></script>
 
-  <footer class="page-footer">
-    <nav>
-      <a href="/<%= locale %>/guide">
-        <%= translations.footer.guide %>
-      </a>
-      <span aria-hidden="true">·</span>
-      <a href="/<%= locale %>/privacy">
-        <%= translations.footer.privacy %>
-      </a>
-      <span aria-hidden="true">·</span>
-      <a href="https://github.com/newsupernova0617/Timeism/issues">
-        <%= translations.footer.contact %>
-      </a>
-    </nav>
-    <p class="footer-copy">Displayed time is an HTTP Date header-based estimate for reference only.</p>
-  </footer>
-
-  <script type="module" src="/js/main.js"></script>
-
-  <!-- Advertisement Scripts -->
+        <!-- Advertisement Scripts -->
 
 </body>
 

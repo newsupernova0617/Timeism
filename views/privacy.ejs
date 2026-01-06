@@ -1,136 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= locale %>">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Privacy Policy | Data Collection and Usage</title>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2995631331341713"
-    crossorigin="anonymous"></script>
-  <meta name="description"
-    content="Information on data items collected by the server time comparison service, usage purposes, and Google AdSense advertising policy." />
-  <link rel="canonical" href="<%= domain %>/privacy" />
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="Privacy Policy | Data Collection and Usage" />
-  <meta property="og:description"
-    content="Check collected data, usage purposes, and Google AdSense advertising policy." />
-  <meta property="og:url" content="<%= domain %>/privacy" />
-  <meta property="og:image" content="<%= domain %>/og-image.png" />
-  <meta property="og:locale" content="en_US" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Privacy Policy | Data Collection and Usage" />
-  <meta name="twitter:description"
-    content="Check detailed data collection items and usage purposes of the server time comparison service." />
-  <meta name="twitter:image" content="<%= domain %>/og-image.png" />
-  <meta name="theme-color" content="#1f3c88" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="application-name" content="Timeism" />
-  <link rel="stylesheet" href="/css/tokens.css" />
-  <link rel="stylesheet" href="/css/style.css" />
-  <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "@id": "<%= domain %>/privacy",
-        "name": "Privacy & Data Collection Policy",
-        "description": "Information on data items collected by the server time comparison service, usage purposes, and Google AdSense advertising policy.",
-        "url": "<%= domain %>/privacy",
-        "isPartOf": {
-          "@type": "WebSite",
-          "name": "Timeism",
-          "url": "<%= domain %>/"
-        },
-        "inLanguage": "en-US",
-        "publisher": {
-          "@type": "Organization",
-          "name": "Timeism Team",
-          "url": "<%= domain %>/"
-        }
-      }
-    </script>
+  <%- include('partials/meta') %>
+    <title>
+      <%= locale==='ko' ? '개인정보 처리방침 | 데이터 수집 및 이용' : 'Privacy Policy | Data Collection and Usage' %>
+    </title>
+    <meta name="description"
+      content="<%= locale === 'ko' ? '서버 시간 비교 서비스가 수집하는 데이터 항목, 이용 목적 등의 정보를 안내합니다.' : 'Information on data items collected by the server time comparison service and usage purposes.' %>" />
+    <link rel="canonical" href="<%= domain %>/<%= locale %>/privacy" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="<%= locale === 'ko' ? '개인정보 처리방침' : 'Privacy Policy' %>" />
+    <meta property="og:description"
+      content="<%= locale === 'ko' ? '수집 데이터 및 이용 목적 확인' : 'Check collected data and usage purposes' %>" />
+    <meta property="og:url" content="<%= domain %>/<%= locale %>/privacy" />
+    <meta property="og:image" content="<%= domain %>/og-image.png" />
 </head>
 
 <body>
-  <header class="page-header">
-    <h1>Privacy &amp; Data Collection Policy</h1>
-    <p class="subtitle">Information collected when using the service and its usage purposes.</p>
-  </header>
+  <%- include('partials/header') %>
 
-  <main class="content-page">
-    <nav class="breadcrumb" aria-label="breadcrumb">
-      <a href="/">Home</a>
-      <span>/</span>
-      <span>Privacy Policy</span>
-    </nav>
+    <main class="content-page">
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/<%= locale %>">
+          <%= locale==='ko' ? '홈' : 'Home' %>
+        </a>
+        <span>/</span>
+        <span>
+          <%= locale==='ko' ? '개인정보 처리방침' : 'Privacy Policy' %>
+        </span>
+      </nav>
 
-    <section>
-      <h2>1. Data Collected</h2>
-      <ul>
-        <li>Browser/Operating system information (<code>user_agent</code>)</li>
-        <li>Access region (GeoIP-based estimation)</li>
-        <li>Device type (desktop / mobile / tablet)</li>
-        <li>Session identifier and visit time</li>
-        <li>In-service behavioral events (button clicks, time check moments, etc.)</li>
-        <li>Requested target URL (for anonymous statistics)</li>
-      </ul>
-      <p>
-        The above items do not include directly personally identifiable information such as user names or emails.
-      </p>
-    </section>
+      <section>
+        <h2>
+          <%= locale==='ko' ? '개인정보 처리방침' : 'Privacy Policy' %>
+        </h2>
+        <p>
+          <%= locale==='ko' ? 'Timeism은 사용자의 개인정보를 수집하지 않습니다. 입력하신 URL은 서버 시간 확인 용도로만 사용되며, 서버에 저장되지 않습니다.'
+            : 'Timeism does not collect any personal information from users. The URL you enter is used only for server time checking and is not stored on our server.'
+            %>
+        </p>
+      </section>
 
-    <section>
-      <h2>2. Usage Purpose</h2>
-      <ul>
-        <li>Service improvement and error analysis</li>
-        <li>Traffic statistics and feature enhancement</li>
-        <li>Service stability and abuse prevention</li>
-      </ul>
-    </section>
+      <hr style="margin: 2rem 0; border: none; border-top: 1px solid #ddd;" />
 
-    <section>
-      <h2>3. Advertising</h2>
-      <p>
-        This service may provide advertisements through Google AdSense. Advertising networks may use third-party
-        tracking technologies such as cookies and web beacons. For management methods, please refer to Google's
-        advertising policy.
-      </p>
-    </section>
+      <nav class="internal-links" style="margin-top: 2rem;">
+        <h3>
+          <%= locale==='ko' ? '관련 페이지' : 'Related Pages' %>
+        </h3>
+        <ul>
+          <li><a href="/<%= locale %>">
+              <%= locale==='ko' ? '메인으로 돌아가기' : 'Back to Main' %>
+            </a></li>
+          <li><a href="/<%= locale %>/guide">
+              <%= locale==='ko' ? '이용 가이드' : 'Usage Guide' %>
+            </a></li>
+        </ul>
+      </nav>
+    </main>
 
-    <section>
-      <h2>4. Contact</h2>
-      <p>
-        For privacy and data collection inquiries, please visit
-        <a href="https://github.com/newsupernova0617/Timeism/issues">GitHub Issues</a>.
-      </p>
-    </section>
-
-    <hr style="margin: 2rem 0; border: none; border-top: 1px solid #ddd;" />
-
-    <nav class="internal-links" style="margin-top: 2rem;">
-      <h3>Related Pages</h3>
-      <ul>
-        <li><a href="/">Back to Main</a></li>
-        <li><a href="/guide">Service Guide</a></li>
-      </ul>
-    </nav>
-  </main>
-
-  <footer class="page-footer">
-    <nav>
-      <a href="/">Home</a>
-      <span aria-hidden="true">·</span>
-      <a href="/guide">Guide</a>
-      <span aria-hidden="true">·</span>
-      <a href="https://github.com/newsupernova0617/Timeism/issues">Contact</a>
-    </nav>
-  </footer>
-
-  <!-- Advertisement Scripts -->
-  <script type="text/javascript"
-    src="https://pl28277412.effectivegatecpm.com/b6/b8/da/b6b8dab3211cd6c92e2ad216fd078f1a.js"></script>
-  <script type="text/javascript"
-    src="https://pl28277448.effectivegatecpm.com/3a/59/06/3a5906e7b8bcd35c018e8958646d8458.js"></script>
+    <%- include('partials/footer') %>
 </body>
 
 </html>

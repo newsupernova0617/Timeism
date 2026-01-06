@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="<%= locale %>">
+
+<head>
+    <%- include('partials/meta') %>
+        <title>
+            <%= locale==='ko' ? '트렌드 분석 | Timeism' : 'Trends Analysis | Timeism' %>
+        </title>
+        <meta name="description"
+            content="<%= locale === 'ko' ? '실시간 인기 URL 순위와 사용 통계를 확인하세요.' : 'Check real-time popular URL rankings and usage statistics.' %>" />
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <main class="content-page">
+            <header class="page-header" style="margin-bottom: 2rem;">
+                <h1>
+                    <%= locale==='ko' ? '📊 트렌드 분석' : '📊 Trends Analysis' %>
+                </h1>
+                <p class="subtitle">
+                    <%= locale==='ko' ? '실시간 인기 URL과 사용 통계' : 'Real-time popular URLs and usage statistics' %>
+                </p>
+            </header>
+
+            <%# 인기 URL 순위 %>
+                <section style="margin-bottom: 3rem;">
+                    <h2>
+                        <%= locale==='ko' ? '🔥 인기 URL 순위 (상위 10개)' : '🔥 Top 10 Popular URLs' %>
+                    </h2>
+                    <div class="stats-card">
+                        <% if (topUrls && topUrls.length> 0) { %>
+                            <ol class="url-ranking">
+                                <% topUrls.forEach((item, index)=> { %>
+                                    <li class="ranking-item">
+                                        <span class="rank-badge">
+                                            <%= index + 1 %>
+                                        </span>
+                                        <div class="url-info">
+                                            <span class="url-text">
+                                                <%= item.url %>
+                                            </span>
+                                            <span class="check-count">
+                                                <%= item.count %>
+                                                    <%= locale==='ko' ? '회 확인' : 'checks' %>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <% }) %>
+                            </ol>
+                            <% } else { %>
+                                <p style="text-align: center; color: var(--color-text-muted);">
+                                    <%= locale==='ko' ? '아직 데이터가 없습니다.' : 'No data available yet.' %>
+                                </p>
+                                <% } %>
+                    </div>
+                </section>
+
+                <%# 시간대별 접속 통계 %>
+                    <section style="margin-bottom: 3rem;">
+                        <h2>
+                            <%= locale==='ko' ? '⏰ 시간대별 접속 통계' : '⏰ Hourly Access Statistics' %>
+                        </h2>
+                        <div class="stats-card">
+                            <canvas id="hourlyChart" style="max-height: 300px;"></canvas>
+                        </div>
+                    </section>
+
+                    <%# 전체 통계 %>
+                        <section>
+                            <h2>
+                                <%= locale==='ko' ? '📈 전체 통계' : '📈 Overall Statistics' %>
+                            </h2>
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <div class="stat-value">
+                                        <%= totalChecks || 0 %>
+                                    </div>
+                                    <div class="stat-label">
+                                        <%= locale==='ko' ? '총 확인 횟수' : 'Total Checks' %>
+                                    </div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-value">
+                                        <%= uniqueUrls || 0 %>
+                                    </div>
+                                    <div class="stat-label">
+                                        <%= locale==='ko' ? '고유 URL' : 'Unique URLs' %>
+                                    </div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-value">
+                                        <%= todayChecks || 0 %>
+                                    </div>
+                                    <div class="stat-label">
+                                        <%= locale==='ko' ? '오늘 확인' : 'Today\' s Checks' %>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+        </main>
+
+        <%- include('partials/footer') %>
+
+            <script>
+                // 시간대별 차트
+                const hourlyData = <% - JSON.stringify(hourlyStats || []) %>;
+                const locale = '<%= locale %>';
+
+                const ctx = document.getElementById('hourlyChart');
+                if (ctx) {
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: hourlyData.map(d => d.hour + ':00'),
+                            datasets: [{
+                                label: locale === 'ko' ? '확인 횟수' : 'Checks',
+                                data: hourlyData.map(d => d.count),
+                                backgroundColor: 'rgba(61, 108, 240, 0.6)',
+                                borderColor: 'rgba(61, 108, 240, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        stepSize: 1
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            </script>
+
+            <style>
+                .stats-card {
+                    background: var(--color-surface);
+                    border-radius: var(--radius-lg);
+                    padding: var(--space-5);
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                }
+
+                .url-ranking {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .ranking-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    padding: 0.75rem;
+                    margin-bottom: 0.5rem;
+                    background: rgba(0, 0, 0, 0.02);
+                    border-radius: var(--radius-md);
+                    transition: background 0.2s;
+                }
+
+                .ranking-item:hover {
+                    background: rgba(61, 108, 240, 0.05);
+                }
+
+                .rank-badge {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 32px;
+                    height: 32px;
+                    background: var(--color-brand-accent);
+                    color: white;
+                    border-radius: 50%;
+                    font-weight: 700;
+                    font-size: 0.9rem;
+                    flex-shrink: 0;
+                }
+
+                .url-info {
+                    flex: 1;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 1rem;
+                }
+
+                .url-text {
+                    flex: 1;
+                    font-size: 0.9rem;
+                    color: var(--color-text);
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .check-count {
+                    font-size: 0.85rem;
+                    color: var(--color-text-muted);
+                    font-weight: 600;
+                    white-space: nowrap;
+                }
+
+                .stats-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 1rem;
+                }
+
+                .stat-box {
+                    background: var(--color-surface);
+                    border-radius: var(--radius-lg);
+                    padding: var(--space-5);
+                    text-align: center;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                }
+
+                .stat-value {
+                    font-size: 2.5rem;
+                    font-weight: 700;
+                    color: var(--color-brand-accent);
+                    margin-bottom: 0.5rem;
+                }
+
+                .stat-label {
+                    font-size: 0.9rem;
+                    color: var(--color-text-muted);
+                }
+            </style>
+</body>
+
+</html>

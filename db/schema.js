@@ -82,6 +82,9 @@ const events = sqliteTable('events', {
     // 지연 시간 (밀리초, RTT 등)
     latencyMs: integer('latency_ms'),
 
+    // 언어/지역 코드 (ko, en, ja, zh-tw)
+    locale: text('locale').default('en'),
+
     // 이벤트 발생 시각 (ISO 8601 형식)
     timestamp: text('timestamp')
 }, (table) => ({
@@ -95,9 +98,77 @@ const events = sqliteTable('events', {
     timestampIdx: index('idx_events_timestamp').on(table.timestamp)
 }));
 
+// ==================== comments 테이블 ====================
+// 익명 댓글 시스템
+const comments = sqliteTable('comments', {
+    // 댓글 고유 ID (자동 증가)
+    commentId: integer('comment_id').primaryKey({ autoIncrement: true }),
+
+    // 페이지 식별자 (예: 'main-page', 'blog-server-time-guide')
+    pageId: text('page_id').notNull(),
+
+    // 작성자 닉네임 (익명, 최대 50자)
+    author: text('author').notNull(),
+
+    // 댓글 내용 (최대 1000자)
+    content: text('content').notNull(),
+
+    // IP 해시 (스팸 방지용, SHA-256)
+    ipHash: text('ip_hash').notNull(),
+
+    // 작성 시각 (ISO 8601 형식)
+    createdAt: text('created_at').notNull(),
+
+    // 삭제 여부 (0: 정상, 1: 삭제됨)
+    isDeleted: integer('is_deleted').default(0).notNull(),
+
+    // 신고 횟수 (스팸 감지용)
+    reportCount: integer('report_count').default(0).notNull()
+}, (table) => ({
+    // 인덱스: 페이지별 댓글 조회 최적화
+    pageIdIdx: index('idx_comments_page_id').on(table.pageId),
+
+    // 인덱스: 작성 시각 기준 정렬 최적화
+    createdAtIdx: index('idx_comments_created_at').on(table.createdAt),
+
+    // 인덱스: IP 해시 기준 스팸 감지 최적화
+    ipHashIdx: index('idx_comments_ip_hash').on(table.ipHash)
+}));
+
+// ==================== survey_responses 테이블 ====================
+// 설문조사 응답
+const surveyResponses = sqliteTable('survey_responses', {
+    // 응답 고유 ID
+    responseId: integer('response_id').primaryKey({ autoIncrement: true }),
+
+    // 만족도 (1-5)
+    satisfaction: integer('satisfaction').notNull(),
+
+    // 가장 유용한 기능
+    usefulFeature: text('useful_feature').notNull(),
+
+    // 개선 희망 사항
+    improvement: text('improvement'),
+
+    // 추가 의견
+    additionalFeedback: text('additional_feedback'),
+
+    // IP 해시 (중복 방지)
+    ipHash: text('ip_hash').notNull(),
+
+    // 작성 시각
+    createdAt: text('created_at').notNull()
+}, (table) => ({
+    // 인덱스
+    createdAtIdx: index('idx_survey_created_at').on(table.createdAt),
+    ipHashIdx: index('idx_survey_ip_hash').on(table.ipHash)
+}));
+
 // 스키마 내보내기
 module.exports = {
     users,
     sessions,
-    events
+    events,
+    comments,
+    surveyResponses
 };

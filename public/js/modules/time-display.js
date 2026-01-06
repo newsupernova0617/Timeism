@@ -3,6 +3,8 @@
  * 서버 시간 표시 및 실시간 시계 업데이트
  */
 
+import { createTimezoneUtils } from './timezone-utils.js';
+
 export function createTimeDisplay({
   serverTimeEl,
   clockMeta,
@@ -45,19 +47,35 @@ export function createTimeDisplay({
     // 시간 결과 적용
     applyTimeResult: (result) => {
       const estimatedEpochMs = result.server_time_estimated_epoch_ms;
+      const timeismServerMs = result.timeism_server_time_ms;
+
       if (typeof estimatedEpochMs === 'number' && Number.isFinite(estimatedEpochMs)) {
         serverTimeEl.classList.remove('muted');
         serverTimeEl.textContent = formatTimestamp(estimatedEpochMs, settings);
         serverTimeEl.classList.remove('skeleton');
+
         if (clockMeta && result.server_time_utc) {
-          clockMeta.textContent = formatMetaLine(result.server_time_utc);
+          // Timeism 서버 타임스탬프가 있으면 정밀도 정보 표시
+          let metaText = formatMetaLine(result.server_time_utc);
+          if (typeof timeismServerMs === 'number' && Number.isFinite(timeismServerMs)) {
+            const lang = document.documentElement.lang || 'ko';
+            const precisionNote = lang === 'ko'
+              ? ' (Timeism 서버 기준 보정됨)'
+              : ' (Calibrated by Timeism server)';
+            metaText += precisionNote;
+          }
+          clockMeta.textContent = metaText;
         }
+
+        // 시간대 경고 표시 체크
+        checkAndShowTimezoneWarning(result);
       } else {
         serverTimeEl.classList.add('muted');
         serverTimeEl.textContent = '--:--:--.---';
         if (clockMeta) {
           clockMeta.textContent = '';
         }
+        hideTimezoneWarning();
       }
     },
 
@@ -79,7 +97,7 @@ export function createTimeDisplay({
   };
 }
 
-// 타임스탬프 포맷팅
+// 타임스탬프 포맷팅 (UTC 오프셋 포함)
 function formatTimestamp(ms, settings) {
   const date = new Date(ms);
   if (Number.isNaN(date.getTime())) {
@@ -100,6 +118,11 @@ function formatTimestamp(ms, settings) {
   if (settings.showMillis) {
     timeStr += `.${millis}`;
   }
+
+  // UTC 오프셋 추가
+  const timezoneUtils = createTimezoneUtils();
+  const userInfo = timezoneUtils.getUserTimezoneInfo();
+  timeStr += ` (${userInfo.offsetString})`;
 
   return timeStr;
 }
@@ -136,4 +159,50 @@ function formatMetaLine(serverUtcIso) {
   return utcStamp
     ? `${lastMeasured}: ${localStamp} · ${serverUtcHeader}: ${utcStamp}`
     : `${lastMeasured}: ${localStamp}`;
+}
+
+// 시간대 경고 체크 및 표시
+function checkAndShowTimezoneWarning(result) {
+  // 서버 UTC 시간에서 오프셋 추출 시도
+  if (!result.server_time_utc) {
+    hideTimezoneWarning();
+    return;
+  }
+
+  const timezoneUtils = createTimezoneUtils();
+  const userInfo = timezoneUtils.getUserTimezoneInfo();
+
+  // 서버 시간의 UTC 오프셋 계산
+  const serverDate = new Date(result.server_time_utc);
+  const serverOffset = -serverDate.getTimezoneOffset() / 60;
+
+  // 시간대가 다른 경우 경고 표시
+  if (timezoneUtils.shouldShowTimezoneWarning(serverOffset, userInfo.offset)) {
+    const lang = document.documentElement.lang || 'ko';
+    const message = timezoneUtils.getTimezoneWarningMessage(serverOffset, userInfo.offset, lang);
+
+    const warningEl = document.getElementById('timezoneWarning');
+    const titleEl = document.getElementById('warningTitle');
+    const detailsEl = document.getElementById('warningDetails');
+
+    if (warningEl && titleEl && detailsEl) {
+      titleEl.textContent = message.title;
+      detailsEl.innerHTML = `
+        <div>${message.server}</div>
+        <div>${message.user}</div>
+        <div>${message.diff}</div>
+      `;
+      warningEl.style.display = 'flex';
+    }
+  } else {
+    hideTimezoneWarning();
+  }
+}
+
+// 시간대 경고 숨기기
+function hideTimezoneWarning() {
+  const warningEl = document.getElementById('timezoneWarning');
+  if (warningEl) {
+    warningEl.style.display = 'none';
+  }
 }

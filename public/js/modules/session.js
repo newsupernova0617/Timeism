@@ -117,9 +117,12 @@ export function createSession() {
 
   // 이벤트 전송
   async function sendEvent(eventType, extra = {}) {
+    const locale = document.documentElement.lang || 'en';
+
     const payload = {
       session_id: sessionState.sessionId,
       event_type: eventType,
+      locale: locale,
       ...extra
     };
 

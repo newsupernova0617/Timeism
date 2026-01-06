@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="<%= locale %>">
+
+<head>
+    <%- include('partials/meta') %>
+        <title>
+            <%= locale==='ko' ? '설문조사 | Timeism' : 'Survey | Timeism' %>
+        </title>
+        <meta name="description"
+            content="<%= locale === 'ko' ? '서비스 개선을 위한 사용자 의견을 들려주세요.' : 'Share your feedback to help us improve our service.' %>" />
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <main class="content-page">
+            <header class="page-header" style="margin-bottom: 2rem;">
+                <h1>
+                    <%= locale==='ko' ? '📝 설문조사' : '📝 Survey' %>
+                </h1>
+                <p class="subtitle">
+                    <%= locale==='ko' ? '여러분의 소중한 의견을 들려주세요' : 'Your feedback helps us improve' %>
+                </p>
+            </header>
+
+            <% if (submitted) { %>
+                <%# 제출 완료 메시지 %>
+                    <div class="success-message">
+                        <div class="success-icon">✅</div>
+                        <h2>
+                            <%= locale==='ko' ? '감사합니다!' : 'Thank you!' %>
+                        </h2>
+                        <p>
+                            <%= locale==='ko' ? '소중한 의견 감사드립니다. 더 나은 서비스를 만들겠습니다.'
+                                : 'Thank you for your valuable feedback. We will make a better service.' %>
+                        </p>
+                        <a href="/<%= locale %>" class="btn-primary"
+                            style="display: inline-block; margin-top: 1rem; text-decoration: none; padding: 0.75rem 1.5rem; background: var(--color-brand-accent); color: white; border-radius: var(--radius-md);">
+                            <%= locale==='ko' ? '메인으로 돌아가기' : 'Back to Main' %>
+                        </a>
+                    </div>
+                    <% } else { %>
+                        <%# 설문 폼 %>
+                            <form method="POST" action="/<%= locale %>/survey" class="survey-form">
+                                <%# 만족도 %>
+                                    <div class="form-section">
+                                        <label class="form-label">
+                                            <%= locale==='ko' ? '1. 서비스 만족도를 평가해주세요'
+                                                : '1. How satisfied are you with our service?' %>
+                                                <span class="required">*</span>
+                                        </label>
+                                        <div class="rating-group">
+                                            <% for (let i=1; i <=5; i++) { %>
+                                                <label class="rating-option">
+                                                    <input type="radio" name="satisfaction" value="<%= i %>" required>
+                                                    <span class="rating-label">
+                                                        <%= i %>
+                                                            <%= i===1 ? (locale==='ko' ? '매우 불만' : 'Very Unsatisfied' )
+                                                                : i===5 ? (locale==='ko' ? '매우 만족' : 'Very Satisfied' )
+                                                                : '' %>
+                                                    </span>
+                                                </label>
+                                                <% } %>
+                                        </div>
+                                    </div>
+
+                                    <%# 유용한 기능 %>
+                                        <div class="form-section">
+                                            <label class="form-label">
+                                                <%= locale==='ko' ? '2. 가장 유용했던 기능은 무엇인가요?'
+                                                    : '2. Which feature did you find most useful?' %>
+                                                    <span class="required">*</span>
+                                            </label>
+                                            <select name="usefulFeature" class="form-select" required>
+                                                <option value="">
+                                                    <%= locale==='ko' ? '선택해주세요' : 'Please select' %>
+                                                </option>
+                                                <option value="time_check">
+                                                    <%= locale==='ko' ? '서버 시간 확인' : 'Server Time Check' %>
+                                                </option>
+                                                <option value="popular_sites">
+                                                    <%= locale==='ko' ? '인기 사이트 빠른 확인' : 'Popular Sites Quick Check' %>
+                                                </option>
+                                                <option value="game">
+                                                    <%= locale==='ko' ? '티켓팅 연습 게임' : 'Ticketing Practice Game' %>
+                                                </option>
+                                                <option value="blog">
+                                                    <%= locale==='ko' ? '블로그 가이드' : 'Blog Guides' %>
+                                                </option>
+                                                <option value="comments">
+                                                    <%= locale==='ko' ? '실시간 댓글' : 'Live Comments' %>
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <%# 개선 희망 사항 %>
+                                            <div class="form-section">
+                                                <label class="form-label">
+                                                    <%= locale==='ko' ? '3. 개선되었으면 하는 부분이 있나요?'
+                                                        : '3. What would you like us to improve?' %>
+                                                </label>
+                                                <textarea name="improvement" class="form-textarea" rows="4"
+                                                    placeholder="<%= locale === 'ko' ? '자유롭게 작성해주세요' : 'Feel free to share your thoughts' %>"></textarea>
+                                            </div>
+
+                                            <%# 추가 의견 %>
+                                                <div class="form-section">
+                                                    <label class="form-label">
+                                                        <%= locale==='ko' ? '4. 추가로 하고 싶은 말씀이 있으신가요?'
+                                                            : '4. Any additional feedback?' %>
+                                                    </label>
+                                                    <textarea name="additionalFeedback" class="form-textarea" rows="4"
+                                                        placeholder="<%= locale === 'ko' ? '자유롭게 작성해주세요' : 'Feel free to share your thoughts' %>"></textarea>
+                                                </div>
+
+                                                <button type="submit" class="submit-btn">
+                                                    <%= locale==='ko' ? '제출하기' : 'Submit' %>
+                                                </button>
+                            </form>
+                            <% } %>
+        </main>
+
+        <%- include('partials/footer') %>
+
+            <style>
+                .survey-form {
+                    max-width: 700px;
+                    margin: 0 auto;
+                }
+
+                .form-section {
+                    margin-bottom: 2rem;
+                }
+
+                .form-label {
+                    display: block;
+                    font-weight: 600;
+                    margin-bottom: 0.75rem;
+                    color: var(--color-text);
+                }
+
+                .required {
+                    color: var(--color-danger);
+                }
+
+                .rating-group {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                }
+
+                .rating-option {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.75rem;
+                    background: var(--color-surface);
+                    border-radius: var(--radius-md);
+                    cursor: pointer;
+                    transition: background 0.2s;
+                }
+
+                .rating-option:hover {
+                    background: rgba(61, 108, 240, 0.05);
+                }
+
+                .rating-option input[type="radio"] {
+                    margin: 0;
+                }
+
+                .rating-label {
+                    font-size: 0.9rem;
+                    color: var(--color-text);
+                }
+
+                .form-select,
+                .form-textarea {
+                    width: 100%;
+                    padding: 0.75rem;
+                    border: 1px solid var(--color-border);
+                    border-radius: var(--radius-md);
+                    font-size: 1rem;
+                    font-family: inherit;
+                    background: var(--color-surface);
+                    color: var(--color-text);
+                    box-sizing: border-box;
+                }
+
+                .form-select:focus,
+                .form-textarea:focus {
+                    outline: none;
+                    border-color: var(--color-brand-accent);
+                    box-shadow: 0 0 0 3px rgba(61, 108, 240, 0.2);
+                }
+
+                .form-textarea {
+                    resize: vertical;
+                }
+
+                .submit-btn {
+                    width: 100%;
+                    padding: 1rem;
+                    background: linear-gradient(135deg, var(--color-brand-accent), var(--color-brand));
+                    color: white;
+                    border: none;
+                    border-radius: var(--radius-md);
+                    font-size: 1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: transform 0.2s, box-shadow 0.2s;
+                }
+
+                .submit-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 18px rgba(61, 108, 240, 0.25);
+                }
+
+                .success-message {
+                    text-align: center;
+                    padding: 3rem 2rem;
+                    background: var(--color-surface);
+                    border-radius: var(--radius-lg);
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                }
+
+                .success-icon {
+                    font-size: 4rem;
+                    margin-bottom: 1rem;
+                }
+
+                .success-message h2 {
+                    margin: 0 0 1rem;
+                    color: var(--color-brand-accent);
+                }
+
+                .success-message p {
+                    margin: 0;
+                    color: var(--color-text-muted);
+                }
+            </style>
+</body>
+
+</html>

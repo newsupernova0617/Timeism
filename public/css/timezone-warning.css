@@ -1,0 +1,58 @@
+/* 시간대 경고 스타일 */
+.timezone-warning {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(255, 193, 7, 0.1);
+    border-left: 4px solid #ffc107;
+    border-radius: 4px;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    animation: slideDown 0.3s ease-out;
+}
+
+.timezone-warning .warning-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.timezone-warning .warning-content {
+    flex: 1;
+}
+
+.timezone-warning strong {
+    display: block;
+    color: #f57c00;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.timezone-warning #warningDetails {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 다크모드 대응 */
+@media (prefers-color-scheme: dark) {
+    .timezone-warning {
+        background: rgba(255, 193, 7, 0.15);
+        border-left-color: #ffb300;
+    }
+
+    .timezone-warning strong {
+        color: #ffb300;
+    }
+}

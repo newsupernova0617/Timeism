@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="<%= locale %>">
+
+<head>
+    <%- include('partials/meta') %>
+        <title>
+            <%= locale==='ko' ? '티켓팅 연습 게임' : locale==='ja' ? 'チケット予約練習ゲーム' : locale==='zh-tw' ? '搶票練習遊戲'
+                : 'Ticketing Practice Games' %> - Timeism
+        </title>
+        <meta name="description"
+            content="<%= locale==='ko' ? '티켓팅 반응 속도를 훈련하세요' : 'Train your ticketing reaction speed' %>">
+
+        <style>
+            /* 게임 전용 스타일 */
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .game-container {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+                max-width: 1200px;
+                margin: 0 auto;
+                width: 100%;
+            }
+
+            .game-header {
+                text-align: center;
+                color: white;
+                margin-bottom: 2rem;
+            }
+
+            .game-header h1 {
+                font-size: 2.5rem;
+                margin: 0 0 0.5rem 0;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+
+            .game-header p {
+                font-size: 1.1rem;
+                opacity: 0.9;
+            }
+
+            /* 게임 선택 화면 */
+            .game-selection {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+                width: 100%;
+                max-width: 800px;
+            }
+
+            .game-card {
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 16px;
+                padding: 2rem;
+                text-align: center;
+                cursor: pointer;
+                transition: transform 0.3s, box-shadow 0.3s;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            }
+
+            .game-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            }
+
+            .game-card-icon {
+                font-size: 4rem;
+                margin-bottom: 1rem;
+            }
+
+            .game-card-title {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #333;
+                margin-bottom: 0.5rem;
+            }
+
+            .game-card-desc {
+                color: #666;
+                line-height: 1.6;
+            }
+
+            /* 게임 영역 공통 */
+            .game-area {
+                position: relative;
+                width: 100%;
+                max-width: 800px;
+                min-height: 500px;
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 16px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                padding: 2rem;
+                display: none;
+            }
+
+            .game-area.active {
+                display: block;
+            }
+
+            .back-button {
+                padding: 0.75rem 1.5rem;
+                background: rgba(255, 255, 255, 0.2);
+                color: white;
+                border: 2px solid white;
+                border-radius: 50px;
+                cursor: pointer;
+                margin-bottom: 1rem;
+                font-weight: bold;
+                transition: all 0.3s;
+            }
+
+            .back-button:hover {
+                background: white;
+                color: #667eea;
+            }
+
+            /* 타이밍 게임 스타일 */
+            .timing-game {
+                text-align: center;
+            }
+
+            .countdown-display {
+                font-size: 5rem;
+                font-weight: bold;
+                color: #667eea;
+                margin: 2rem 0;
+                font-family: 'Courier New', monospace;
+            }
+
+            .countdown-display.warning {
+                color: #f5576c;
+                animation: pulse 0.5s infinite;
+            }
+
+            @keyframes pulse {
+
+                0%,
+                100% {
+                    transform: scale(1);
+                }
+
+                50% {
+                    transform: scale(1.1);
+                }
+            }
+
+            .timing-button {
+                padding: 2rem 4rem;
+                font-size: 2rem;
+                font-weight: bold;
+                background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+                color: white;
+                border: none;
+                border-radius: 16px;
+                cursor: pointer;
+                transition: all 0.3s;
+                box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+            }
+
+            .timing-button:hover:not(:disabled) {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 40px rgba(245, 87, 108, 0.6);
+            }
+
+            .timing-button:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            .result-display {
+                margin-top: 2rem;
+                padding: 2rem;
+                background: rgba(102, 126, 234, 0.1);
+                border-radius: 12px;
+            }
+
+            .result-time {
+                font-size: 3rem;
+                font-weight: bold;
+                color: #667eea;
+            }
+
+            .result-message {
+                font-size: 1.2rem;
+                color: #333;
+                margin-top: 1rem;
+            }
+
+            .result-perfect {
+                color: #00cd3c;
+            }
+
+            .result-good {
+                color: #667eea;
+            }
+
+            .result-late {
+                color: #f5576c;
+            }
+
+            .restart-button {
+                margin-top: 1rem;
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border: none;
+                border-radius: 50px;
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+
+            .restart-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .instructions {
+                background: rgba(255, 193, 7, 0.1);
+                padding: 1rem;
+                border-radius: 8px;
+                margin-bottom: 2rem;
+                color: #333;
+            }
+
+            @media (max-width: 768px) {
+                .game-header h1 {
+                    font-size: 1.8rem;
+                }
+
+                .countdown-display {
+                    font-size: 3rem;
+                }
+
+                .timing-button {
+                    padding: 1.5rem 3rem;
+                    font-size: 1.5rem;
+                }
+            }
+        </style>
+</head>
+
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>
+                <%= locale==='ko' ? '🎮 티켓팅 연습 게임' : locale==='ja' ? '🎮 チケット予約練習ゲーム' : locale==='zh-tw' ? '🎮 搶票練習遊戲'
+                    : '🎮 Ticketing Practice Games' %>
+            </h1>
+            <p>
+                <%= locale==='ko' ? '티켓팅 실력을 향상시키세요!' : locale==='ja' ? 'チケット予約スキルを向上させましょう！' : locale==='zh-tw'
+                    ? '提升您的搶票技巧！' : 'Improve your ticketing skills!' %>
+            </p>
+        </div>
+
+        <!-- 게임 선택 화면 -->
+        <div class="game-selection" id="gameSelection">
+            <div class="game-card" onclick="selectGame('timing')">
+                <div class="game-card-icon">⏱️</div>
+                <div class="game-card-title">
+                    <%= locale==='ko' ? '타이밍 게임' : locale==='ja' ? 'タイミングゲーム' : locale==='zh-tw' ? '時機遊戲'
+                        : 'Timing Game' %>
+                </div>
+                <div class="game-card-desc">
+                    <%= locale==='ko' ? '정확히 00:00에 클릭하세요! 59:50부터 카운트다운이 시작됩니다.' : locale==='ja'
+                        ? '正確に00:00にクリック！59:50からカウントダウンが始まります。' : locale==='zh-tw' ? '準確在00:00點擊！從59:50開始倒數。'
+                        : 'Click exactly at 00:00! Countdown starts from 59:50.' %>
+                </div>
+            </div>
+
+            <div class="game-card" onclick="selectGame('click')">
+                <div class="game-card-icon">🎯</div>
+                <div class="game-card-title">
+                    <%= locale==='ko' ? '클릭 게임' : locale==='ja' ? 'クリックゲーム' : locale==='zh-tw' ? '點擊遊戲' : 'Click Game'
+                        %>
+                </div>
+                <div class="game-card-desc">
+                    <%= locale==='ko' ? '30초 동안 최대한 많이 클릭하세요!' : locale==='ja' ? '30秒間でできるだけ多くクリック！' : locale==='zh-tw'
+                        ? '30秒內盡可能多點擊！' : 'Click as many as you can in 30 seconds!' %>
+                </div>
+            </div>
+        </div>
+
+        <!-- 타이밍 게임 -->
+        <div class="game-area timing-game" id="timingGame">
+            <button class="back-button" onclick="backToSelection()">
+                <%= locale==='ko' ? '← 게임 선택으로' : locale==='ja' ? '← ゲーム選択へ' : locale==='zh-tw' ? '← 返回遊戲選擇'
+                    : '← Back to Selection' %>
+            </button>
+
+            <div class="instructions">
+                <strong>
+                    <%= locale==='ko' ? '📌 게임 방법:' : locale==='ja' ? '📌 遊び方:' : locale==='zh-tw' ? '📌 遊戲方法:'
+                        : '📌 How to Play:' %>
+                </strong><br>
+                <%= locale==='ko'
+                    ? '1. 시작 버튼을 누르면 59:50부터 카운트다운이 시작됩니다.<br>2. 정확히 00:00.000이 되는 순간 "지금 클릭!" 버튼을 누르세요.<br>3. 얼마나 정확하게 클릭했는지 확인하세요!'
+                    : locale==='ja'
+                    ? '1. スタートボタンを押すと59:50からカウントダウンが始まります。<br>2. 正確に00:00.000になる瞬間に「今クリック！」ボタンを押してください。<br>3. どれだけ正確にクリックしたか確認しましょう！'
+                    : locale==='zh-tw' ? '1. 按下開始按鈕後從59:50開始倒數。<br>2. 在準確的00:00.000時刻按下「立即點擊！」按鈕。<br>3. 確認您點擊的準確度！'
+                    : '1. Press start and countdown begins from 59:50.<br>2. Click "Click Now!" exactly at 00:00.000.<br>3. See how accurate you were!'
+                    %>
+            </div>
+
+            <div id="timingGameContent">
+                <div class="countdown-display" id="countdownDisplay">--:--:---</div>
+                <button class="timing-button" id="timingButton" onclick="handleTimingClick()">
+                    <%= locale==='ko' ? '시작' : locale==='ja' ? 'スタート' : locale==='zh-tw' ? '開始' : 'Start' %>
+                </button>
+                <div id="timingResult"></div>
+            </div>
+        </div>
+
+        <!-- 클릭 게임 (기존) -->
+        <div class="game-area" id="clickGame" style="min-height: 600px;">
+            <button class="back-button" onclick="backToSelection()">
+                <%= locale==='ko' ? '← 게임 선택으로' : locale==='ja' ? '← ゲーム選択へ' : locale==='zh-tw' ? '← 返回遊戲選擇'
+                    : '← Back to Selection' %>
+            </button>
+            <!-- 클릭 게임 내용은 기존 코드 사용 -->
+            <div style="text-align: center; padding: 2rem;">
+                <h2>
+                    <%= locale==='ko' ? '30초 클릭 챌린지' : locale==='ja' ? '30秒クリックチャレンジ' : locale==='zh-tw' ? '30秒點擊挑戰'
+                        : '30 Second Click Challenge' %>
+                </h2>
+                <p>
+                    <%= locale==='ko' ? '나타나는 목표물을 빠르게 클릭하세요!' : locale==='ja' ? '現れるターゲットを素早くクリック！' : locale==='zh-tw'
+                        ? '快速點擊出現的目標！' : 'Click the targets as fast as you can!' %>
+                </p>
+                <div style="margin: 2rem 0;">
+                    <div style="font-size: 1.5rem; margin-bottom: 1rem;">
+                        <%= locale==='ko' ? '점수:' : locale==='ja' ? 'スコア:' : locale==='zh-tw' ? '分數:' : 'Score:' %>
+                            <span id="clickScore" style="font-weight: bold; color: #667eea;">0</span>
+                    </div>
+                    <div style="font-size: 1.5rem;">
+                        <%= locale==='ko' ? '시간:' : locale==='ja' ? '時間:' : locale==='zh-tw' ? '時間:' : 'Time:' %>
+                            <span id="clickTime" style="font-weight: bold; color: #667eea;">30</span>
+                    </div>
+                </div>
+                <button class="timing-button" id="clickStartButton" onclick="startClickGame()">
+                    <%= locale==='ko' ? '시작' : locale==='ja' ? 'スタート' : locale==='zh-tw' ? '開始' : 'Start' %>
+                </button>
+                <div id="clickGameArea"
+                    style="position: relative; width: 100%; height: 400px; margin-top: 2rem; background: rgba(102, 126, 234, 0.05); border-radius: 12px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 게임 선택
+        function selectGame(gameType) {
+            document.getElementById('gameSelection').style.display = 'none';
+            if (gameType === 'timing') {
+                document.getElementById('timingGame').classList.add('active');
+            } else if (gameType === 'click') {
+                document.getElementById('clickGame').classList.add('active');
+            }
+        }
+
+        function backToSelection() {
+            document.getElementById('gameSelection').style.display = 'grid';
+            document.getElementById('timingGame').classList.remove('active');
+            document.getElementById('clickGame').classList.remove('active');
+            resetTimingGame();
+            resetClickGame();
+        }
+
+        // ========== 타이밍 게임 ==========
+        let timingGameState = 'ready'; // ready, countdown, waiting
+        let countdownInterval = null;
+        let targetTime = null;
+        let startTime = null;
+
+        function handleTimingClick() {
+            const button = document.getElementById('timingButton');
+
+            if (timingGameState === 'ready') {
+                startTimingGame();
+            } else if (timingGameState === 'waiting') {
+                recordClick();
+            }
+        }
+
+        function startTimingGame() {
+            timingGameState = 'countdown';
+            const button = document.getElementById('timingButton');
+            const display = document.getElementById('countdownDisplay');
+
+            button.disabled = true;
+            button.textContent = '<%= locale==="ko" ? "대기 중..." : locale==="ja" ? "待機中..." : locale==="zh-tw" ? "等待中..." : "Wait..." %>';
+
+            // 59:50부터 시작 (10초 카운트다운)
+            let remainingMs = 10000; // 10초
+            startTime = Date.now();
+            targetTime = startTime + remainingMs;
+
+            countdownInterval = setInterval(() => {
+                const now = Date.now();
+                const left = targetTime - now;
+
+                if (left <= 0) {
+                    clearInterval(countdownInterval);
+                    display.textContent = '00:00:000';
+                    display.classList.add('warning');
+                    // 클릭 가능 상태로 변경
+                    timingGameState = 'waiting';
+                    button.disabled = false;
+                    button.textContent = '<%= locale==="ko" ? "지금 클릭!" : locale==="ja" ? "今クリック！" : locale==="zh-tw" ? "立即點擊！" : "Click Now!" %>';
+                    return;
+                }
+
+                const totalSeconds = Math.floor(left / 1000);
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                const ms = left % 1000;
+
+                // 59:XX 형식으로 표시 (실제로는 00:XX지만 59:XX로 표시)
+                const displayMinutes = 59;
+                const displaySeconds = 50 + totalSeconds;
+
+                display.textContent = `${String(displayMinutes).padStart(2, '0')}:${String(displaySeconds).padStart(2, '0')}:${String(ms).padStart(3, '0')}`;
+
+                // 마지막 3초는 경고 표시
+                if (left <= 3000) {
+                    display.classList.add('warning');
+                } else {
+                    display.classList.remove('warning');
+                }
+            }, 10); // 10ms마다 업데이트
+        }
+
+        function recordClick() {
+            const now = Date.now();
+            const diff = now - targetTime; // 양수면 늦음, 음수면 빠름
+
+            clearInterval(countdownInterval);
+            timingGameState = 'finished';
+
+            const button = document.getElementById('timingButton');
+            button.disabled = true;
+
+            showTimingResult(diff);
+        }
+
+        function showTimingResult(diff) {
+            const resultDiv = document.getElementById('timingResult');
+            const absDiff = Math.abs(diff);
+
+            let message = '';
+            let className = '';
+
+            if (absDiff <= 50) {
+                message = '<%= locale==="ko" ? "🎉 완벽합니다!" : locale==="ja" ? "🎉 完璧です！" : locale==="zh-tw" ? "🎉 完美！" : "🎉 Perfect!" %>';
+                className = 'result-perfect';
+            } else if (absDiff <= 200) {
+                message = '<%= locale==="ko" ? "👍 훌륭합니다!" : locale==="ja" ? "👍 素晴らしい！" : locale==="zh-tw" ? "👍 很棒！" : "👍 Excellent!" %>';
+                className = 'result-good';
+            } else if (absDiff <= 500) {
+                message = '<%= locale==="ko" ? "😊 좋아요!" : locale==="ja" ? "😊 良いですね！" : locale==="zh-tw" ? "😊 不錯！" : "😊 Good!" %>';
+                className = 'result-good';
+            } else {
+                message = '<%= locale==="ko" ? "😅 다시 도전!" : locale==="ja" ? "😅 もう一度！" : locale==="zh-tw" ? "😅 再試一次！" : "😅 Try Again!" %>';
+                className = 'result-late';
+            }
+
+            const sign = diff > 0 ? '+' : '';
+
+            resultDiv.innerHTML = `
+                <div class="result-display">
+                    <div class="result-time ${className}">${sign}${diff}ms</div>
+                    <div class="result-message ${className}">${message}</div>
+                    <div style="margin-top: 1rem; color: #666;">
+                        ${diff > 0 ?
+                    (locale === 'ko' ? `${absDiff}ms 늦게 클릭했습니다` :
+                        locale === 'ja' ? `${absDiff}ms 遅れました` :
+                            locale === 'zh-tw' ? `慢了${absDiff}ms` :
+                                `${absDiff}ms late`) :
+                    (locale === 'ko' ? `${absDiff}ms 빠르게 클릭했습니다` :
+                        locale === 'ja' ? `${absDiff}ms 早かったです` :
+                            locale === 'zh-tw' ? `快了${absDiff}ms` :
+                                `${absDiff}ms early`)}
+                    </div>
+                    <button class="restart-button" onclick="resetTimingGame()">
+                        <%= locale==="ko" ? "다시 하기" : locale==="ja" ? "もう一度" : locale==="zh-tw" ? "再玩一次" : "Play Again" %>
+                    </button>
+                </div>
+            `;
+        }
+
+        function resetTimingGame() {
+            timingGameState = 'ready';
+            clearInterval(countdownInterval);
+
+            const button = document.getElementById('timingButton');
+            const display = document.getElementById('countdownDisplay');
+            const resultDiv = document.getElementById('timingResult');
+
+            button.disabled = false;
+            button.textContent = '<%= locale==="ko" ? "시작" : locale==="ja" ? "スタート" : locale==="zh-tw" ? "開始" : "Start" %>';
+            display.textContent = '--:--:---';
+            display.classList.remove('warning');
+            resultDiv.innerHTML = '';
+        }
+
+        // ========== 클릭 게임 (간단 버전) ==========
+        let clickGameActive = false;
+        let clickScore = 0;
+        let clickTimeLeft = 30;
+        let clickInterval = null;
+        let targetSpawnInterval = null;
+
+        function startClickGame() {
+            clickGameActive = true;
+            clickScore = 0;
+            clickTimeLeft = 30;
+
+            document.getElementById('clickScore').textContent = clickScore;
+            document.getElementById('clickTime').textContent = clickTimeLeft;
+            document.getElementById('clickStartButton').disabled = true;
+
+            const gameArea = document.getElementById('clickGameArea');
+            gameArea.innerHTML = '';
+
+            clickInterval = setInterval(() => {
+                clickTimeLeft--;
+                document.getElementById('clickTime').textContent = clickTimeLeft;
+
+                if (clickTimeLeft <= 0) {
+                    endClickGame();
+                }
+            }, 1000);
+
+            spawnTarget();
+            targetSpawnInterval = setInterval(spawnTarget, 800);
+        }
+
+        function spawnTarget() {
+            if (!clickGameActive) return;
+
+            const gameArea = document.getElementById('clickGameArea');
+            const target = document.createElement('div');
+            target.style.cssText = `
+                position: absolute;
+                width: 50px;
+                height: 50px;
+                background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+                border-radius: 50%;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5rem;
+                transition: transform 0.1s;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            `;
+            target.textContent = '🎯';
+
+            const maxX = gameArea.clientWidth - 50;
+            const maxY = gameArea.clientHeight - 50;
+            target.style.left = Math.random() * maxX + 'px';
+            target.style.top = Math.random() * maxY + 'px';
+
+            target.onclick = () => {
+                if (!clickGameActive) return;
+                clickScore++;
+                document.getElementById('clickScore').textContent = clickScore;
+                target.style.transform = 'scale(0)';
+                setTimeout(() => target.remove(), 100);
+            };
+
+            gameArea.appendChild(target);
+
+            setTimeout(() => {
+                if (target.parentNode) target.remove();
+            }, 1500);
+        }
+
+        function endClickGame() {
+            clickGameActive = false;
+            clearInterval(clickInterval);
+            clearInterval(targetSpawnInterval);
+
+            const gameArea = document.getElementById('clickGameArea');
+            gameArea.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                    <div style="font-size: 3rem; font-weight: bold; color: #667eea;">${clickScore}</div>
+                    <div style="font-size: 1.5rem; margin-top: 1rem;">
+                        <%= locale==="ko" ? "최종 점수" : locale==="ja" ? "最終スコア" : locale==="zh-tw" ? "最終分數" : "Final Score" %>
+                    </div>
+                    <button class="restart-button" onclick="resetClickGame()">
+                        <%= locale==="ko" ? "다시 하기" : locale==="ja" ? "もう一度" : locale==="zh-tw" ? "再玩一次" : "Play Again" %>
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('clickStartButton').disabled = false;
+        }
+
+        function resetClickGame() {
+            clickGameActive = false;
+            clearInterval(clickInterval);
+            clearInterval(targetSpawnInterval);
+
+            clickScore = 0;
+            clickTimeLeft = 30;
+            document.getElementById('clickScore').textContent = clickScore;
+            document.getElementById('clickTime').textContent = clickTimeLeft;
+            document.getElementById('clickStartButton').disabled = false;
+            document.getElementById('clickGameArea').innerHTML = '';
+        }
+
+        // 페이지 로드 시 locale 변수 설정
+        const locale = '<%= locale %>';
+    </script>
+</body>
+
+</html>
