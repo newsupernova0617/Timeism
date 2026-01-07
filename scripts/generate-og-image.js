@@ -1,7 +1,7 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 /**
- * OG Image Generator for Timeism
+ * OG Image Generator for SyncTime
  *
  * This script generates Open Graph images for social media sharing.
  * Requires: canvas or sharp library
@@ -15,7 +15,7 @@ const path = require('path');
 // Check if the script needs dependencies
 console.log(`
 ╔════════════════════════════════════════════════════════════════╗
-║         OG Image Generation Guide for Timeism                 ║
+║         OG Image Generation Guide for SyncTime                 ║
 ╚════════════════════════════════════════════════════════════════╝
 
 사용 가능한 방법:
@@ -26,7 +26,7 @@ console.log(`
    필수 요소:
    - 최소 1200x630px (권장: 1200x630px)
    - 포맷: PNG, JPG (JPG는 파일 크기가 작음)
-   - 텍스트: "Timeism - 서버 시간 비교 서비스"
+   - 텍스트: "SyncTime - 서버 시간 비교 서비스"
    - 배경: 프로젝트 테마 색상 (#1f3c88 또는 밝은 파란색)
    - 주요 정보: NTP, 시간 비교, 티켓팅 등의 키워드
 
@@ -42,7 +42,7 @@ console.log(`
      <rect width="1200" height="630" fill="#1f3c88"/>
      <text x="600" y="315" font-size="72" font-weight="bold"
            fill="white" text-anchor="middle" dominant-baseline="middle">
-       Timeism
+       SyncTime
      </text>
      <text x="600" y="400" font-size="36" fill="#e0e0e0"
            text-anchor="middle" dominant-baseline="middle">

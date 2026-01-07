@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 /**
  * Generate OG Image using Puppeteer
@@ -120,7 +120,7 @@ const html = `
   <div class="circle-2"></div>
 
   <div class="container">
-    <div class="title">Timeism</div>
+    <div class="title">SyncTime</div>
     <div class="subtitle">Server Time Comparison Service</div>
     <div class="description">Get Your Server Time Synchronized</div>
     <div class="divider"></div>

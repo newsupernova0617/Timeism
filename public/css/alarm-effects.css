@@ -1,0 +1,96 @@
+/**
+ * 알람 시각 효과 스타일
+ * BBC 스타일 시보음과 함께 사용되는 배경 효과
+ */
+
+/* 배경 오버레이 */
+.alarm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 0, 0, 0);
+    pointer-events: none;
+    z-index: 9999;
+    transition: background-color 0.3s ease;
+    opacity: 0;
+}
+
+.alarm-overlay.active {
+    opacity: 1;
+}
+
+/* 카운트다운 표시 */
+.alarm-countdown {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 120px;
+    font-weight: bold;
+    color: white;
+    text-shadow:
+        0 0 20px rgba(0, 0, 0, 0.8),
+        0 0 40px rgba(0, 0, 0, 0.6);
+    z-index: 10000;
+    opacity: 0;
+    transition: all 0.3s ease;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.1em;
+}
+
+.alarm-countdown.active {
+    opacity: 1;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+/* 최종 알람 플래시 효과 */
+.alarm-overlay.flash {
+    animation: flash-effect 0.5s ease-out;
+}
+
+@keyframes flash-effect {
+    0% {
+        background-color: rgba(255, 255, 255, 1);
+    }
+
+    100% {
+        background-color: rgba(255, 0, 0, 0.3);
+    }
+}
+
+/* 알람 후 페이드아웃 */
+.alarm-overlay.fadeout {
+    transition: opacity 1s ease-out;
+    opacity: 0;
+}
+
+/* 시계 블록 강조 효과 */
+.clock-highlight {
+    animation: clock-glow 0.5s ease-in-out;
+}
+
+@keyframes clock-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 rgba(255, 0, 0, 0);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+    }
+}

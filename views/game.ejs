@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="<%= locale %>">
 
 <head>
     <%- include('partials/meta') %>
         <title>
-            <%= locale==='ko' ? '티켓팅 연습 게임' : locale==='ja' ? 'チケット予約練習ゲーム' : locale==='zh-tw' ? '搶票練習遊戲'
-                : 'Ticketing Practice Games' %> - Timeism
+            <%= locale==='ko' ? '티켓팅 연습 게임' : locale==='jp' ? 'チケット予約練習ゲーム' : locale==='zh-tw' ? '搶票練習遊戲'
+                : 'Ticketing Practice Games' %> - SyncTime
         </title>
         <meta name="description"
             content="<%= locale==='ko' ? '티켓팅 반응 속도를 훈련하세요' : 'Train your ticketing reaction speed' %>">
@@ -292,11 +292,11 @@
     <div class="game-container">
         <div class="game-header">
             <h1>
-                <%= locale==='ko' ? '🎮 티켓팅 연습 게임' : locale==='ja' ? '🎮 チケット予約練習ゲーム' : locale==='zh-tw' ? '🎮 搶票練習遊戲'
+                <%= locale==='ko' ? '🎮 티켓팅 연습 게임' : locale==='jp' ? '🎮 チケット予約練習ゲーム' : locale==='zh-tw' ? '🎮 搶票練習遊戲'
                     : '🎮 Ticketing Practice Games' %>
             </h1>
             <p>
-                <%= locale==='ko' ? '티켓팅 실력을 향상시키세요!' : locale==='ja' ? 'チケット予約スキルを向上させましょう！' : locale==='zh-tw'
+                <%= locale==='ko' ? '티켓팅 실력을 향상시키세요!' : locale==='jp' ? 'チケット予約スキルを向上させましょう！' : locale==='zh-tw'
                     ? '提升您的搶票技巧！' : 'Improve your ticketing skills!' %>
             </p>
         </div>
@@ -306,11 +306,11 @@
             <div class="game-card" onclick="selectGame('timing')">
                 <div class="game-card-icon">⏱️</div>
                 <div class="game-card-title">
-                    <%= locale==='ko' ? '타이밍 게임' : locale==='ja' ? 'タイミングゲーム' : locale==='zh-tw' ? '時機遊戲'
+                    <%= locale==='ko' ? '타이밍 게임' : locale==='jp' ? 'タイミングゲーム' : locale==='zh-tw' ? '時機遊戲'
                         : 'Timing Game' %>
                 </div>
                 <div class="game-card-desc">
-                    <%= locale==='ko' ? '정확히 00:00에 클릭하세요! 59:50부터 카운트다운이 시작됩니다.' : locale==='ja'
+                    <%= locale==='ko' ? '정확히 00:00에 클릭하세요! 59:50부터 카운트다운이 시작됩니다.' : locale==='jp'
                         ? '正確に00:00にクリック！59:50からカウントダウンが始まります。' : locale==='zh-tw' ? '準確在00:00點擊！從59:50開始倒數。'
                         : 'Click exactly at 00:00! Countdown starts from 59:50.' %>
                 </div>
@@ -319,11 +319,11 @@
             <div class="game-card" onclick="selectGame('click')">
                 <div class="game-card-icon">🎯</div>
                 <div class="game-card-title">
-                    <%= locale==='ko' ? '클릭 게임' : locale==='ja' ? 'クリックゲーム' : locale==='zh-tw' ? '點擊遊戲' : 'Click Game'
+                    <%= locale==='ko' ? '클릭 게임' : locale==='jp' ? 'クリックゲーム' : locale==='zh-tw' ? '點擊遊戲' : 'Click Game'
                         %>
                 </div>
                 <div class="game-card-desc">
-                    <%= locale==='ko' ? '30초 동안 최대한 많이 클릭하세요!' : locale==='ja' ? '30秒間でできるだけ多くクリック！' : locale==='zh-tw'
+                    <%= locale==='ko' ? '30초 동안 최대한 많이 클릭하세요!' : locale==='jp' ? '30秒間でできるだけ多くクリック！' : locale==='zh-tw'
                         ? '30秒內盡可能多點擊！' : 'Click as many as you can in 30 seconds!' %>
                 </div>
             </div>
@@ -332,18 +332,18 @@
         <!-- 타이밍 게임 -->
         <div class="game-area timing-game" id="timingGame">
             <button class="back-button" onclick="backToSelection()">
-                <%= locale==='ko' ? '← 게임 선택으로' : locale==='ja' ? '← ゲーム選択へ' : locale==='zh-tw' ? '← 返回遊戲選擇'
+                <%= locale==='ko' ? '← 게임 선택으로' : locale==='jp' ? '← ゲーム選択へ' : locale==='zh-tw' ? '← 返回遊戲選擇'
                     : '← Back to Selection' %>
             </button>
 
             <div class="instructions">
                 <strong>
-                    <%= locale==='ko' ? '📌 게임 방법:' : locale==='ja' ? '📌 遊び方:' : locale==='zh-tw' ? '📌 遊戲方法:'
+                    <%= locale==='ko' ? '📌 게임 방법:' : locale==='jp' ? '📌 遊び方:' : locale==='zh-tw' ? '📌 遊戲方法:'
                         : '📌 How to Play:' %>
                 </strong><br>
                 <%= locale==='ko'
                     ? '1. 시작 버튼을 누르면 59:50부터 카운트다운이 시작됩니다.<br>2. 정확히 00:00.000이 되는 순간 "지금 클릭!" 버튼을 누르세요.<br>3. 얼마나 정확하게 클릭했는지 확인하세요!'
-                    : locale==='ja'
+                    : locale==='jp'
                     ? '1. スタートボタンを押すと59:50からカウントダウンが始まります。<br>2. 正確に00:00.000になる瞬間に「今クリック！」ボタンを押してください。<br>3. どれだけ正確にクリックしたか確認しましょう！'
                     : locale==='zh-tw' ? '1. 按下開始按鈕後從59:50開始倒數。<br>2. 在準確的00:00.000時刻按下「立即點擊！」按鈕。<br>3. 確認您點擊的準確度！'
                     : '1. Press start and countdown begins from 59:50.<br>2. Click "Click Now!" exactly at 00:00.000.<br>3. See how accurate you were!'
@@ -353,7 +353,7 @@
             <div id="timingGameContent">
                 <div class="countdown-display" id="countdownDisplay">--:--:---</div>
                 <button class="timing-button" id="timingButton" onclick="handleTimingClick()">
-                    <%= locale==='ko' ? '시작' : locale==='ja' ? 'スタート' : locale==='zh-tw' ? '開始' : 'Start' %>
+                    <%= locale==='ko' ? '시작' : locale==='jp' ? 'スタート' : locale==='zh-tw' ? '開始' : 'Start' %>
                 </button>
                 <div id="timingResult"></div>
             </div>
@@ -362,31 +362,31 @@
         <!-- 클릭 게임 (기존) -->
         <div class="game-area" id="clickGame" style="min-height: 600px;">
             <button class="back-button" onclick="backToSelection()">
-                <%= locale==='ko' ? '← 게임 선택으로' : locale==='ja' ? '← ゲーム選択へ' : locale==='zh-tw' ? '← 返回遊戲選擇'
+                <%= locale==='ko' ? '← 게임 선택으로' : locale==='jp' ? '← ゲーム選択へ' : locale==='zh-tw' ? '← 返回遊戲選擇'
                     : '← Back to Selection' %>
             </button>
             <!-- 클릭 게임 내용은 기존 코드 사용 -->
             <div style="text-align: center; padding: 2rem;">
                 <h2>
-                    <%= locale==='ko' ? '30초 클릭 챌린지' : locale==='ja' ? '30秒クリックチャレンジ' : locale==='zh-tw' ? '30秒點擊挑戰'
+                    <%= locale==='ko' ? '30초 클릭 챌린지' : locale==='jp' ? '30秒クリックチャレンジ' : locale==='zh-tw' ? '30秒點擊挑戰'
                         : '30 Second Click Challenge' %>
                 </h2>
                 <p>
-                    <%= locale==='ko' ? '나타나는 목표물을 빠르게 클릭하세요!' : locale==='ja' ? '現れるターゲットを素早くクリック！' : locale==='zh-tw'
+                    <%= locale==='ko' ? '나타나는 목표물을 빠르게 클릭하세요!' : locale==='jp' ? '現れるターゲットを素早くクリック！' : locale==='zh-tw'
                         ? '快速點擊出現的目標！' : 'Click the targets as fast as you can!' %>
                 </p>
                 <div style="margin: 2rem 0;">
                     <div style="font-size: 1.5rem; margin-bottom: 1rem;">
-                        <%= locale==='ko' ? '점수:' : locale==='ja' ? 'スコア:' : locale==='zh-tw' ? '分數:' : 'Score:' %>
+                        <%= locale==='ko' ? '점수:' : locale==='jp' ? 'スコア:' : locale==='zh-tw' ? '分數:' : 'Score:' %>
                             <span id="clickScore" style="font-weight: bold; color: #667eea;">0</span>
                     </div>
                     <div style="font-size: 1.5rem;">
-                        <%= locale==='ko' ? '시간:' : locale==='ja' ? '時間:' : locale==='zh-tw' ? '時間:' : 'Time:' %>
+                        <%= locale==='ko' ? '시간:' : locale==='jp' ? '時間:' : locale==='zh-tw' ? '時間:' : 'Time:' %>
                             <span id="clickTime" style="font-weight: bold; color: #667eea;">30</span>
                     </div>
                 </div>
                 <button class="timing-button" id="clickStartButton" onclick="startClickGame()">
-                    <%= locale==='ko' ? '시작' : locale==='ja' ? 'スタート' : locale==='zh-tw' ? '開始' : 'Start' %>
+                    <%= locale==='ko' ? '시작' : locale==='jp' ? 'スタート' : locale==='zh-tw' ? '開始' : 'Start' %>
                 </button>
                 <div id="clickGameArea"
                     style="position: relative; width: 100%; height: 400px; margin-top: 2rem; background: rgba(102, 126, 234, 0.05); border-radius: 12px;">
@@ -436,7 +436,7 @@
             const display = document.getElementById('countdownDisplay');
 
             button.disabled = true;
-            button.textContent = '<%= locale==="ko" ? "대기 중..." : locale==="ja" ? "待機中..." : locale==="zh-tw" ? "等待中..." : "Wait..." %>';
+            button.textContent = '<%= locale==="ko" ? "대기 중..." : locale==="jp" ? "待機中..." : locale==="zh-tw" ? "等待中..." : "Wait..." %>';
 
             // 59:50부터 시작 (10초 카운트다운)
             let remainingMs = 10000; // 10초
@@ -454,7 +454,7 @@
                     // 클릭 가능 상태로 변경
                     timingGameState = 'waiting';
                     button.disabled = false;
-                    button.textContent = '<%= locale==="ko" ? "지금 클릭!" : locale==="ja" ? "今クリック！" : locale==="zh-tw" ? "立即點擊！" : "Click Now!" %>';
+                    button.textContent = '<%= locale==="ko" ? "지금 클릭!" : locale==="jp" ? "今クリック！" : locale==="zh-tw" ? "立即點擊！" : "Click Now!" %>';
                     return;
                 }
 
@@ -500,19 +500,19 @@
             let emoji = '';
 
             if (absDiff <= 50) {
-                message = '<%= locale==="ko" ? "🎉 완벽합니다!" : locale==="ja" ? "🎉 完璧です！" : locale==="zh-tw" ? "🎉 完美！" : "🎉 Perfect!" %>';
+                message = '<%= locale==="ko" ? "🎉 완벽합니다!" : locale==="jp" ? "🎉 完璧です！" : locale==="zh-tw" ? "🎉 完美！" : "🎉 Perfect!" %>';
                 className = 'result-perfect';
                 emoji = '🎉';
             } else if (absDiff <= 200) {
-                message = '<%= locale==="ko" ? "👍 훌륭합니다!" : locale==="ja" ? "👍 素晴らしい！" : locale==="zh-tw" ? "👍 很棒！" : "👍 Excellent!" %>';
+                message = '<%= locale==="ko" ? "👍 훌륭합니다!" : locale==="jp" ? "👍 素晴らしい！" : locale==="zh-tw" ? "👍 很棒！" : "👍 Excellent!" %>';
                 className = 'result-good';
                 emoji = '👍';
             } else if (absDiff <= 500) {
-                message = '<%= locale==="ko" ? "😊 좋아요!" : locale==="ja" ? "😊 良いですね！" : locale==="zh-tw" ? "😊 不錯！" : "😊 Good!" %>';
+                message = '<%= locale==="ko" ? "😊 좋아요!" : locale==="jp" ? "😊 良いですね！" : locale==="zh-tw" ? "😊 不錯！" : "😊 Good!" %>';
                 className = 'result-good';
                 emoji = '😊';
             } else {
-                message = '<%= locale==="ko" ? "😅 다시 도전!" : locale==="ja" ? "😅 もう一度！" : locale==="zh-tw" ? "😅 再試一次！" : "😅 Try Again!" %>';
+                message = '<%= locale==="ko" ? "😅 다시 도전!" : locale==="jp" ? "😅 もう一度！" : locale==="zh-tw" ? "😅 再試一次！" : "😅 Try Again!" %>';
                 className = 'result-late';
                 emoji = '😅';
             }
@@ -539,12 +539,12 @@
                     </div>
                     <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
                         <button class="restart-button" onclick="resetTimingGame()">
-                            <%= locale==="ko" ? "다시 하기" : locale==="ja" ? "もう一度" : locale==="zh-tw" ? "再玩一次" : "Play Again" %>
+                            <%= locale==="ko" ? "다시 하기" : locale==="jp" ? "もう一度" : locale==="zh-tw" ? "再玩一次" : "Play Again" %>
                         </button>
                         ${canShare ? `
                             <button class="share-button" onclick="shareTimingResult(${diff}, '${emoji}')">
                                 <span class="share-icon">📤</span>
-                                <%= locale==="ko" ? "결과 공유" : locale==="ja" ? "結果を共有" : locale==="zh-tw" ? "分享結果" : "Share Result" %>
+                                <%= locale==="ko" ? "결과 공유" : locale==="jp" ? "結果を共有" : locale==="zh-tw" ? "分享結果" : "Share Result" %>
                             </button>
                         ` : ''}
                     </div>
@@ -609,7 +609,7 @@
 
             try {
                 document.execCommand('copy');
-                alert('<%= locale==="ko" ? "클립보드에 복사되었습니다!" : locale==="ja" ? "クリップボードにコピーされました！" : locale==="zh-tw" ? "已複製到剪貼簿！" : "Copied to clipboard!" %>');
+                alert('<%= locale==="ko" ? "클립보드에 복사되었습니다!" : locale==="jp" ? "クリップボードにコピーされました！" : locale==="zh-tw" ? "已複製到剪貼簿！" : "Copied to clipboard!" %>');
             } catch (err) {
                 console.error('복사 실패:', err);
             }
@@ -626,7 +626,7 @@
             const resultDiv = document.getElementById('timingResult');
 
             button.disabled = false;
-            button.textContent = '<%= locale==="ko" ? "시작" : locale==="ja" ? "スタート" : locale==="zh-tw" ? "開始" : "Start" %>';
+            button.textContent = '<%= locale==="ko" ? "시작" : locale==="jp" ? "スタート" : locale==="zh-tw" ? "開始" : "Start" %>';
             display.textContent = '--:--:---';
             display.classList.remove('warning');
             resultDiv.innerHTML = '';
@@ -715,10 +715,10 @@
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
                     <div style="font-size: 3rem; font-weight: bold; color: #667eea;">${clickScore}</div>
                     <div style="font-size: 1.5rem; margin-top: 1rem;">
-                        <%= locale==="ko" ? "최종 점수" : locale==="ja" ? "最終スコア" : locale==="zh-tw" ? "最終分數" : "Final Score" %>
+                        <%= locale==="ko" ? "최종 점수" : locale==="jp" ? "最終スコア" : locale==="zh-tw" ? "最終分數" : "Final Score" %>
                     </div>
                     <button class="restart-button" onclick="resetClickGame()">
-                        <%= locale==="ko" ? "다시 하기" : locale==="ja" ? "もう一度" : locale==="zh-tw" ? "再玩一次" : "Play Again" %>
+                        <%= locale==="ko" ? "다시 하기" : locale==="jp" ? "もう一度" : locale==="zh-tw" ? "再玩一次" : "Play Again" %>
                     </button>
                 </div>
             `;

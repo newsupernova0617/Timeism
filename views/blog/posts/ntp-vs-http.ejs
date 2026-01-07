@@ -1,4 +1,4 @@
-<% if (locale==='ko' ) { %>
+﻿<% if (locale==='ko' ) { %>
     <h2>NTP (Network Time Protocol)란?</h2>
     <p>
         NTP는 컴퓨터 시스템 간의 시간을 동기화하기 위한 인터넷 표준 프로토콜입니다.
@@ -20,11 +20,11 @@
         서버 관리자가 시간을 조금 다르게 설정했거나, 서버 자체의 부하로 시간이 밀릴 수 있기 때문입니다.
     </p>
 
-    <h2>Timeism의 접근 방식</h2>
+    <h2>SyncTime의 접근 방식</h2>
     <p>
         티켓팅에서 중요한 것은 "표준시가 몇 시인가"가 아니라 <strong>"저 서버가 지금 몇 시라고 생각하는가"</strong>입니다.
-        그래서 Timeism은 표준시(NTP) 대신 <strong>타겟 서버의 HTTP 시간</strong>을 직접 측정하여 보여줍니다.
-        이것이 Timeism이 네이버 시계나 표준 시계보다 티켓팅에 더 유리한 이유입니다.
+        그래서 SyncTime은 표준시(NTP) 대신 <strong>타겟 서버의 HTTP 시간</strong>을 직접 측정하여 보여줍니다.
+        이것이 SyncTime이 네이버 시계나 표준 시계보다 티켓팅에 더 유리한 이유입니다.
     </p>
 
     <% } else { %>
@@ -52,12 +52,12 @@
             The server administrator might have set it differently, or server load might cause drift.
         </p>
 
-        <h2>Timeism's Approach</h2>
+        <h2>SyncTime's Approach</h2>
         <p>
             In ticketing, what matters is not "what is the standard time" but <strong>"what time does THAT server think
                 it is?"</strong>
-            That's why Timeism measures the <strong>target server's HTTP time</strong> directly instead of standard time
+            That's why SyncTime measures the <strong>target server's HTTP time</strong> directly instead of standard time
             (NTP).
-            This is why Timeism is more advantageous for ticketing than standard clocks.
+            This is why SyncTime is more advantageous for ticketing than standard clocks.
         </p>
         <% } %>

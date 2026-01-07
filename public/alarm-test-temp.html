@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="<%= locale %>">
 
 <head>
@@ -154,10 +154,10 @@
                   <%# 실시간 인기 사이트 - NEW! %>
                     <section class="trending-sites" id="trendingSites">
                       <h3 class="trending-title">
-                        <%= locale==='ko' ? '🔥 실시간 인기 사이트' : locale==='jp' ? '🔥 リアルタイム人気サイト' : locale==='zh-tw'
+                        <%= locale==='ko' ? '🔥 실시간 인기 사이트' : locale==='ja' ? '🔥 リアルタイム人気サイト' : locale==='zh-tw'
                           ? '🔥 即時熱門網站' : '🔥 Trending Sites' %>
                           <span class="trending-subtitle">
-                            <%= locale==='ko' ? '(최근 1시간)' : locale==='jp' ? '(過去1時間)' : locale==='zh-tw' ? '(最近1小時)'
+                            <%= locale==='ko' ? '(최근 1시간)' : locale==='ja' ? '(過去1時間)' : locale==='zh-tw' ? '(最近1小時)'
                               : '(Last 1 hour)' %>
                           </span>
                       </h3>
@@ -165,7 +165,7 @@
                       <div class="trending-list" id="trendingList">
                         <div class="trending-loading">
                           <span class="loading-spinner"></span>
-                          <%= locale==='ko' ? '로딩 중...' : locale==='jp' ? '読み込み中...' : locale==='zh-tw' ? '載入中...'
+                          <%= locale==='ko' ? '로딩 중...' : locale==='ja' ? '読み込み中...' : locale==='zh-tw' ? '載入中...'
                             : 'Loading...' %>
                         </div>
                       </div>
@@ -174,7 +174,7 @@
                     <%# 인기 사이트 빠른 링크 - 알림 설정 위로 이동 %>
                       <section class="popular-sites-compact">
                         <h3 class="sites-compact-title">
-                          <%= locale==='ko' ? '⚡ 인기 사이트 빠른 확인' : locale==='jp' ? '⚡ 人気サイトクイックチェック' : locale==='zh-tw'
+                          <%= locale==='ko' ? '⚡ 인기 사이트 빠른 확인' : locale==='ja' ? '⚡ 人気サイトクイックチェック' : locale==='zh-tw'
                             ? '⚡ 熱門網站快速確認' : '⚡ Popular Sites Quick Check' %>
                         </h3>
 
@@ -223,7 +223,7 @@
                                     <span class="site-icon-sm">🛍️</span>
                                     <span class="site-name-sm">momo購物網</span>
                                   </button>
-                                  <% } else if (locale==='jp' ) { %>
+                                  <% } else if (locale==='ja' ) { %>
                                     <%# 일본 사이트 %>
                                       <button class="site-quick-btn" data-url="https://eplus.jp" data-name="イープラス"
                                         style="border-color: #ff0000;">

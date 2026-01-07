@@ -1,6 +1,6 @@
-{
-    "name": "Timeism - Server Time Comparison Service",
-    "short_name": "Timeism",
+﻿{
+    "name": "SyncTime - Server Time Comparison Service",
+    "short_name": "SyncTime",
     "description": "Check the exact server time before ticketing or registration",
     "start_url": "/",
     "display": "standalone",
@@ -9,15 +9,15 @@
     "orientation": "portrait-primary",
     "icons": [
         {
+            "src": "/favicon.ico",
+            "sizes": "32x32",
+            "type": "image/x-icon"
+        },
+        {
             "src": "/icons/apple-touch-icon.png",
             "sizes": "180x180",
             "type": "image/png",
             "purpose": "any maskable"
-        },
-        {
-            "src": "/favicon.svg",
-            "sizes": "any",
-            "type": "image/svg+xml"
         }
     ],
     "categories": [

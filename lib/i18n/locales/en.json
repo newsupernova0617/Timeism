@@ -1,11 +1,11 @@
 {
     "meta": {
-        "title": "Server Time Checker | NTP Sync Guide · Timeism",
+        "title": "Server Time Checker | NTP Sync Guide · SyncTime",
         "description": "Check target server's current time instantly. HTTP Date-based measurement with NTP synchronization guidance.",
         "keywords": "server time, NTP, time sync, ticketing, time checker"
     },
     "header": {
-        "title": "Timeism",
+        "title": "SyncTime",
         "subtitle": "Check the target server's current time before ticketing or limited edition purchases to minimize time discrepancies with your local clock."
     },
     "form": {
@@ -64,13 +64,13 @@
             },
             "whyImportant": {
                 "title": "Why is Server Time Synchronization Critical?",
-                "content": "Modern e-commerce and ticketing systems process thousands of requests per second during high-demand events. These systems use server-side timestamps to determine the order of incoming requests. If your local clock is ahead of the server by even 1 second, you might think you're clicking at the exact release time, but the server sees your request as arriving early and may reject it. Conversely, if your clock is behind, you're already competing with users who submitted earlier. Timeism helps you identify and compensate for these time differences."
+                "content": "Modern e-commerce and ticketing systems process thousands of requests per second during high-demand events. These systems use server-side timestamps to determine the order of incoming requests. If your local clock is ahead of the server by even 1 second, you might think you're clicking at the exact release time, but the server sees your request as arriving early and may reject it. Conversely, if your clock is behind, you're already competing with users who submitted earlier. SyncTime helps you identify and compensate for these time differences."
             },
             "howItWorks": {
-                "title": "How Timeism Measures Server Time",
+                "title": "How SyncTime Measures Server Time",
                 "steps": [
                     "You enter the target website URL in the input field above",
-                    "Timeism sends an HTTP HEAD request to that server",
+                    "SyncTime sends an HTTP HEAD request to that server",
                     "The server responds with a Date header containing its current time",
                     "We calculate network latency (Round-Trip Time) to improve accuracy",
                     "The estimated server time is displayed with millisecond precision",
@@ -82,7 +82,7 @@
                 "items": [
                     {
                         "title": "Check Server Time 5 Minutes Early",
-                        "description": "Use Timeism to check the target server's time at least 5 minutes before the ticket release. Note the time difference."
+                        "description": "Use SyncTime to check the target server's time at least 5 minutes before the ticket release. Note the time difference."
                     },
                     {
                         "title": "Remember the Time Offset",
@@ -121,7 +121,7 @@
         "instructions": "Click the appearing targets as fast as you can. How many can you click in 30 seconds?"
     },
     "trends": {
-        "title": "Timeism Trends",
+        "title": "SyncTime Trends",
         "subtitle": "Most checked sites today",
         "topSites": "TOP 10 Popular Sites",
         "rank": "Rank",

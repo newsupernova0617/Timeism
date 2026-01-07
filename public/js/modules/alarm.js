@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 알람 모듈
  * 목표 시간 알람 및 자동 알람 (정각, 30분)
  */
@@ -22,6 +22,11 @@ export function createAlarm({
     fineIntervalId: null
   };
   let lastAutoAlarmMinute = -1;
+  let lastSoundTriggerMinute = -1;
+  let lastVisualTriggerMinute = -1;
+  let overlayElement = null;
+  let countdownElement = null;
+  let audioContext = null; // AudioContext 재사용
 
   // 알람 초기화
   function initNotifications() {
@@ -35,12 +40,28 @@ export function createAlarm({
 
     if (testAlarmBtn) {
       testAlarmBtn.addEventListener('click', () => {
-        playAlarmSound();
-        console.log('🔊 Alarm sound test triggered');
+        initAudioContext(); // 사용자 클릭으로 활성화
+        playBBCAlarmSound();
+        console.log('🔊 BBC alarm sound test triggered');
       });
     }
 
     requestNotificationPermission();
+    createVisualEffectElements();
+
+    // 페이지 클릭으로 AudioContext 활성화
+    document.addEventListener('click', initAudioContext, { once: true });
+  }
+
+  // AudioContext 초기화 (사용자 제스처 필요)
+  function initAudioContext() {
+    if (!audioContext) {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      console.log('🎵 AudioContext initialized');
+    }
+    if (audioContext.state === 'suspended') {
+      audioContext.resume();
+    }
   }
 
   // 알림 권한 요청
@@ -251,23 +272,157 @@ export function createAlarm({
     sendEvent('alarm_cancelled');
   }
 
-  // 자동 알람 체크 (정각, 30분)
+  // 자동 알람 체크 (티켓팅 시간 직전: 59분, 29분)
   function checkAutoAlarm(ms) {
     const date = new Date(ms);
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
+    const milliseconds = date.getMilliseconds();
 
-    // 정각 또는 30분, 0초에 발동
-    if ((minutes === 0 || minutes === 30) && seconds === 0) {
-      const currentMinute = minutes;
+    // 티켓팅 시간 직전 (59분 = 정각 전, 29분 = 30분 전)
+    const isAlarmMinute = (minutes === 59 || minutes === 29);
 
-      if (currentMinute !== lastAutoAlarmMinute) {
-        lastAutoAlarmMinute = currentMinute;
-        playAlarmSound();
-      }
-    } else if (seconds > 0) {
-      lastAutoAlarmMinute = -1;
+    // 10초 전부터 카운트다운 시작
+    if (isAlarmMinute && seconds >= 50) {
+      const countdown = 60 - seconds;
+      startCountdownEffect(countdown);
     }
+
+    // BBC 시보음: 55초에 한 번만 시작
+    if (isAlarmMinute && seconds === 55 && lastSoundTriggerMinute !== 55) {
+      lastSoundTriggerMinute = 55;
+      console.log(`🔔 BBC chime at ${minutes}:${seconds}.${milliseconds}`);
+
+      initAudioContext(); // AudioContext 활성화
+      try {
+        playBBCAlarmSound();
+        console.log('✅ BBC chime started');
+      } catch (error) {
+        console.error('❌ Failed:', error);
+      }
+    }
+
+    // 00초에 시각 효과 (59분 다음은 0분, 29분 다음은 30분)
+    const isTargetZero = (minutes === 0 || minutes === 30);
+    if (isTargetZero && seconds === 0 && milliseconds < 100 && lastVisualTriggerMinute !== 0) {
+      lastVisualTriggerMinute = 0;
+      triggerVisualEffects();
+    }
+
+    // 리셋 (56초에 소리 리셋, 1초에 시각 리셋)
+    if (seconds === 56) {
+      lastSoundTriggerMinute = -1;
+    }
+    if (seconds === 1) {
+      lastVisualTriggerMinute = -1;
+    }
+
+    // 카운트다운 종료 (정각/30분 00초에)
+    if (isTargetZero && seconds === 0) {
+      stopCountdownEffect();
+    }
+  }
+
+  // 시각 효과용 DOM 요소 생성
+  function createVisualEffectElements() {
+    overlayElement = document.createElement('div');
+    overlayElement.className = 'alarm-overlay';
+    document.body.appendChild(overlayElement);
+
+    countdownElement = document.createElement('div');
+    countdownElement.className = 'alarm-countdown';
+    document.body.appendChild(countdownElement);
+  }
+
+  // 카운트다운 효과 시작
+  function startCountdownEffect(countdown) {
+    if (!overlayElement || !countdownElement) return;
+
+    countdownElement.textContent = countdown;
+    countdownElement.classList.add('active');
+
+    const intensity = Math.min(0.3, (10 - countdown) / 10 * 0.3);
+    overlayElement.style.backgroundColor = `rgba(255, 0, 0, ${intensity})`;
+    overlayElement.classList.add('active');
+  }
+
+  // 카운트다운 효과 중지
+  function stopCountdownEffect() {
+    if (!overlayElement || !countdownElement) return;
+
+    overlayElement.classList.add('fadeout');
+    countdownElement.classList.remove('active');
+
+    setTimeout(() => {
+      if (overlayElement) {
+        overlayElement.style.backgroundColor = 'rgba(255, 0, 0, 0)';
+        overlayElement.classList.remove('active', 'fadeout', 'flash');
+      }
+      if (countdownElement) {
+        countdownElement.textContent = '';
+      }
+    }, 1000);
+  }
+
+  // 시각 효과만 트리거
+  function triggerVisualEffects() {
+    if (overlayElement) {
+      overlayElement.classList.add('flash');
+      overlayElement.style.backgroundColor = 'rgba(255, 255, 255, 1)';
+
+      setTimeout(() => {
+        if (overlayElement) {
+          overlayElement.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
+        }
+      }, 500);
+    }
+
+    const clockBlock = document.getElementById('clockBlock');
+    if (clockBlock) {
+      clockBlock.classList.add('clock-highlight');
+      setTimeout(() => {
+        clockBlock.classList.remove('clock-highlight');
+      }, 500);
+    }
+
+    console.log('⚡ Visual effects at 00.0s');
+  }
+
+  // BBC 시보음 재생
+  function playBBCAlarmSound() {
+    if (!audioContext) {
+      console.warn('⚠️ AudioContext not initialized. Click the page first.');
+      return;
+    }
+
+    const now = audioContext.currentTime;
+
+    for (let i = 0; i < 6; i++) {
+      playBeep(audioContext, now + i * 0.8, 0.1, 1000, 0.4);
+    }
+
+    playBeep(audioContext, now + 6 * 0.8, 1.0, 1000, 0.5);
+  }
+
+  // 개별 비프음
+  function playBeep(audioContext, startTime, duration, frequency, volume) {
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.frequency.value = frequency;
+    oscillator.type = 'sine';
+    gainNode.gain.value = volume;
+
+    oscillator.start(startTime);
+    oscillator.stop(startTime + duration);
+  }
+
+  // 레거시 함수
+  function playAlarmSound() {
+    playBBCAlarmSound();
   }
 
   return {

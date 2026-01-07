@@ -1,5 +1,5 @@
-/**
- * Timeism - HTTP Date 헤더 기반 서버 시간 비교 서비스
+﻿/**
+ * SyncTime - HTTP Date 헤더 기반 서버 시간 비교 서비스
  * 
  * Express 애플리케이션 진입점
  * - EJS 템플릿 렌더링
@@ -99,6 +99,7 @@ app.use((req, res, next) => {
   res.locals.translations = i18n.getTranslations(locale);
   res.locals.domain = DOMAIN;
   res.locals.hreflangLinks = i18n.getHreflangLinks(DOMAIN, req.path);
+  res.locals.originalUrl = req.path; // For language switcher
   next();
 });
 
@@ -206,7 +207,7 @@ app.get('/sitemap.xml', (_req, res) => {
     <loc>${DOMAIN}/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/" />
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/" />
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/" />
     <lastmod>${lastmod}</lastmod>
@@ -216,7 +217,7 @@ app.get('/sitemap.xml', (_req, res) => {
   <url>
     <loc>${DOMAIN}/en/</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/" />
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/" />
     <lastmod>${lastmod}</lastmod>
@@ -226,7 +227,7 @@ app.get('/sitemap.xml', (_req, res) => {
   <url>
     <loc>${DOMAIN}/ko/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/" />
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/" />
     <lastmod>${lastmod}</lastmod>
@@ -234,7 +235,7 @@ app.get('/sitemap.xml', (_req, res) => {
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>${DOMAIN}/ja/</loc>
+    <loc>${DOMAIN}/jp/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/" />
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/" />
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/" />
@@ -247,7 +248,7 @@ app.get('/sitemap.xml', (_req, res) => {
     <loc>${DOMAIN}/zh-tw/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/" />
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/" />
     <lastmod>${lastmod}</lastmod>
     <changefreq>daily</changefreq>
@@ -268,7 +269,7 @@ app.get('/sitemap.xml', (_req, res) => {
   <url>
     <loc>${DOMAIN}/en/game</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/game" />
-    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/game" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/game" />
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/game" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/game" />
     <lastmod>${lastmod}</lastmod>
@@ -278,7 +279,7 @@ app.get('/sitemap.xml', (_req, res) => {
   <url>
     <loc>${DOMAIN}/ko/game</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/game" />
-    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/game" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/game" />
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/game" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/game" />
     <lastmod>${lastmod}</lastmod>
@@ -286,7 +287,7 @@ app.get('/sitemap.xml', (_req, res) => {
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>${DOMAIN}/ja/game</loc>
+    <loc>${DOMAIN}/jp/game</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/game" />
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/game" />
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/game" />
@@ -299,7 +300,7 @@ app.get('/sitemap.xml', (_req, res) => {
     <loc>${DOMAIN}/zh-tw/game</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/game" />
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/game" />
-    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/game" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/game" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/game" />
     <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
@@ -312,7 +313,7 @@ app.get('/sitemap.xml', (_req, res) => {
     sitemap += `  <url>
     <loc>${DOMAIN}/en/sites/${site.id}</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/sites/${site.id}" />
-    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/sites/${site.id}" />
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/sites/${site.id}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/sites/${site.id}" />
     <lastmod>${lastmod}</lastmod>
@@ -322,7 +323,7 @@ app.get('/sitemap.xml', (_req, res) => {
   <url>
     <loc>${DOMAIN}/ko/sites/${site.id}</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/sites/${site.id}" />
-    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/sites/${site.id}" />
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/sites/${site.id}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/sites/${site.id}" />
     <lastmod>${lastmod}</lastmod>
@@ -330,7 +331,7 @@ app.get('/sitemap.xml', (_req, res) => {
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>${DOMAIN}/ja/sites/${site.id}</loc>
+    <loc>${DOMAIN}/jp/sites/${site.id}</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/sites/${site.id}" />
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/sites/${site.id}" />
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/sites/${site.id}" />
@@ -343,7 +344,7 @@ app.get('/sitemap.xml', (_req, res) => {
     <loc>${DOMAIN}/zh-tw/sites/${site.id}</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/sites/${site.id}" />
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/sites/${site.id}" />
-    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/sites/${site.id}" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/sites/${site.id}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/sites/${site.id}" />
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
@@ -358,7 +359,7 @@ app.get('/sitemap.xml', (_req, res) => {
     sitemap += `  <url>
     <loc>${DOMAIN}/en/blog/${post.slug}</loc>
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/blog/${post.slug}" />
-    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/blog/${post.slug}" />
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/blog/${post.slug}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/blog/${post.slug}" />
     <lastmod>${post.date}</lastmod>
@@ -368,7 +369,7 @@ app.get('/sitemap.xml', (_req, res) => {
   <url>
     <loc>${DOMAIN}/ko/blog/${post.slug}</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/blog/${post.slug}" />
-    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/blog/${post.slug}" />
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/blog/${post.slug}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/blog/${post.slug}" />
     <lastmod>${post.date}</lastmod>
@@ -376,7 +377,7 @@ app.get('/sitemap.xml', (_req, res) => {
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>${DOMAIN}/ja/blog/${post.slug}</loc>
+    <loc>${DOMAIN}/jp/blog/${post.slug}</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/blog/${post.slug}" />
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/blog/${post.slug}" />
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/blog/${post.slug}" />
@@ -389,7 +390,7 @@ app.get('/sitemap.xml', (_req, res) => {
     <loc>${DOMAIN}/zh-tw/blog/${post.slug}</loc>
     <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/blog/${post.slug}" />
     <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/blog/${post.slug}" />
-    <xhtml:link rel="alternate" hreflang="ja" href="${DOMAIN}/ja/blog/${post.slug}" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/blog/${post.slug}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/blog/${post.slug}" />
     <lastmod>${post.date}</lastmod>
     <changefreq>monthly</changefreq>
@@ -466,7 +467,7 @@ app.get('/ko/', (req, res) => {
   res.render('index', { domain: DOMAIN });
 });
 
-app.get('/ja/', (req, res) => {
+app.get('/jp/', (req, res) => {
   res.render('index', { domain: DOMAIN });
 });
 
@@ -483,7 +484,7 @@ app.get('/ko/guide', (req, res) => {
   res.render('guide', { domain: DOMAIN });
 });
 
-app.get('/ja/guide', (req, res) => {
+app.get('/jp/guide', (req, res) => {
   res.render('guide', { domain: DOMAIN });
 });
 
@@ -500,7 +501,7 @@ app.get('/ko/privacy', (req, res) => {
   res.render('privacy', { domain: DOMAIN });
 });
 
-app.get('/ja/privacy', (req, res) => {
+app.get('/jp/privacy', (req, res) => {
   res.render('privacy', { domain: DOMAIN });
 });
 
@@ -517,13 +518,37 @@ app.get('/ko/game', (req, res) => {
   res.render('game', { domain: DOMAIN });
 });
 
-app.get('/ja/game', (req, res) => {
+app.get('/jp/game', (req, res) => {
   res.render('game', { domain: DOMAIN });
 });
 
 app.get('/zh-tw/game', (req, res) => {
   res.render('game', { domain: DOMAIN });
 });
+
+// 알람 테스트 페이지 (언어별)
+app.get('/en/alarm-test', (req, res) => {
+  res.render('alarm-test', { domain: DOMAIN });
+});
+
+app.get('/ko/alarm-test', (req, res) => {
+  res.render('alarm-test', { domain: DOMAIN });
+});
+
+app.get('/jp/alarm-test', (req, res) => {
+  res.render('alarm-test', { domain: DOMAIN });
+});
+
+app.get('/zh-tw/alarm-test', (req, res) => {
+  res.render('alarm-test', { domain: DOMAIN });
+});
+
+// 기본 알람 테스트 페이지 (언어 감지)
+app.get('/alarm-test', (req, res) => {
+  const locale = i18n.detectLocale(req);
+  res.redirect(`/${locale}/alarm-test`);
+});
+
 
 // 언어별 트렌드 분석 페이지
 app.get('/en/trends', async (req, res) => {
@@ -570,19 +595,19 @@ app.get('/ko/trends', async (req, res) => {
   }
 });
 
-app.get('/ja/trends', async (req, res) => {
+app.get('/jp/trends', async (req, res) => {
   try {
     const stats = await getTrendsStats();
     res.render('trends', {
       domain: DOMAIN,
-      locale: 'ja',
+      locale: 'jp',
       ...stats
     });
   } catch (error) {
     console.error('Trends page error:', error);
     res.render('trends', {
       domain: DOMAIN,
-      locale: 'ja',
+      locale: 'jp',
       topUrls: [],
       hourlyStats: [],
       totalChecks: 0,
@@ -649,19 +674,19 @@ app.post('/ko/survey', async (req, res) => {
   });
 });
 
-app.get('/ja/survey', (req, res) => {
+app.get('/jp/survey', (req, res) => {
   res.render('survey', {
     domain: DOMAIN,
-    locale: 'ja',
+    locale: 'jp',
     submitted: false
   });
 });
 
-app.post('/ja/survey', async (req, res) => {
+app.post('/jp/survey', async (req, res) => {
   // TODO: Save survey response to DB
   res.render('survey', {
     domain: DOMAIN,
-    locale: 'ja',
+    locale: 'jp',
     submitted: true
   });
 });

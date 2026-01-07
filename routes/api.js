@@ -1,4 +1,4 @@
-/**
+﻿/**
  * API 라우터
  * - 시간 조회, 세션 관리, 이벤트 로깅, 분석 데이터 제공
  */
@@ -41,14 +41,14 @@ router.post('/check-time', apiLimiter, async (req, res) => {
     // 서버 시간 측정
     const result = await measureServerTime(targetUrl);
 
-    // Timeism 서버의 정확한 밀리초 타임스탬프 (HTTP Date 헤더 정밀도 한계 보완)
-    const timeismServerTimeMs = Date.now();
+    // SyncTime 서버의 정확한 밀리초 타임스탬프 (HTTP Date 헤더 정밀도 한계 보완)
+    const SyncTimeServerTimeMs = Date.now();
 
     const responsePayload = {
       target_url: targetUrl,
       server_time_utc: result.serverTimeUtcIso,
       server_time_estimated_epoch_ms: result.serverTimeEstimatedEpochMs,
-      timeism_server_time_ms: timeismServerTimeMs  // 새로 추가: Timeism 서버 기준 시각
+      SyncTime_server_time_ms: SyncTimeServerTimeMs  // 새로 추가: SyncTime 서버 기준 시각
     };
 
     // 디버그 모드: RTT 포함

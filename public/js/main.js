@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 메인 애플리케이션
  * 모든 모듈을 통합하여 초기화
  */
@@ -151,5 +151,5 @@ if (cancelAlarmBtn) {
   });
 }
 
-console.log('✅ Timeism initialized with all Phase 4-B Batch 1 features');
+console.log('✅ SyncTime initialized with all Phase 4-B Batch 1 features');
 console.log('✅ Application initialized');

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 댓글 API 라우트
  * 익명 댓글 시스템 (닉네임 없음, 자동 정리)
  */
@@ -10,7 +10,7 @@ const commentRepo = require('../lib/comment-repository');
 
 // IP 해시 생성
 function hashIp(ip) {
-    return crypto.createHash('sha256').update(ip + (process.env.IP_SALT || 'timeism-salt')).digest('hex');
+    return crypto.createHash('sha256').update(ip + (process.env.IP_SALT || 'SyncTime-salt')).digest('hex');
 }
 
 // 댓글 조회

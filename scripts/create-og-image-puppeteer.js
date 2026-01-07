@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 /**
  * Generate OG Image using Puppeteer
@@ -120,7 +120,7 @@ const html = `
   <div class="circle-2"></div>
 
   <div class="container">
-    <div class="title">Timeism</div>
+    <div class="title">SyncTime</div>
     <div class="subtitle">서버 시간 비교 서비스</div>
     <div class="description">정확한 시간으로 티켓팅을 준비하세요</div>
     <div class="divider"></div>

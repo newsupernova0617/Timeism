@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="<%= locale %>">
+
+<head>
+    <%- include('partials/meta') %>
+        <title>
+            🔔 알람 테스트 - <%= translations.meta.title %>
+        </title>
+        <meta name="description" content="<%= translations.meta.description %>" />
+        <meta name="robots" content="noindex, nofollow" />
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <%# 3단 레이아웃 컨테이너 %>
+            <div class="three-column-layout">
+                <%# 왼쪽 광고 %>
+                    <aside class="left-ads" aria-label="Left Advertisement">
+                        <!-- 왼쪽 광고 #1 -->
+                        <div class="ad-banner ad-banner-left">
+                            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2995631331341713"
+                                data-ad-slot="1111111111" data-ad-format="vertical"
+                                data-full-width-responsive="false"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+
+                        <!-- 왼쪽 광고 #2 -->
+                        <div class="ad-banner ad-banner-left">
+                            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2995631331341713"
+                                data-ad-slot="2222222222" data-ad-format="vertical"
+                                data-full-width-responsive="false"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                    </aside>
+
+                    <%# 중앙 메인 콘텐츠 %>
+                        <main class="layout">
+                            <section class="primary">
+
+                                <!-- 테스트 모드 배너 -->
+                                <div
+                                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem; text-align: center; font-weight: 600; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                                    🧪 알람 테스트 모드 - 시계가 자동으로 23:59:50부터 시작됩니다
+                                </div>
+
+                                <form id="checkForm" class="url-form" novalidate>
+                                    <label class="field-label" for="urlInput">
+                                        <%= translations.form.label %>
+                                    </label>
+                                    <p id="urlHint" class="field-hint">
+                                        <%= translations.form.hint %>
+                                    </p>
+                                    <div class="url-form-controls">
+                                        <input id="urlInput" type="url" inputmode="url"
+                                            placeholder="<%= translations.form.placeholder %>" autocomplete="off"
+                                            aria-describedby="urlHint formError" />
+                                        <button id="checkBtn" type="submit">
+                                            <%= translations.form.button %>
+                                        </button>
+                                    </div>
+                                </form>
+                                <p id="formError" class="form-error" role="alert" aria-live="assertive"></p>
+
+                                <section class="clock-panel" aria-live="polite">
+                                    <div class="clock-block single" id="clockBlock">
+                                        <h2>
+                                            <%= translations.clock.serverTime %>
+                                        </h2>
+                                        <p id="serverTime" class="clock-value muted" role="status" aria-live="polite"
+                                            aria-atomic="true">
+                                            --:--:--.---
+                                        </p>
+                                        <p class="clock-meta" id="clockMeta" aria-live="off">테스트 모드: 23:59:50부터 자동 시작
+                                        </p>
+
+                                        <div class="clock-settings">
+                                            <div class="setting-group">
+                                                <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                                    <label class="toggle-switch" style="margin: 0;">
+                                                        <input type="checkbox" id="showMillis" checked />
+                                                        <span class="slider"></span>
+                                                        <span class="toggle-label">
+                                                            <%= translations.clock.milliseconds %>
+                                                        </span>
+                                                    </label>
+                                                    <p class="perf-note">
+                                                        <%= translations.clock.performanceNote %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <%# 테스트 컨트롤 %>
+                                    <div
+                                        style="background: rgba(102, 126, 234, 0.1); border: 2px solid #667eea; border-radius: 12px; padding: 1.5rem; margin: 2rem 0;">
+                                        <h3 style="margin: 0 0 1rem 0; color: #667eea; font-size: 1.2rem;">📋 테스트 안내
+                                        </h3>
+                                        <p style="margin: 0 0 1rem 0; line-height: 1.6;">
+                                            시계가 자동으로 <strong>23:59:50</strong>부터 시작되어 <strong>10초 카운트다운</strong>을 볼 수
+                                            있으며,
+                                            <strong>55.2초</strong>에 BBC 시보음이 시작되고 긴 비프음이 <strong>00:00:00</strong>에 정확히
+                                            울립니다.
+                                        </p>
+                                        <div
+                                            style="background: rgba(67, 233, 123, 0.1); border-left: 4px solid #43e97b; padding: 1rem; margin: 1rem 0; border-radius: 4px;">
+                                            <strong style="color: #43e97b;">🎯 예상 동작:</strong><br>
+                                            23:59:50 → 카운트다운 10 표시, 배경 투명<br>
+                                            23:59:55.2 → <strong>BBC 시보음 시작</strong> (비프×6)<br>
+                                            23:59:59 → 카운트다운 1 표시, 배경 27% 빨강<br>
+                                            00:00:00 → <strong>긴 비프음</strong> + 화이트 플래시!
+                                        </div>
+                                        <button onclick="location.reload()"
+                                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 8px; padding: 1rem 2rem; font-size: 1.1rem; font-weight: 600; color: white; cursor: pointer; width: 100%; margin-top: 0.5rem; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                                            🔄 테스트 다시 시작
+                                        </button>
+                                    </div>
+
+                                    <div style="text-align: center; margin: 2rem 0;">
+                                        <a href="/"
+                                            style="color: var(--color-primary); text-decoration: none; font-weight: 600;">←
+                                            메인 페이지로 돌아가기</a>
+                                    </div>
+
+                            </section>
+                        </main>
+
+                        <%# 실시간 댓글 사이드바 %>
+                            <aside class="sidebar" role="complementary" aria-label="Live Comments">
+                                <%- include('partials/comments', { locale: locale, pageId: 'alarm-test' }) %>
+
+                                    <!-- 오른쪽 광고 - 댓글 아래 -->
+                                    <div class="ad-banner ad-banner-right" style="margin-top: 1.5rem;">
+                                        <ins class="adsbygoogle" style="display:block"
+                                            data-ad-client="ca-pub-2995631331341713" data-ad-slot="3333333333"
+                                            data-ad-format="vertical" data-full-width-responsive="false"></ins>
+                                        <script>
+                                            (adsbygoogle = window.adsbygoogle || []).push({});
+                                        </script>
+                                    </div>
+                            </aside>
+            </div>
+
+            <%- include('partials/footer') %>
+
+                <!-- 테스트용 스크립트 (main.js 대신) -->
+                <script type="module" src="/js/test-alarm.js"></script>
+
+</body>
+
+</html>

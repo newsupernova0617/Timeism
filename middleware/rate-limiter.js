@@ -15,10 +15,7 @@ const apiLimiter = rateLimit({
     },
     standardHeaders: true, // RateLimit-* 헤더 반환
     legacyHeaders: false,
-    // IP 기반 제한
-    keyGenerator: (req) => {
-        return req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'unknown';
-    },
+    // keyGenerator 제거 - 기본 설정이 IPv6를 안전하게 처리
     // 에러 핸들러
     handler: (req, res) => {
         const lang = req.params.locale || 'en';
@@ -46,9 +43,7 @@ const trendingLimiter = rateLimit({
     },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => {
-        return req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'unknown';
-    },
+    // keyGenerator 제거 - 기본 설정이 IPv6를 안전하게 처리
     handler: (req, res) => {
         const lang = req.query.locale || 'en';
         const messages = {

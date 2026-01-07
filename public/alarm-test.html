@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>🔔 알람 효과 테스트 - SyncTime</title>
+
+    <link rel="stylesheet" href="/css/tokens.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/alarm-effects.css" />
+
+    <style>
+        /* 테스트 페이지 전용 스타일 */
+        .test-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-controls {
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+
+        .test-controls h3 {
+            margin: 0 0 1rem 0;
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        .test-controls p {
+            margin: 0 0 1rem 0;
+            line-height: 1.6;
+            color: var(--color-text-secondary);
+        }
+
+        .test-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .test-button:active {
+            transform: translateY(0);
+        }
+
+        .test-info {
+            background: rgba(67, 233, 123, 0.1);
+            border-left: 4px solid #43e97b;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .test-info strong {
+            color: #43e97b;
+        }
+
+        .back-link {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .back-link a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-banner">
+        🧪 알람 효과 테스트 모드 - 시계가 자동으로 50초부터 시작됩니다
+    </div>
+
+    <div class="layout">
+        <section class="primary">
+            <div class="test-controls">
+                <h3>📋 테스트 안내</h3>
+                <p>
+                    이 페이지는 알람 효과를 테스트하기 위한 데모 페이지입니다.<br>
+                    시계가 자동으로 <strong>50초</strong>부터 시작되어 <strong>10초 카운트다운</strong>과 함께
+                    <strong>00초</strong>에 알람이 발동됩니다.
+                </p>
+                <div class="test-info">
+                    <strong>🎯 예상 동작:</strong><br>
+                    50초 → 카운트다운 10 표시, 배경 투명<br>
+                    55초 → 카운트다운 5 표시, 배경 15% 빨강<br>
+                    59초 → 카운트다운 1 표시, 배경 27% 빨강<br>
+                    00초 → 화이트 플래시 + BBC 시보음 재생!
+                </div>
+                <button class="test-button" onclick="restartTest()">
+                    🔄 테스트 다시 시작
+                </button>
+            </div>
+
+            <section class="clock-panel" aria-live="polite">
+                <div class="clock-block single" id="clockBlock">
+                    <h2>테스트 시계</h2>
+                    <p id="serverTime" class="clock-value" role="status" aria-live="polite" aria-atomic="true">
+                        --:--:--.---
+                    </p>
+                    <p class="clock-meta" id="clockMeta">테스트 모드: 50초부터 자동 시작</p>
+                </div>
+            </section>
+
+            <div class="back-link">
+                <a href="/">← 메인 페이지로 돌아가기</a>
+            </div>
+        </section>
+    </div>
+
+    <script type="module">
+        // 알람 모듈 상태
+        let lastAutoAlarmMinute = -1;
+        let overlayElement = null;
+        let countdownElement = null;
+        let testStartTime = null;
+        let clockInterval = null;
+
+        // 시각 효과용 DOM 요소 생성
+        function createVisualEffectElements() {
+            overlayElement = document.createElement('div');
+            overlayElement.className = 'alarm-overlay';
+            document.body.appendChild(overlayElement);
+
+            countdownElement = document.createElement('div');
+            countdownElement.className = 'alarm-countdown';
+            document.body.appendChild(countdownElement);
+        }
+
+        // BBC 시보음 재생
+        function playBBCAlarmSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const now = audioContext.currentTime;
+
+            // 6번의 짧은 비프음
+            for (let i = 0; i < 6; i++) {
+                playBeep(audioContext, now + i * 0.8, 0.1, 1000, 0.4);
+            }
+
+            // 마지막 긴 비프음
+            playBeep(audioContext, now + 6 * 0.8, 1.0, 1000, 0.5);
+        }
+
+        function playBeep(audioContext, startTime, duration, frequency, volume) {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
+            gainNode.gain.value = volume;
+
+            oscillator.start(startTime);
+            oscillator.stop(startTime + duration);
+        }
+
+        // 카운트다운 효과 시작
+        function startCountdownEffect(countdown) {
+            if (!overlayElement || !countdownElement) return;
+
+            countdownElement.textContent = countdown;
+            countdownElement.classList.add('active');
+
+            const intensity = Math.min(0.3, (10 - countdown) / 10 * 0.3);
+            overlayElement.style.backgroundColor = `rgba(255, 0, 0, ${intensity})`;
+            overlayElement.classList.add('active');
+        }
+
+        // 카운트다운 효과 중지
+        function stopCountdownEffect() {
+            if (!overlayElement || !countdownElement) return;
+
+            overlayElement.classList.add('fadeout');
+            countdownElement.classList.remove('active');
+
+            setTimeout(() => {
+                if (overlayElement) {
+                    overlayElement.style.backgroundColor = 'rgba(255, 0, 0, 0)';
+                    overlayElement.classList.remove('active', 'fadeout', 'flash');
+                }
+                if (countdownElement) {
+                    countdownElement.textContent = '';
+                }
+            }, 1000);
+        }
+
+        // 자동 알람 트리거
+        function triggerAutoAlarm() {
+            playBBCAlarmSound();
+
+            if (overlayElement) {
+                overlayElement.classList.add('flash');
+                overlayElement.style.backgroundColor = 'rgba(255, 255, 255, 1)';
+
+                setTimeout(() => {
+                    if (overlayElement) {
+                        overlayElement.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
+                    }
+                }, 500);
+            }
+
+            const clockBlock = document.getElementById('clockBlock');
+            if (clockBlock) {
+                clockBlock.classList.add('clock-highlight');
+                setTimeout(() => {
+                    clockBlock.classList.remove('clock-highlight');
+                }, 500);
+            }
+
+            console.log('🔔 Auto alarm triggered (BBC style)');
+        }
+
+        // 자동 알람 체크
+        function checkAutoAlarm(ms) {
+            const date = new Date(ms);
+            const minutes = date.getMinutes();
+            const seconds = date.getSeconds();
+
+            const isTargetMinute = (minutes === 0 || minutes === 30);
+
+            // 10초 전부터 카운트다운 시작
+            if (isTargetMinute && seconds >= 50) {
+                const countdown = 60 - seconds;
+                startCountdownEffect(countdown);
+            }
+
+            // 정각 또는 30분, 0초에 발동
+            if (isTargetMinute && seconds === 0) {
+                const currentMinute = minutes;
+
+                if (currentMinute !== lastAutoAlarmMinute) {
+                    lastAutoAlarmMinute = currentMinute;
+                    triggerAutoAlarm();
+                }
+            } else if (seconds > 0) {
+                lastAutoAlarmMinute = -1;
+            }
+
+            // 카운트다운 종료
+            if (isTargetMinute && seconds === 1) {
+                stopCountdownEffect();
+            }
+        }
+
+        // 시계 업데이트
+        function updateClock() {
+            const elapsed = Date.now() - testStartTime;
+
+            // 50초부터 시작 (테스트용)
+            const testTime = new Date();
+            testTime.setSeconds(50);
+            testTime.setMilliseconds(0);
+
+            const currentTestTime = new Date(testTime.getTime() + elapsed);
+
+            const hours = String(currentTestTime.getHours()).padStart(2, '0');
+            const minutes = String(currentTestTime.getMinutes()).padStart(2, '0');
+            const seconds = String(currentTestTime.getSeconds()).padStart(2, '0');
+            const ms = String(currentTestTime.getMilliseconds()).padStart(3, '0');
+
+            document.getElementById('serverTime').textContent = `${hours}:${minutes}:${seconds}.${ms}`;
+
+            // 알람 체크
+            checkAutoAlarm(currentTestTime.getTime());
+
+            // 10초 후 자동 정지 (00초 이후)
+            if (currentTestTime.getSeconds() >= 2 && currentTestTime.getSeconds() < 50) {
+                stopTest();
+            }
+        }
+
+        // 테스트 시작
+        function startTest() {
+            testStartTime = Date.now();
+            lastAutoAlarmMinute = -1;
+
+            if (clockInterval) {
+                clearInterval(clockInterval);
+            }
+
+            clockInterval = setInterval(updateClock, 10);
+            console.log('🧪 Test started from 50 seconds');
+        }
+
+        // 테스트 중지
+        function stopTest() {
+            if (clockInterval) {
+                clearInterval(clockInterval);
+                clockInterval = null;
+            }
+            console.log('🛑 Test stopped');
+        }
+
+        // 테스트 재시작
+        window.restartTest = function () {
+            stopTest();
+            stopCountdownEffect();
+            setTimeout(() => {
+                startTest();
+            }, 500);
+        };
+
+        // 초기화
+        createVisualEffectElements();
+        startTest();
+
+        console.log('✅ Alarm test page initialized');
+    </script>
+</body>
+
+</html>

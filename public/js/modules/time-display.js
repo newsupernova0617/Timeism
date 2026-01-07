@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 시간 표시 모듈
  * 서버 시간 표시 및 실시간 시계 업데이트
  */
@@ -47,7 +47,7 @@ export function createTimeDisplay({
     // 시간 결과 적용
     applyTimeResult: (result) => {
       const estimatedEpochMs = result.server_time_estimated_epoch_ms;
-      const timeismServerMs = result.timeism_server_time_ms;
+      const SyncTimeServerMs = result.SyncTime_server_time_ms;
 
       if (typeof estimatedEpochMs === 'number' && Number.isFinite(estimatedEpochMs)) {
         serverTimeEl.classList.remove('muted');
@@ -55,13 +55,13 @@ export function createTimeDisplay({
         serverTimeEl.classList.remove('skeleton');
 
         if (clockMeta && result.server_time_utc) {
-          // Timeism 서버 타임스탬프가 있으면 정밀도 정보 표시
+          // SyncTime 서버 타임스탬프가 있으면 정밀도 정보 표시
           let metaText = formatMetaLine(result.server_time_utc);
-          if (typeof timeismServerMs === 'number' && Number.isFinite(timeismServerMs)) {
+          if (typeof SyncTimeServerMs === 'number' && Number.isFinite(SyncTimeServerMs)) {
             const lang = document.documentElement.lang || 'ko';
             const precisionNote = lang === 'ko'
-              ? ' (Timeism 서버 기준 보정됨)'
-              : ' (Calibrated by Timeism server)';
+              ? ' (SyncTime 서버 기준 보정됨)'
+              : ' (Calibrated by SyncTime server)';
             metaText += precisionNote;
           }
           clockMeta.textContent = metaText;

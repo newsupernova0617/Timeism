@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="<%= locale %>">
 
 <head>
     <%- include('../partials/meta') %>
         <title>
-            <%= locale==='ko' ? post.title.ko : post.title.en %> - Timeism Blog
+            <%= locale==='ko' ? post.title.ko : post.title.en %> - SyncTime Blog
         </title>
         <meta name="description" content="<%= locale === 'ko' ? post.description.ko : post.description.en %>">
         <meta property="og:title" content="<%= locale === 'ko' ? post.title.ko : post.title.en %>" />
@@ -70,7 +70,7 @@
                         <%= locale==='ko' ? post.title.ko : post.title.en %>
                     </h1>
                     <p class="subtitle">
-                        <%= post.date %> · Timeism Guide
+                        <%= post.date %> · SyncTime Guide
                     </p>
                 </header>
 
