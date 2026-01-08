@@ -1,0 +1,39 @@
+{
+    "templates": {
+        "concert": [
+            "🎤 明日から {name}!\n📅 {period}\n🏟️ {venue}\n\nチケット準備OK? ⏰\nサーバー時計 → {url}\n\n#チケット #コンサート",
+            "⚡ 明日スタート!\n{name}\n\nサーバー時間確認必須 🕐\n{url}\n\n#チケット #{platform}",
+            "🔥 D-1 アラート\n\n{name}\n{period}\n\nサーバー時計をチェック!\n{url}\n\n#チケット #ライブ",
+            "明日 {name} 開始!\n\nチケット成功の秘訣 ⏰\n→ 正確なサーバー時計\n\n{url}\n\n皆さん頑張って 🙏",
+            "📢 明日公演のお知らせ\n\n{name}\n{venue}\n\nサーバー時計で正確な時間を\n{url}\n\n#チケット"
+        ],
+        "festival": [
+            "🎪 明日 {name}!\n\n大規模チケット販売予想 🔥\nサーバー時計必須\n\n{url}\n\n#フェス #チケット",
+            "🎉 フェス D-1\n{name}\n\nサーバー時間チェック → {url}\n\n#チケット #{platform}"
+        ],
+        "default": [
+            "📅 明日 {name}\n\nチケット取る方\nサーバー時計確認を ⏰\n\n{url}\n\n#チケット",
+            "🎫 明日スタート\n{name}\n\n正確なサーバー時間 → {url}\n\n#{platform} #チケット",
+            "⏰ D-1 通知\n\n{name}\n{period}\n\nサーバー時計チェック → {url}\n\n#チケット",
+            "明日 {name}!\n\nチケット成功のために\n→ 正確なサーバー時計 ⏰\n\n{url}\n\n成功を祈ります 🙏"
+        ]
+    },
+    "hashtags": {
+        "common": [
+            "#チケット",
+            "#サーバー時計"
+        ],
+        "concert": [
+            "#コンサート",
+            "#ライブ"
+        ],
+        "festival": [
+            "#フェス",
+            "#音楽祭"
+        ],
+        "platforms": {
+            "eplus": "#イープラス",
+            "Ticket Pia": "#チケットぴあ"
+        }
+    }
+}

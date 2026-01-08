@@ -1,0 +1,50 @@
+{
+    "templates": {
+        "concert": [
+            "🎤 Tomorrow: {name}!\n📅 {period}\n🏟️ {venue}\n\nReady for ticketing? ⏰\nServer clock → {url}\n\n#Ticketing #Concert",
+            "⚡ Starting Tomorrow!\n{name}\n\nServer time check is a MUST 🕐\n{url}\n\n#Tickets #{platform}",
+            "🔥 D-1 Alert\n\n{name}\n{period}\n\nCheck your server clock!\n{url}\n\n#Ticketing #Live",
+            "Tomorrow: {name} begins!\n\nSecret to ticketing success ⏰\n→ Accurate server clock\n\n{url}\n\nGood luck everyone 🙏",
+            "📢 Tomorrow's Show Alert\n\n{name}\n{venue}\n\nCheck accurate time with server clock\n{url}\n\n#Ticketing"
+        ],
+        "festival": [
+            "🎪 Tomorrow: {name}!\n\nMassive ticketing expected 🔥\nServer clock is essential\n\n{url}\n\n#Festival #Tickets",
+            "🎉 Festival D-1\n{name}\n\nServer time check → {url}\n\n#Ticketing #{platform}"
+        ],
+        "sports": [
+            "⚽ Tomorrow: {name}!\n\nSports ticketing needs server clock too\n{url}\n\n#Ticketing #Sports",
+            "🏀 {name}\n{period}\n\nAccurate time → {url}\n\n#Tickets"
+        ],
+        "default": [
+            "📅 Tomorrow: {name}\n\nTicketing?\nCheck your server clock ⏰\n\n{url}\n\n#Ticketing",
+            "🎫 Starting Tomorrow\n{name}\n\nAccurate server time → {url}\n\n#{platform} #Ticketing",
+            "⏰ D-1 Notice\n\n{name}\n{period}\n\nServer clock check → {url}\n\n#Ticketing",
+            "Tomorrow: {name}!\n\nKey to ticketing success?\n→ Accurate server clock ⏰\n\n{url}\n\nBest of luck 🙏"
+        ]
+    },
+    "hashtags": {
+        "common": [
+            "#Ticketing",
+            "#ServerClock",
+            "#SyncTime"
+        ],
+        "concert": [
+            "#Concert",
+            "#Live",
+            "#Music"
+        ],
+        "festival": [
+            "#Festival",
+            "#MusicFestival"
+        ],
+        "sports": [
+            "#Sports",
+            "#Game"
+        ],
+        "platforms": {
+            "Ticketmaster": "#Ticketmaster",
+            "AXS": "#AXS",
+            "StubHub": "#StubHub"
+        }
+    }
+}

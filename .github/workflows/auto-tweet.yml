@@ -1,0 +1,130 @@
+name: Auto Tweet - Tomorrow's Events
+
+on:
+  # 매일 오전 10시, 오후 6시 실행 (KST 기준)
+  schedule:
+    - cron: '0 1 * * *'   # 10:00 KST (01:00 UTC)
+    - cron: '0 9 * * *'   # 18:00 KST (09:00 UTC)
+  
+  # 수동 실행 가능
+  workflow_dispatch:
+    inputs:
+      locale:
+        description: 'Locale to run (ko, jp, en, or all)'
+        required: false
+        default: 'all'
+
+jobs:
+  # 한국어 트윗
+  tweet-ko:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event.inputs.locale == 'all' || github.event.inputs.locale == 'ko'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r marketing/requirements.txt
+      
+      - name: Run Tweet Scheduler (Korean)
+        env:
+          LOCALE: ko
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY_KO }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET_KO }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN_KO }}
+          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET_KO }}
+        run: |
+          cd marketing
+          python scripts/tweet_scheduler.py
+      
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add marketing/output/synctime_kr.json
+          git diff --staged --quiet || git commit -m "🤖 Update Korean events (posted: $(date +'%Y-%m-%d %H:%M'))"
+          git push || echo "No changes to push"
+
+  # 일본어 트윗 (데이터가 있을 때만)
+  tweet-jp:
+    runs-on: ubuntu-latest
+    if: (github.event_name == 'schedule' || github.event.inputs.locale == 'all' || github.event.inputs.locale == 'jp') && false  # 현재 비활성화
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r marketing/requirements.txt
+      
+      - name: Run Tweet Scheduler (Japanese)
+        env:
+          LOCALE: jp
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY_JP }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET_JP }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN_JP }}
+          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET_JP }}
+        run: |
+          cd marketing
+          python scripts/tweet_scheduler.py
+      
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add marketing/output/synctime_jp.json
+          git diff --staged --quiet || git commit -m "🤖 Update Japanese events (posted: $(date +'%Y-%m-%d %H:%M'))"
+          git push || echo "No changes to push"
+
+  # 영어/글로벌 트윗 (데이터가 있을 때만)
+  tweet-en:
+    runs-on: ubuntu-latest
+    if: (github.event_name == 'schedule' || github.event.inputs.locale == 'all' || github.event.inputs.locale == 'en') && false  # 현재 비활성화
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r marketing/requirements.txt
+      
+      - name: Run Tweet Scheduler (English)
+        env:
+          LOCALE: en
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY_EN }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET_EN }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN_EN }}
+          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET_EN }}
+        run: |
+          cd marketing
+          python scripts/tweet_scheduler.py
+      
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add marketing/output/synctime_global.json
+          git diff --staged --quiet || git commit -m "🤖 Update Global events (posted: $(date +'%Y-%m-%d %H:%M'))"
+          git push || echo "No changes to push"
