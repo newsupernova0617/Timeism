@@ -1,20 +1,24 @@
 /* Language Switcher Styles */
 .header-content {
+    position: relative;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    gap: var(--space-4);
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
+    padding: 0 var(--space-4);
 }
 
 .header-text {
-    flex: 1;
     text-align: center;
 }
 
 .language-switcher {
+    position: absolute;
+    right: -3.5rem;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     gap: 0.5rem;
     background: rgba(255, 255, 255, 0.15);
@@ -53,9 +57,12 @@
     .header-content {
         flex-direction: column;
         gap: var(--space-3);
+        padding: 0 var(--space-4);
     }
 
     .language-switcher {
+        position: static;
+        transform: none;
         width: 100%;
         justify-content: center;
     }
