@@ -26,7 +26,7 @@ const { apiLimiter, trendingLimiter, strictLimiter } = require('./middleware/rat
 
 // 환경 변수
 const PORT = process.env.PORT || 3000;
-const DOMAIN = process.env.DOMAIN || 'https://timeism.keero.site';
+const DOMAIN = process.env.DOMAIN || 'https://synctime.keero.site';
 
 const app = express();
 
@@ -306,6 +306,86 @@ app.get('/sitemap.xml', (_req, res) => {
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>${DOMAIN}/en/about</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/about" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/about" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/about" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/ko/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/about" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/about" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/about" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/jp/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/about" />
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/about" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/about" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/zh-tw/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/about" />
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/about" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/about" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/en/contact</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/contact" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/contact" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/contact" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/ko/contact</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/contact" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/contact" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/contact" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/jp/contact</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/contact" />
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/contact" />
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="${DOMAIN}/zh-tw/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/contact" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/zh-tw/contact</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${DOMAIN}/en/contact" />
+    <xhtml:link rel="alternate" hreflang="ko" href="${DOMAIN}/ko/contact" />
+    <xhtml:link rel="alternate" hreflang="jp" href="${DOMAIN}/jp/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${DOMAIN}/en/contact" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 `;
 
   // 타겟 사이트 페이지들 추가 (4개 언어)
@@ -507,6 +587,57 @@ app.get('/jp/privacy', (req, res) => {
 
 app.get('/zh-tw/privacy', (req, res) => {
   res.render('privacy', { domain: DOMAIN });
+});
+
+// 언어별 About 페이지
+app.get('/en/about', (req, res) => {
+  res.render('about', { domain: DOMAIN });
+});
+
+app.get('/ko/about', (req, res) => {
+  res.render('about', { domain: DOMAIN });
+});
+
+app.get('/jp/about', (req, res) => {
+  res.render('about', { domain: DOMAIN });
+});
+
+app.get('/zh-tw/about', (req, res) => {
+  res.render('about', { domain: DOMAIN });
+});
+
+// 언어별 Contact 페이지
+app.get('/en/contact', (req, res) => {
+  res.render('contact', { domain: DOMAIN });
+});
+
+app.get('/ko/contact', (req, res) => {
+  res.render('contact', { domain: DOMAIN });
+});
+
+app.get('/jp/contact', (req, res) => {
+  res.render('contact', { domain: DOMAIN });
+});
+
+app.get('/zh-tw/contact', (req, res) => {
+  res.render('contact', { domain: DOMAIN });
+});
+
+// 언어별 Terms 페이지
+app.get('/en/terms', (req, res) => {
+  res.render('terms', { domain: DOMAIN });
+});
+
+app.get('/ko/terms', (req, res) => {
+  res.render('terms', { domain: DOMAIN });
+});
+
+app.get('/jp/terms', (req, res) => {
+  res.render('terms', { domain: DOMAIN });
+});
+
+app.get('/zh-tw/terms', (req, res) => {
+  res.render('terms', { domain: DOMAIN });
 });
 
 // 언어별 게임 페이지
@@ -746,6 +877,42 @@ app.get('/en/sites/:siteId', (req, res) => {
   });
 });
 
+// ==================== About & Contact 페이지 ====================
+
+// About 페이지 (4개 언어)
+app.get('/ko/about', (req, res) => {
+  res.render('about', { domain: DOMAIN, locale: 'ko' });
+});
+
+app.get('/en/about', (req, res) => {
+  res.render('about', { domain: DOMAIN, locale: 'en' });
+});
+
+app.get('/jp/about', (req, res) => {
+  res.render('about', { domain: DOMAIN, locale: 'jp' });
+});
+
+app.get('/zh-tw/about', (req, res) => {
+  res.render('about', { domain: DOMAIN, locale: 'zh-tw' });
+});
+
+// Contact 페이지 (4개 언어)
+app.get('/ko/contact', (req, res) => {
+  res.render('contact', { domain: DOMAIN, locale: 'ko' });
+});
+
+app.get('/en/contact', (req, res) => {
+  res.render('contact', { domain: DOMAIN, locale: 'en' });
+});
+
+app.get('/jp/contact', (req, res) => {
+  res.render('contact', { domain: DOMAIN, locale: 'jp' });
+});
+
+app.get('/zh-tw/contact', (req, res) => {
+  res.render('contact', { domain: DOMAIN, locale: 'zh-tw' });
+});
+
 // 기존 경로 호환성 유지 (리다이렉트)
 app.get('/guide', (req, res) => {
   const locale = i18n.detectLocale(req);
@@ -755,6 +922,21 @@ app.get('/guide', (req, res) => {
 app.get('/privacy', (req, res) => {
   const locale = i18n.detectLocale(req);
   res.redirect(`/${locale}/privacy`);
+});
+
+app.get('/about', (req, res) => {
+  const locale = i18n.detectLocale(req);
+  res.redirect(`/${locale}/about`);
+});
+
+app.get('/contact', (req, res) => {
+  const locale = i18n.detectLocale(req);
+  res.redirect(`/${locale}/contact`);
+});
+
+app.get('/terms', (req, res) => {
+  const locale = i18n.detectLocale(req);
+  res.redirect(`/${locale}/terms`);
 });
 
 // Serve static files (CSS, JS, images, etc.)
@@ -785,10 +967,12 @@ app.get('/api/analytics/:endpoint', verifyAdminToken, (req, res, next) => {
   apiRouter(req, res, next);
 });
 
-app.use((_req, res) => {
-  res.status(404).json({
-    error: 'NOT_FOUND',
-    message: 'Resource not found.'
+// 404 핸들러 - 사용자 친화적인 페이지 제공
+app.use((req, res) => {
+  const locale = i18n.detectLocale(req);
+  res.status(404).render('404', {
+    domain: DOMAIN,
+    locale: locale
   });
 });
 

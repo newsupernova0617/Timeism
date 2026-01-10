@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="<%= locale || 'en' %>">
+
+<head>
+    <%- include('partials/meta') %>
+        <title>404 - Page Not Found | SyncTime</title>
+        <meta name="description" content="The page you are looking for could not be found." />
+        <meta name="robots" content="noindex, nofollow" />
+        <style>
+            .error-container {
+                min-height: 60vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 2rem;
+            }
+
+            .error-code {
+                font-size: 8rem;
+                font-weight: bold;
+                color: var(--primary-color, #1f3c88);
+                margin: 0;
+                line-height: 1;
+            }
+
+            .error-title {
+                font-size: 2rem;
+                margin: 1rem 0;
+                color: #333;
+            }
+
+            .error-description {
+                font-size: 1.1rem;
+                color: #666;
+                max-width: 600px;
+                margin: 1rem auto 2rem;
+            }
+
+            .error-actions {
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .error-btn {
+                display: inline-block;
+                padding: 0.75rem 1.5rem;
+                border-radius: 6px;
+                text-decoration: none;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            }
+
+            .btn-primary {
+                background-color: var(--primary-color, #1f3c88);
+                color: white;
+            }
+
+            .btn-primary:hover {
+                background-color: #152a5e;
+                transform: translateY(-2px);
+            }
+
+            .btn-secondary {
+                background-color: #f5f5f5;
+                color: #333;
+            }
+
+            .btn-secondary:hover {
+                background-color: #e0e0e0;
+                transform: translateY(-2px);
+            }
+
+            .suggestions {
+                margin-top: 3rem;
+                padding: 2rem;
+                background-color: #f9f9f9;
+                border-radius: 8px;
+                max-width: 800px;
+            }
+
+            .suggestions h3 {
+                margin-top: 0;
+                color: #333;
+            }
+
+            .suggestions ul {
+                list-style: none;
+                padding: 0;
+                text-align: left;
+            }
+
+            .suggestions li {
+                padding: 0.5rem 0;
+            }
+
+            .suggestions a {
+                color: var(--primary-color, #1f3c88);
+                text-decoration: none;
+            }
+
+            .suggestions a:hover {
+                text-decoration: underline;
+            }
+        </style>
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <main class="error-container">
+            <h1 class="error-code">404</h1>
+
+            <% if (locale==='ko' ) { %>
+                <h2 class="error-title">페이지를 찾을 수 없습니다</h2>
+                <p class="error-description">
+                    요청하신 페이지가 존재하지 않거나 이동되었을 수 있습니다.
+                    URL을 다시 확인해 주시거나, 아래 버튼을 통해 메인 페이지로 이동해 주세요.
+                </p>
+
+                <div class="error-actions">
+                    <a href="/ko" class="error-btn btn-primary">🏠 메인으로 가기</a>
+                    <a href="/ko/guide" class="error-btn btn-secondary">📖 가이드 보기</a>
+                    <a href="/ko/contact" class="error-btn btn-secondary">📧 문의하기</a>
+                </div>
+
+                <div class="suggestions">
+                    <h3>자주 찾는 페이지</h3>
+                    <ul>
+                        <li>🏠 <a href="/ko">메인 페이지</a> - 서버 시간 확인</li>
+                        <li>📖 <a href="/ko/guide">이용 가이드</a> - SyncTime 사용 방법</li>
+                        <li>📝 <a href="/ko/blog">블로그</a> - 티켓팅 팁 & 가이드</li>
+                        <li>📊 <a href="/ko/trends">트렌드</a> - 인기 URL 통계</li>
+                        <li>ℹ️ <a href="/ko/about">About</a> - SyncTime 소개</li>
+                    </ul>
+                </div>
+
+                <% } else if (locale==='jp' ) { %>
+                    <h2 class="error-title">ページが見つかりません</h2>
+                    <p class="error-description">
+                        お探しのページは存在しないか移動した可能性があります。
+                        URLを再確認するか、下のボタンからメインページに移動してください。
+                    </p>
+
+                    <div class="error-actions">
+                        <a href="/jp" class="error-btn btn-primary">🏠 メインに戻る</a>
+                        <a href="/jp/guide" class="error-btn btn-secondary">📖 ガイドを見る</a>
+                        <a href="/jp/contact" class="error-btn btn-secondary">📧 お問い合わせ</a>
+                    </div>
+
+                    <div class="suggestions">
+                        <h3>よく見るページ</h3>
+                        <ul>
+                            <li>🏠 <a href="/jp">メインページ</a> - サーバー時刻確認</li>
+                            <li>📖 <a href="/jp/guide">利用ガイド</a> - SyncTimeの使い方</li>
+                            <li>📝 <a href="/jp/blog">ブログ</a> - チケット購入のヒント</li>
+                            <li>📊 <a href="/jp/trends">トレンド</a> - 人気URL統計</li>
+                            <li>ℹ️ <a href="/jp/about">About</a> - SyncTime紹介</li>
+                        </ul>
+                    </div>
+
+                    <% } else if (locale==='zh-tw' ) { %>
+                        <h2 class="error-title">找不到頁面</h2>
+                        <p class="error-description">
+                            您尋找的頁面不存在或已移動。
+                            請重新確認URL，或透過下方按鈕前往主頁。
+                        </p>
+
+                        <div class="error-actions">
+                            <a href="/zh-tw" class="error-btn btn-primary">🏠 返回主頁</a>
+                            <a href="/zh-tw/guide" class="error-btn btn-secondary">📖 查看指南</a>
+                            <a href="/zh-tw/contact" class="error-btn btn-secondary">📧 聯絡我們</a>
+                        </div>
+
+                        <div class="suggestions">
+                            <h3>常用頁面</h3>
+                            <ul>
+                                <li>🏠 <a href="/zh-tw">主頁</a> - 伺服器時間確認</li>
+                                <li>📖 <a href="/zh-tw/guide">使用指南</a> - 如何使用SyncTime</li>
+                                <li>📝 <a href="/zh-tw/blog">部落格</a> - 售票技巧與指南</li>
+                                <li>📊 <a href="/zh-tw/trends">趨勢</a> - 熱門URL統計</li>
+                                <li>ℹ️ <a href="/zh-tw/about">About</a> - SyncTime介紹</li>
+                            </ul>
+                        </div>
+
+                        <% } else { %>
+                            <h2 class="error-title">Page Not Found</h2>
+                            <p class="error-description">
+                                The page you are looking for does not exist or may have been moved.
+                                Please check the URL again, or navigate back to the main page using the buttons below.
+                            </p>
+
+                            <div class="error-actions">
+                                <a href="/en" class="error-btn btn-primary">🏠 Go to Home</a>
+                                <a href="/en/guide" class="error-btn btn-secondary">📖 View Guide</a>
+                                <a href="/en/contact" class="error-btn btn-secondary">📧 Contact Us</a>
+                            </div>
+
+                            <div class="suggestions">
+                                <h3>Popular Pages</h3>
+                                <ul>
+                                    <li>🏠 <a href="/en">Home Page</a> - Check Server Time</li>
+                                    <li>📖 <a href="/en/guide">Usage Guide</a> - How to use SyncTime</li>
+                                    <li>📝 <a href="/en/blog">Blog</a> - Ticketing Tips & Guides</li>
+                                    <li>📊 <a href="/en/trends">Trends</a> - Popular URL Statistics</li>
+                                    <li>ℹ️ <a href="/en/about">About</a> - About SyncTime</li>
+                                </ul>
+                            </div>
+                            <% } %>
+        </main>
+
+        <%- include('partials/footer') %>
+
+</body>
+
+</html>

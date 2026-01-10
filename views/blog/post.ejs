@@ -9,6 +9,39 @@
         <meta name="description" content="<%= locale === 'ko' ? post.description.ko : post.description.en %>">
         <meta property="og:title" content="<%= locale === 'ko' ? post.title.ko : post.title.en %>" />
         <meta property="og:description" content="<%= locale === 'ko' ? post.description.ko : post.description.en %>" />
+
+        <!-- Schema.org BlogPosting Structured Data -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": "<%= locale === 'ko' ? post.title.ko : post.title.en %>",
+            "description": "<%= locale === 'ko' ? post.description.ko : post.description.en %>",
+            "image": "<%= domain %>/og-image.png",
+            "datePublished": "<%= post.date %>",
+            "dateModified": "<%= post.date %>",
+            "author": {
+                "@type": "Organization",
+                "name": "SyncTime Team",
+                "url": "<%= domain %>"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "SyncTime",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "<%= domain %>/favicon.svg"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "<%= domain %>/<%= locale %>/blog/<%= post.slug %>"
+            },
+            "inLanguage": "<%= locale === 'ko' ? 'ko-KR' : (locale === 'en' ? 'en-US' : (locale === 'jp' ? 'ja-JP' : 'zh-TW')) %>",
+            "keywords": "<%= locale === 'ko' ? '티켓팅, 서버시간, 시간동기화, SyncTime' : 'ticketing, server time, time synchronization, SyncTime' %>"
+        }
+        </script>
+
         <link rel="stylesheet" href="/css/tokens.css">
         <link rel="stylesheet" href="/css/style.css">
         <link rel="stylesheet" href="/css/seo-content.css">
@@ -62,29 +95,38 @@
     <div class="app-container">
         <main class="content-wrapper">
             <article class="blog-post">
-                <header class="page-header">
-                    <div class="post-icon" style="font-size: 3rem; margin-bottom: var(--space-3);">
-                        <%= post.icon %>
+                <!-- Breadcrumb Navigation -->
+                <%- include('../partials/breadcrumb', { locale: locale, section: locale==='ko' ? '블로그' : (locale==='en'
+                    ? 'Blog' : (locale==='jp' ? 'ブログ' : '部落格' )), sectionUrl: '/' + locale + '/blog' , currentPage:
+                    locale==='ko' ? post.title.ko : (locale==='en' ? post.title.en : (locale==='jp' ? post.title.jp :
+                    post.title.zh)) }) %>
+
+                    <header class="page-header">
+                        <div class="post-icon" style="font-size: 3rem; margin-bottom: var(--space-3);">
+                            <%= post.icon %>
+                        </div>
+                        <h1>
+                            <%= locale==='ko' ? post.title.ko : post.title.en %>
+                        </h1>
+                        <p class="subtitle">
+                            <%= post.date %> · SyncTime Guide
+                        </p>
+                    </header>
+
+                    <div class="blog-content">
+                        <%# Include the specific post content based on slug %>
+                            <%- include('posts/' + post.slug) %>
                     </div>
-                    <h1>
-                        <%= locale==='ko' ? post.title.ko : post.title.en %>
-                    </h1>
-                    <p class="subtitle">
-                        <%= post.date %> · SyncTime Guide
-                    </p>
-                </header>
 
-                <div class="blog-content">
-                    <%# Include the specific post content based on slug %>
-                        <%- include('posts/' + post.slug) %>
-                </div>
+                    <!-- Social Share Buttons -->
+                    <%- include('../partials/social-share', { locale: locale, post: post, domain: domain }) %>
 
-                <div class="post-footer" style="margin-top: var(--space-8); text-align: center;">
-                    <a href="/<%= locale %>/blog" class="submit-btn"
-                        style="display: inline-block; width: auto; text-decoration: none;">
-                        <%= locale==='ko' ? '목록으로 돌아가기' : 'Back to Blog' %>
-                    </a>
-                </div>
+                        <div class="post-footer" style="margin-top: var(--space-8); text-align: center;">
+                            <a href="/<%= locale %>/blog" class="submit-btn"
+                                style="display: inline-block; width: auto; text-decoration: none;">
+                                <%= locale==='ko' ? '목록으로 돌아가기' : 'Back to Blog' %>
+                            </a>
+                        </div>
             </article>
 
             <%- include('../partials/comments', { locale: locale, pageId: 'blog-' + post.slug }) %>

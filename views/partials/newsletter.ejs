@@ -1,0 +1,115 @@
+<!-- Newsletter Subscription Section -->
+<section class="newsletter-section"
+    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 3rem 1rem; margin: 3rem 0; border-radius: 12px;">
+    <div class="newsletter-container" style="max-width: 700px; margin: 0 auto; text-align: center;">
+        <h2 style="font-size: 2rem; margin-bottom: 1rem;">
+            <% if (locale==='ko' ) { %>
+                📬 최신 티켓팅 정보를 받아보세요
+                <% } else if (locale==='en' ) { %>
+                    📬 Stay Updated with Latest Tips
+                    <% } else if (locale==='jp' ) { %>
+                        📬 最新のチケット情報を受け取る
+                        <% } else { %>
+                            📬 接收最新搶票資訊
+                            <% } %>
+        </h2>
+        <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.95;">
+            <% if (locale==='ko' ) { %>
+                SyncTime의 새로운 기능, 티켓팅 팁, 가이드를 이메일로 받아보세요.
+                <% } else if (locale==='en' ) { %>
+                    Get SyncTime's new features, ticketing tips, and guides delivered to your inbox.
+                    <% } else if (locale==='jp' ) { %>
+                        SyncTimeの新機能、チケット購入のヒント、ガイドをメールで受け取りましょう。
+                        <% } else { %>
+                            透過電子郵件接收 SyncTime 的新功能、搶票技巧和指南。
+                            <% } %>
+        </p>
+
+        <form class="newsletter-form"
+            style="display: flex; gap: 1rem; max-width: 500px; margin: 0 auto; flex-wrap: wrap;">
+            <input type="email"
+                placeholder="<% if (locale === 'ko') { %>이메일 주소<% } else if (locale === 'en') { %>Your email address<% } else if (locale === 'jp') { %>メールアドレス<% } else { %>電子郵件地址<% } %>"
+                required
+                style="flex: 1; min-width: 250px; padding: 1rem; border: none; border-radius: 6px; font-size: 1rem;" />
+            <button type="submit"
+                style="padding: 1rem 2rem; background: white; color: #667eea; border: none; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: all 0.3s; white-space: nowrap;"
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <% if (locale==='ko' ) { %>
+                    구독하기
+                    <% } else if (locale==='en' ) { %>
+                        Subscribe
+                        <% } else if (locale==='jp' ) { %>
+                            購読する
+                            <% } else { %>
+                                訂閱
+                                <% } %>
+            </button>
+        </form>
+
+        <p style="font-size: 0.85rem; margin-top: 1rem; opacity: 0.8;">
+            <% if (locale==='ko' ) { %>
+                언제든지 구독을 취소할 수 있습니다. 개인정보는 안전하게 보호됩니다.
+                <% } else if (locale==='en' ) { %>
+                    Unsubscribe anytime. Your privacy is protected.
+                    <% } else if (locale==='jp' ) { %>
+                        いつでも購読を解除できます。個人情報は安全に保護されます。
+                        <% } else { %>
+                            隨時可以取消訂閱。您的隱私受到保護。
+                            <% } %>
+        </p>
+    </div>
+</section>
+
+<style>
+    .newsletter-form input:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+    }
+
+    @media (max-width: 768px) {
+        .newsletter-section {
+            padding: 2rem 1rem;
+        }
+
+        .newsletter-section h2 {
+            font-size: 1.5rem;
+        }
+
+        .newsletter-form {
+            flex-direction: column;
+        }
+
+        .newsletter-form input,
+        .newsletter-form button {
+            width: 100%;
+            min-width: auto;
+        }
+    }
+</style>
+
+<script>
+    document.querySelector('.newsletter-form')?.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const email = this.querySelector('input[type="email"]').value;
+        const button = this.querySelector('button');
+        const originalText = button.textContent;
+
+        // TODO: 실제 뉴스레터 구독 API 연동
+        // 현재는 UI 데모용
+        button.textContent = '<% if (locale === "ko") { %>처리 중...<% } else if (locale === "en") { %>Processing...<% } else if (locale === "jp") { %>処理中...<% } else { %>處理中...<% } %>';
+        button.disabled = true;
+
+        setTimeout(() => {
+            button.textContent = '<% if (locale === "ko") { %>✓ 구독 완료!<% } else if (locale === "en") { %>✓ Subscribed!<% } else if (locale === "jp") { %>✓ 購読完了！<% } else { %>✓ 訂閱成功！<% } %>';
+            button.style.background = '#28a745';
+
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = 'white';
+                button.disabled = false;
+                this.reset();
+            }, 3000);
+        }, 1000);
+    });
+</script>

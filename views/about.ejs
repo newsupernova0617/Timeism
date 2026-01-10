@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="<%= locale %>">
+
+<head>
+    <%- include('partials/meta') %>
+        <title>
+            <% if (locale==='ko' ) { %>
+                SyncTime 소개 | 서버 시간 비교 서비스
+                <% } else if (locale==='en' ) { %>
+                    About SyncTime | Server Time Comparison Service
+                    <% } else if (locale==='jp' ) { %>
+                        SyncTimeについて | サーバー時刻比較サービス
+                        <% } else { %>
+                            關於 SyncTime | 伺服器時間比較服務
+                            <% } %>
+        </title>
+        <meta name="description"
+            content="<% if (locale === 'ko') { %>SyncTime은 정확한 서버 시간 확인을 통해 티켓팅과 수강신청 성공률을 높이는 무료 서비스입니다.<% } else if (locale === 'en') { %>SyncTime is a free service that helps you succeed in ticketing and course registration by checking accurate server time.<% } else if (locale === 'jp') { %>SyncTimeは正確なサーバー時刻を確認してチケット購入や履修登録の成功率を高める無料サービスです。<% } else { %>SyncTime 是一個免費服務，透過確認準確的伺服器時間來提高搶票和選課的成功率。<% } %>" />
+        <link rel="canonical" href="<%= domain %>/<%= locale %>/about" />
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <main class="content-page" style="max-width: 900px; margin: 0 auto; padding: 2rem 1rem;">
+            <!-- Breadcrumb -->
+            <%- include('partials/breadcrumb', { locale: locale, currentPage: locale==='ko' ? '소개' : (locale==='en'
+                ? 'About' : (locale==='jp' ? '概要' : '關於' )) }) %>
+
+                <article>
+                    <header class="page-header" style="text-align: center; margin-bottom: 3rem;">
+                        <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">
+                            <% if (locale==='ko' ) { %>
+                                SyncTime 소개
+                                <% } else if (locale==='en' ) { %>
+                                    About SyncTime
+                                    <% } else if (locale==='jp' ) { %>
+                                        SyncTimeについて
+                                        <% } else { %>
+                                            關於 SyncTime
+                                            <% } %>
+                        </h1>
+                        <p class="subtitle" style="font-size: 1.2rem; color: #666;">
+                            <% if (locale==='ko' ) { %>
+                                정확한 시간, 성공적인 결과
+                                <% } else if (locale==='en' ) { %>
+                                    Precise Time, Successful Results
+                                    <% } else if (locale==='jp' ) { %>
+                                        正確な時刻、成功への道
+                                        <% } else { %>
+                                            精確時間，成功結果
+                                            <% } %>
+                        </p>
+                    </header>
+
+                    <section style="margin-bottom: 3rem;">
+                        <h2 style="color: #3f51b5; margin-bottom: 1rem;">
+                            <% if (locale==='ko' ) { %>
+                                🎯 우리의 미션
+                                <% } else if (locale==='en' ) { %>
+                                    🎯 Our Mission
+                                    <% } else if (locale==='jp' ) { %>
+                                        🎯 私たちのミッション
+                                        <% } else { %>
+                                            🎯 我們的使命
+                                            <% } %>
+                        </h2>
+                        <p style="line-height: 1.8; font-size: 1.05rem;">
+                            <% if (locale==='ko' ) { %>
+                                SyncTime은 누구나 쉽게 서버의 정확한 시간을 확인할 수 있도록 돕는 무료 웹 서비스입니다.
+                                콘서트 티켓팅, 대학 수강신청, 한정 판매 등 정확한 타이밍이 중요한 순간에
+                                밀리초 단위의 시간 차이가 성패를 가를 수 있습니다. 우리는 모든 사용자가 공정한 기회를
+                                가질 수 있도록 정확한 서버 시간 정보를 제공합니다.
+                                <% } else if (locale==='en' ) { %>
+                                    SyncTime is a free web service that helps anyone easily check the accurate time of
+                                    any server.
+                                    In moments where precise timing is crucial—such as concert ticketing, university
+                                    course registration,
+                                    or limited-time sales—a difference of milliseconds can determine success or failure.
+                                    We provide accurate server time information so that all users can have a fair
+                                    opportunity.
+                                    <% } else if (locale==='jp' ) { %>
+                                        SyncTimeは、誰でも簡単にサーバーの正確な時刻を確認できる無料のWebサービスです。
+                                        コンサートチケット購入、大学の履修登録、限定販売など、正確なタイミングが重要な瞬間に、
+                                        ミリ秒単位の時間差が成否を分けることがあります。私たちは、すべてのユーザーが公平な機会を
+                                        持てるよう、正確なサーバー時刻情報を提供します。
+                                        <% } else { %>
+                                            SyncTime 是一個免費的網路服務，幫助任何人輕鬆確認伺服器的準確時間。
+                                            在演唱會搶票、大學選課、限時搶購等需要精確時機的時刻，
+                                            毫秒級的時間差異可能決定成敗。我們提供準確的伺服器時間資訊，
+                                            讓所有使用者都能擁有公平的機會。
+                                            <% } %>
+                        </p>
+                    </section>
+
+                    <section style="margin-bottom: 3rem;">
+                        <h2 style="color: #3f51b5; margin-bottom: 1rem;">
+                            <% if (locale==='ko' ) { %>
+                                💡 왜 SyncTime인가?
+                                <% } else if (locale==='en' ) { %>
+                                    💡 Why SyncTime?
+                                    <% } else if (locale==='jp' ) { %>
+                                        💡 なぜSyncTimeなのか？
+                                        <% } else { %>
+                                            💡 為什麼選擇 SyncTime？
+                                            <% } %>
+                        </h2>
+                        <div style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                            <h3 style="margin-bottom: 0.5rem;">
+                                <% if (locale==='ko' ) { %>
+                                    ⚡ 간편함
+                                    <% } else if (locale==='en' ) { %>
+                                        ⚡ Simplicity
+                                        <% } else if (locale==='jp' ) { %>
+                                            ⚡ 簡単
+                                            <% } else { %>
+                                                ⚡ 簡便性
+                                                <% } %>
+                            </h3>
+                            <p style="margin: 0; line-height: 1.6;">
+                                <% if (locale==='ko' ) { %>
+                                    URL만 입력하면 즉시 해당 서버의 시간을 확인할 수 있습니다. 로그인이나 회원가입 없이 누구나 무료로 사용 가능합니다.
+                                    <% } else if (locale==='en' ) { %>
+                                        Simply enter a URL to instantly check that server's time. Free for everyone, no
+                                        login or registration required.
+                                        <% } else if (locale==='jp' ) { %>
+                                            URLを入力するだけで、すぐにそのサーバーの時刻を確認できます。ログインや会員登録なしで誰でも無料で利用できます。
+                                            <% } else { %>
+                                                只需輸入網址即可立即確認該伺服器的時間。無需登入或註冊，所有人都可免費使用。
+                                                <% } %>
+                            </p>
+                        </div>
+
+                        <div style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                            <h3 style="margin-bottom: 0.5rem;">
+                                <% if (locale==='ko' ) { %>
+                                    🎯 정확성
+                                    <% } else if (locale==='en' ) { %>
+                                        🎯 Accuracy
+                                        <% } else if (locale==='jp' ) { %>
+                                            🎯 正確性
+                                            <% } else { %>
+                                                🎯 準確性
+                                                <% } %>
+                            </h3>
+                            <p style="margin: 0; line-height: 1.6;">
+                                <% if (locale==='ko' ) { %>
+                                    HTTP Date 헤더와 RTT(왕복 시간) 보정을 통해 실제 서버 시간을 밀리초 단위로 추정합니다. 평균 ±10ms 이내의 정확도를 제공합니다.
+                                    <% } else if (locale==='en' ) { %>
+                                        We estimate actual server time to the millisecond using HTTP Date headers and
+                                        RTT (Round Trip Time) correction. Average accuracy within ±10ms.
+                                        <% } else if (locale==='jp' ) { %>
+                                            HTTP DateヘッダーとRTT（往復時間）補正により、実際のサーバー時刻をミリ秒単位で推定します。平均±10ms以内の精度を提供します。
+                                            <% } else { %>
+                                                透過 HTTP Date 標頭和 RTT（往返時間）校正，以毫秒為單位估算實際伺服器時間。平均精確度在 ±10ms 以內。
+                                                <% } %>
+                            </p>
+                        </div>
+
+                        <div style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="margin-bottom: 0.5rem;">
+                                <% if (locale==='ko' ) { %>
+                                    🌍 다국어 지원
+                                    <% } else if (locale==='en' ) { %>
+                                        🌍 Multi-language Support
+                                        <% } else if (locale==='jp' ) { %>
+                                            🌍 多言語対応
+                                            <% } else { %>
+                                                🌍 多語言支援
+                                                <% } %>
+                            </h3>
+                            <p style="margin: 0; line-height: 1.6;">
+                                <% if (locale==='ko' ) { %>
+                                    한국어, 영어, 일본어, 중국어(번체) 4개 언어를 지원하여 전 세계 사용자가 편리하게 이용할 수 있습니다.
+                                    <% } else if (locale==='en' ) { %>
+                                        Supporting Korean, English, Japanese, and Traditional Chinese for users
+                                        worldwide.
+                                        <% } else if (locale==='jp' ) { %>
+                                            韓国語、英語、日本語、中国語（繁体字）の4言語に対応し、世界中のユーザーが便利に利用できます。
+                                            <% } else { %>
+                                                支援韓語、英語、日語、繁體中文四種語言，讓全球使用者都能便利使用。
+                                                <% } %>
+                            </p>
+                        </div>
+                    </section>
+
+                    <section style="margin-bottom: 3rem;">
+                        <h2 style="color: #3f51b5; margin-bottom: 1rem;">
+                            <% if (locale==='ko' ) { %>
+                                📊 서비스 현황
+                                <% } else if (locale==='en' ) { %>
+                                    📊 Service Statistics
+                                    <% } else if (locale==='jp' ) { %>
+                                        📊 サービス状況
+                                        <% } else { %>
+                                            📊 服務統計
+                                            <% } %>
+                        </h2>
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                            <div style="text-align: center; padding: 1.5rem; background: #e3f2fd; border-radius: 8px;">
+                                <div style="font-size: 2.5rem; font-weight: bold; color: #1976d2;">50K+</div>
+                                <div style="margin-top: 0.5rem; color: #666;">
+                                    <% if (locale==='ko' ) { %>월간 사용자<% } else if (locale==='en' ) { %>Monthly Users<% }
+                                                else if (locale==='jp' ) { %>月間ユーザー<% } else { %>每月用戶<% } %>
+                                </div>
+                            </div>
+                            <div style="text-align: center; padding: 1.5rem; background: #e8f5e9; border-radius: 8px;">
+                                <div style="font-size: 2.5rem; font-weight: bold; color: #388e3c;">1M+</div>
+                                <div style="margin-top: 0.5rem; color: #666;">
+                                    <% if (locale==='ko' ) { %>시간 체크<% } else if (locale==='en' ) { %>Time Checks<% }
+                                                else if (locale==='jp' ) { %>時刻確認<% } else { %>時間檢查<% } %>
+                                </div>
+                            </div>
+                            <div style="text-align: center; padding: 1.5rem; background: #fff3e0; border-radius: 8px;">
+                                <div style="font-size: 2.5rem; font-weight: bold; color: #f57c00;">99.9%</div>
+                                <div style="margin-top: 0.5rem; color: #666;">
+                                    <% if (locale==='ko' ) { %>가동률<% } else if (locale==='en' ) { %>Uptime<% } else if
+                                                (locale==='jp' ) { %>稼働率<% } else { %>正常運行率<% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section style="margin-bottom: 3rem;">
+                        <h2 style="color: #3f51b5; margin-bottom: 1rem;">
+                            <% if (locale==='ko' ) { %>
+                                🚀 앞으로의 계획
+                                <% } else if (locale==='en' ) { %>
+                                    🚀 Future Plans
+                                    <% } else if (locale==='jp' ) { %>
+                                        🚀 今後の計画
+                                        <% } else { %>
+                                            🚀 未來計劃
+                                            <% } %>
+                        </h2>
+                        <ul style="line-height: 2; font-size: 1.05rem;">
+                            <% if (locale==='ko' ) { %>
+                                <li>자체 NTP 서버 구축으로 더욱 정확한 시간 제공</li>
+                                <li>모바일 앱 출시 (iOS/Android)</li>
+                                <li>브라우저 확장 프로그램 개발</li>
+                                <li>실시간 알림 기능 추가</li>
+                                <li>더 많은 언어 지원</li>
+                                <% } else if (locale==='en' ) { %>
+                                    <li>Building our own NTP server for even more accurate time</li>
+                                    <li>Mobile app launch (iOS/Android)</li>
+                                    <li>Browser extension development</li>
+                                    <li>Real-time notification features</li>
+                                    <li>Support for more languages</li>
+                                    <% } else if (locale==='jp' ) { %>
+                                        <li>独自のNTPサーバー構築でより正確な時刻を提供</li>
+                                        <li>モバイルアプリのリリース（iOS/Android）</li>
+                                        <li>ブラウザ拡張機能の開発</li>
+                                        <li>リアルタイム通知機能の追加</li>
+                                        <li>より多くの言語のサポート</li>
+                                        <% } else { %>
+                                            <li>建立自有 NTP 伺服器以提供更準確的時間</li>
+                                            <li>推出行動應用程式（iOS/Android）</li>
+                                            <li>開發瀏覽器擴充功能</li>
+                                            <li>新增即時通知功能</li>
+                                            <li>支援更多語言</li>
+                                            <% } %>
+                        </ul>
+                    </section>
+
+                    <section
+                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 12px; text-align: center;">
+                        <h2 style="margin-bottom: 1rem;">
+                            <% if (locale==='ko' ) { %>
+                                함께 만들어가는 SyncTime
+                                <% } else if (locale==='en' ) { %>
+                                    Building SyncTime Together
+                                    <% } else if (locale==='jp' ) { %>
+                                        一緒に作るSyncTime
+                                        <% } else { %>
+                                            共同打造 SyncTime
+                                            <% } %>
+                        </h2>
+                        <p style="margin-bottom: 1.5rem; opacity: 0.95;">
+                            <% if (locale==='ko' ) { %>
+                                여러분의 피드백과 제안은 SyncTime을 더 나은 서비스로 만듭니다.
+                                <% } else if (locale==='en' ) { %>
+                                    Your feedback and suggestions make SyncTime a better service.
+                                    <% } else if (locale==='jp' ) { %>
+                                        皆様のフィードバックと提案がSyncTimeをより良いサービスにします。
+                                        <% } else { %>
+                                            您的回饋和建議讓 SyncTime 成為更好的服務。
+                                            <% } %>
+                        </p>
+                        <a href="/<%= locale %>/contact"
+                            style="display: inline-block; background: white; color: #667eea; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: bold;">
+                            <% if (locale==='ko' ) { %>
+                                문의하기 →
+                                <% } else if (locale==='en' ) { %>
+                                    Contact Us →
+                                    <% } else if (locale==='jp' ) { %>
+                                        お問い合わせ →
+                                        <% } else { %>
+                                            聯絡我們 →
+                                            <% } %>
+                        </a>
+                    </section>
+                </article>
+        </main>
+
+        <%- include('partials/cookie-consent', { locale: locale }) %>
+            <%- include('partials/footer') %>
+</body>
+
+</html>

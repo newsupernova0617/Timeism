@@ -586,6 +586,13 @@
             </section>
             -->
               </section>
+
+              <!-- Trust Indicators Section -->
+              <%- include('partials/trust-indicators', { locale: locale }) %>
+
+                <!-- Newsletter Section -->
+                <%- include('partials/newsletter', { locale: locale }) %>
+
             </main>
 
             <%# 실시간 댓글 사이드바 %>
@@ -603,11 +610,12 @@
               </aside>
       </div>
 
-      <%- include('partials/footer') %>
+      <%- include('partials/cookie-consent', { locale: locale }) %>
+        <%- include('partials/footer') %>
 
-        <script type="module" src="/js/main.js"></script>
+          <script type="module" src="/js/main.js"></script>
 
-        <!-- Advertisement Scripts -->
+          <!-- Advertisement Scripts -->
 
 </body>
 

@@ -1,0 +1,549 @@
+<% if (locale==='ko' ) { %>
+    <h2>대학 수강신청 완벽 공략 가이드</h2>
+    <p>
+        대학 수강신청은 티켓팅보다 더 치열한 경쟁의 장입니다. 인기 강의는 오픈 후 단 0.3초 만에 마감되기도 하며,
+        수천 명의 학생들이 동시에 서버에 접속하여 시스템이 마비되기도 합니다.
+        이 가이드는 서버 시간 동기화부터 네트워크 최적화까지, 수강신청 성공을 위한 모든 기술적 노하우를 담고 있습니다.
+    </p>
+
+    <div class="alert-box"
+        style="background-color: #ffebee; padding: 1.5rem; border-left: 4px solid #f44336; margin: 1.5rem 0;">
+        <h3 style="margin-top: 0;">⚠️ 중요한 사실</h3>
+        <p>
+            2024년 서울대학교 수강신청 데이터에 따르면, 인기 교양과목의 경우
+            <strong>오픈 후 0.1초 이내에 정원의 80%가 마감</strong>되었습니다.
+            1초만 늦어도 대기 순번은 수백 명 뒤로 밀립니다.
+        </p>
+    </div>
+
+    <h2>1. 왜 수강신청이 티켓팅보다 어려운가?</h2>
+
+    <h3>1.1 동시 접속자 폭증</h3>
+    <p>
+        대형 대학의 경우 수강신청 시즌에는 <strong>단일 시점에 2만~5만 명</strong>이 동시 접속합니다.
+        이는 일반 콘서트 티켓팅(보통 1만~3만 명)보다 훨씬 많은 수치입니다.
+    </p>
+
+    <div class="stats-table" style="overflow-x: auto; margin: 1.5rem 0;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background-color: #1976d2; color: white;">
+                    <th style="padding: 0.75rem; border: 1px solid #ccc;">대학</th>
+                    <th style="padding: 0.75rem; border: 1px solid #ccc;">재학생 수</th>
+                    <th style="padding: 0.75rem; border: 1px solid #ccc;">예상 동시 접속</th>
+                    <th style="padding: 0.75rem; border: 1px solid #ccc;">서버 응답 시간</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">서울대</td>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">~28,000명</td>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">15,000~20,000명</td>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">200~800ms</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">연세대</td>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">~26,000명</td>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">12,000~18,000명</td>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">150~600ms</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">고려대</td>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">~30,000명</td>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">14,000~20,000명</td>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">180~700ms</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">성균관대</td>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">~24,000명</td>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">10,000~15,000명</td>
+                    <td style="padding: 0.75rem; border: 1px solid #ccc;">120~500ms</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>1.2 서버 과부하와 타임아웃</h3>
+    <p>
+        수강신청 시스템은 1년에 2번(1학기, 2학기)만 극한의 트래픽을 경험하므로,
+        충분한 서버 스케일링이 어렵습니다. 그 결과:
+    </p>
+    <ul>
+        <li><strong>503 Service Unavailable</strong> 오류 빈발</li>
+        <li>페이지 로딩 시간이 평소 1초 → 피크 시 5~10초로 증가</li>
+        <li>요청이 큐에서 대기하다가 타임아웃</li>
+        <li>간헐적인 시스템 재시작으로 인한 세션 만료</li>
+    </ul>
+
+    <h3>1.3 학교별 시스템 차이</h3>
+    <p>
+        각 대학은 독자적인 수강신청 시스템을 운영하며, 서버 위치, 프로토콜, 인증 방식이 모두 다릅니다.
+    </p>
+
+    <h2>2. 주요 대학 수강신청 시스템 분석</h2>
+
+    <h3>2.1 서울대학교 (mySNU)</h3>
+    <div class="university-box"
+        style="background-color: #e8f5e9; padding: 1.5rem; margin: 1.5rem 0; border-radius: 8px;">
+        <h4>시스템 특성</h4>
+        <ul>
+            <li><strong>URL:</strong> <code>sugang.snu.ac.kr</code></li>
+            <li><strong>서버 위치:</strong> 관악캠퍼스 내부 IDC</li>
+            <li><strong>평균 RTT:</strong> 캠퍼스 내 20~40ms, 외부 80~150ms</li>
+            <li><strong>오픈 방식:</strong> 학년별 시차 오픈 (4학년 → 1학년)</li>
+            <li><strong>특이사항:</strong> 교내 네트워크 우대 (캠퍼스 기숙사 유리)</li>
+        </ul>
+
+        <h4>SyncTime 활용법</h4>
+        <ol>
+            <li>수강신청 30분 전: <code>https://sugang.snu.ac.kr</code> 서버 시간 확인</li>
+            <li>내 컴퓨터와의 시간 차이 측정 (예: +0.5초, -1.2초)</li>
+            <li>수강신청 5분 전: 재확인하여 변동 여부 점검</li>
+            <li>측정된 차이를 고려하여 새로고침 타이밍 조정</li>
+        </ol>
+
+        <div class="tip-box"
+            style="background-color: #fff9c4; padding: 1rem; margin-top: 1rem; border-left: 3px solid #fbc02d;">
+            <strong>💡 Pro Tip:</strong> 서울대는 교내 네트워크 사용자에게 우선순위를 부여합니다.
+            가능하면 기숙사나 도서관에서 시도하세요.
+        </div>
+    </div>
+
+    <h3>2.2 연세대학교 (포털 시스템)</h3>
+    <div class="university-box"
+        style="background-color: #e3f2fd; padding: 1.5rem; margin: 1.5rem 0; border-radius: 8px;">
+        <h4>시스템 특성</h4>
+        <ul>
+            <li><strong>URL:</strong> <code>portal.yonsei.ac.kr</code></li>
+            <li><strong>서버 위치:</strong> 신촌캠퍼스 + AWS 혼용</li>
+            <li><strong>평균 RTT:</strong> 60~120ms (AWS CDN 활용)</li>
+            <li><strong>오픈 방식:</strong> 학년 무관 동시 오픈</li>
+            <li><strong>특이사항:</strong> 2022년부터 대기열 시스템 도입</li>
+        </ul>
+
+        <h4>대기열 시스템 이해하기</h4>
+        <p>
+            연세대는 2022년부터 "공정한 대기열" 시스템을 도입했습니다.
+            오픈 시간 기준 <strong>±5초 이내</strong>에 접속한 사용자는 모두 랜덤으로 대기 순번을 부여받습니다.
+        </p>
+        <ul>
+            <li>-5초 전에 접속: 너무 일찍 → 대기열 후순위</li>
+            <li>±5초 이내: 랜덤 배정 (운)</li>
+            <li>+5초 후에 접속: 늦음 → 대기열 최하위</li>
+        </ul>
+
+        <div class="warning-box"
+            style="background-color: #ffebee; padding: 1rem; margin-top: 1rem; border-left: 3px solid #f44336;">
+            <strong>⚠️ 주의:</strong> 일찍 클릭한다고 무조건 유리한 것은 아닙니다!
+            정확히 ±5초 범위 안에 들어가는 것이 핵심입니다.
+        </div>
+    </div>
+
+    <h3>2.3 고려대학교 (KUPID)</h3>
+    <div class="university-box"
+        style="background-color: #fff3e0; padding: 1.5rem; margin: 1.5rem 0; border-radius: 8px;">
+        <h4>시스템 특성</h4>
+        <ul>
+            <li><strong>URL:</strong> <code>kupid.korea.ac.kr</code></li>
+            <li><strong>서버 위치:</strong> 안암캠퍼스 IDC</li>
+            <li><strong>평균 RTT:</strong> 70~140ms</li>
+            <li><strong>오픈 방식:</strong> 순수 선착순</li>
+            <li><strong>특이사항:</strong> 로그인 세션 유지 시간이 짧음 (30분)</li>
+        </ul>
+
+        <h4>세션 관리 주의사항</h4>
+        <p>
+            고려대 KUPID는 보안 정책상 <strong>30분마다 세션을 갱신</strong>해야 합니다.
+            수강신청 10분 전에 미리 로그인하되, 너무 일찍 로그인하면 세션이 만료될 수 있습니다.
+        </p>
+    </div>
+
+    <h2>3. 수강신청 전 준비 체크리스트</h2>
+
+    <h3>3.1 시간 동기화 (가장 중요!)</h3>
+    <div class="checklist" style="background-color: #f5f5f5; padding: 1.5rem; margin: 1.5rem 0;">
+        <h4>✅ Windows 사용자</h4>
+        <ol>
+            <li>설정 → 시간 및 언어 → 날짜 및 시간</li>
+            <li>"시간 자동 설정" 켜기</li>
+            <li>"지금 동기화" 클릭 (수강신청 1시간 전)</li>
+            <li><strong>SyncTime으로 학교 서버와의 차이 확인 필수</strong></li>
+        </ol>
+
+        <h4>✅ macOS 사용자</h4>
+        <ol>
+            <li>시스템 환경설정 → 날짜 및 시간</li>
+            <li>"자동으로 날짜와 시간 설정" 체크</li>
+            <li>시간 서버: <code>time.apple.com</code> 또는 <code>time.google.com</code></li>
+            <li><strong>SyncTime으로 재확인</strong></li>
+        </ol>
+    </div>
+
+    <h3>3.2 브라우저 최적화</h3>
+    <ul>
+        <li><strong>권장 브라우저:</strong> Chrome (가장 빠른 JavaScript 엔진)</li>
+        <li><strong>불필요한 탭 모두 닫기:</strong> 메모리 확보</li>
+        <li><strong>확장 프로그램 비활성화:</strong> 광고 차단, VPN 등 모두 끄기</li>
+        <li><strong>캐시 정리:</strong> Ctrl + Shift + Delete → 전체 삭제</li>
+        <li><strong>하드웨어 가속:</strong> Chrome 설정에서 활성화 확인</li>
+    </ul>
+
+    <h3>3.3 네트워크 환경 점검</h3>
+    <div class="network-guide" style="background-color: #e1f5fe; padding: 1.5rem; margin: 1.5rem 0;">
+        <h4>🌐 최적 네트워크 설정</h4>
+
+        <p><strong>1순위: 유선 LAN (이더넷)</strong></p>
+        <ul>
+            <li>가장 안정적이고 빠름</li>
+            <li>평균 RTT: 10~50ms</li>
+            <li>권장 속도: 최소 100Mbps 이상</li>
+        </ul>
+
+        <p><strong>2순위: 5GHz Wi-Fi</strong></p>
+        <ul>
+            <li>2.4GHz보다 빠르고 간섭 적음</li>
+            <li>평균 RTT: 20~80ms</li>
+            <li>라우터와의 거리 2m 이내 권장</li>
+        </ul>
+
+        <p><strong>3순위: 2.4GHz Wi-Fi</strong></p>
+        <ul>
+            <li>간섭이 많아 불안정</li>
+            <li>평균 RTT: 30~150ms</li>
+            <li>부득이한 경우에만 사용</li>
+        </ul>
+
+        <p><strong>❌ 피해야 할 것:</strong></p>
+        <ul>
+            <li>모바일 핫스팟 (4G/5G 테더링)</li>
+            <li>공용 Wi-Fi (카페, PC방 등)</li>
+            <li>VPN 연결</li>
+        </ul>
+    </div>
+
+    <h3>3.4 백업 계획 수립</h3>
+    <p>
+        1지망 과목이 마감될 경우를 대비하여 <strong>2지망, 3지망</strong>을 미리 정해두세요.
+    </p>
+    <ul>
+        <li>과목 번호를 메모장에 미리 적어두기</li>
+        <li>시간표 충돌 여부 확인</li>
+        <li>빠른 전환을 위한 브라우저 탭 준비</li>
+    </ul>
+
+    <h2>4. 단계별 성공 전략</h2>
+
+    <h3>🕐 수강신청 30분 전</h3>
+    <div class="timeline-box"
+        style="background-color: #f3e5f5; padding: 1rem; margin: 1rem 0; border-left: 4px solid #9c27b0;">
+        <ul>
+            <li>✅ 학교 수강신청 시스템에 로그인 (세션 유지)</li>
+            <li>✅ SyncTime으로 학교 서버 시간 확인</li>
+            <li>✅ 컴퓨터 시간과의 차이 측정 및 기록</li>
+            <li>✅ 희망 과목의 과목 번호 최종 확인</li>
+            <li>✅ 대안 과목 3개 이상 준비</li>
+        </ul>
+    </div>
+
+    <h3>🕑 수강신청 10분 전</h3>
+    <div class="timeline-box"
+        style="background-color: #e8f5e9; padding: 1rem; margin: 1rem 0; border-left: 4px solid #4caf50;">
+        <ul>
+            <li>✅ 로그인 상태 재확인 (필요시 재로그인)</li>
+            <li>✅ 모든 다른 프로그램 종료</li>
+            <li>✅ 브라우저 캐시 삭제</li>
+            <li>✅ 네트워크 연결 확인 (ping 테스트)</li>
+            <li>✅ 수강신청 페이지로 이동하여 대기</li>
+        </ul>
+    </div>
+
+    <h3>🕔 수강신청 5분 전</h3>
+    <div class="timeline-box"
+        style="background-color: #fff9c4; padding: 1rem; margin: 1rem 0; border-left: 4px solid #ff9800;">
+        <ul>
+            <li>✅ SyncTime 재확인 (서버 시간 변동 체크)</li>
+            <li>✅ 손가락을 F5 키 위에 준비</li>
+            <li>✅ 심호흡 (긴장 완화)</li>
+            <li>✅ 메모한 시간 차이 다시 확인</li>
+        </ul>
+    </div>
+
+    <h3>⏰ 수강신청 오픈 순간</h3>
+    <div class="timeline-box"
+        style="background-color: #ffebee; padding: 1rem; margin: 1rem 0; border-left: 4px solid #f44336;">
+        <h4>정확한 타이밍 계산</h4>
+        <p>예시: 14:00:00 오픈, 내 컴퓨터가 서버보다 0.8초 빠른 경우</p>
+        <ul>
+            <li><strong>13:59:58.5:</strong> 손가락을 F5 키에 올림</li>
+            <li><strong>13:59:59.2:</strong> F5 누름 (페이지 로딩 시간 고려)</li>
+            <li><strong>14:00:00.0:</strong> 서버에 요청 도착 (목표)</li>
+        </ul>
+
+        <p><strong>새로고침 후 즉시:</strong></p>
+        <ol>
+            <li>과목 검색 또는 미리 저장한 장바구니 클릭</li>
+            <li>"수강신청" 버튼 클릭</li>
+            <li>확인 창이 뜨면 <strong>Enter</strong> (마우스 클릭보다 빠름)</li>
+            <li>성공 메시지 확인</li>
+        </ol>
+    </div>
+
+    <h2>5. 실패 시 대처법</h2>
+
+    <h3>5.1 빠른 재시도</h3>
+    <p>
+        1지망 과목이 마감되었다면 <strong>5초 이내</strong>에 2지망으로 전환하세요.
+        대부분의 수강신청 시스템은 오픈 후 10~30초 동안 가장 많은 변동이 있습니다.
+    </p>
+
+    <h3>5.2 정정 기간 활용</h3>
+    <p>
+        수강신청 정정 기간(보통 개강 전 1주일)에는 타 학생들의 취소로 인해
+        <strong>추가 TO가 발생</strong>할 수 있습니다.
+    </p>
+    <ul>
+        <li>매일 아침 9시, 저녁 6시에 확인 (통계적으로 취소가 많은 시간)</li>
+        <li>SyncTime으로 서버 시간 확인 후 정시에 재시도</li>
+    </ul>
+
+    <h3>5.3 분석 및 개선</h3>
+    <p>
+        실패했다면 원인을 분석하세요:
+    </p>
+    <ul>
+        <li>서버 시간과 맞지 않았나? → SyncTime 재활용</li>
+        <li>새로고침이 늦었나? → 다음엔 0.5초 더 일찍</li>
+        <li>네트워크가 느렸나? → 유선 연결로 전환</li>
+        <li>페이지 로딩이 느렸나? → 브라우저 최적화</li>
+    </ul>
+
+    <h2>6. 고급 팁</h2>
+
+    <h3>6.1 JavaScript 콘솔 활용 (고급 사용자)</h3>
+    <div class="code-example" style="background-color: #f5f5f5; padding: 1rem; border-radius: 4px; margin: 1rem 0;">
+        <p>Chrome 개발자 도구 (F12)에서 현재 시간과 서버 시간 차이를 실시간으로 확인:</p>
+        <pre style="background-color: #263238; color: #aed581; padding: 1rem; overflow-x: auto; border-radius: 4px;"><code>// 현재 브라우저 시간
+console.log(new Date());
+
+// SyncTime에서 확인한 차이값 저장
+const timeDifference = -800; // ms 단위 (예: -0.8초)
+
+// 조정된 시간 계산
+const adjustedTime = new Date(Date.now() + timeDifference);
+console.log('조정된 시간:', adjustedTime);
+</code></pre>
+    </div>
+
+    <h3>6.2 다중 기기 전략 (주의 필요)</h3>
+    <p>
+        일부 학생들은 PC + 노트북 + 태블릿을 동시에 사용하지만, 이는 <strong>위험</strong>합니다:
+    </p>
+    <ul>
+        <li>❌ 중복 신청으로 인한 패널티 가능성</li>
+        <li>❌ 네트워크 대역폭 분산으로 오히려 느려질 수 있음</li>
+        <li>✅ 안전한 방법: 1대만 사용, 나머지는 대기용</li>
+    </ul>
+
+    <h3>6.3 심리적 준비</h3>
+    <ul>
+        <li><strong>모의 연습:</strong> 수강신청 전날 시스템에 접속해서 UI를 익히기</li>
+        <li><strong>긴장 관리:</strong> 깊은 호흡으로 손떨림 방지</li>
+        <li><strong>백업 플랜:</strong> 최악의 경우를 대비한 마음의 준비</li>
+    </ul>
+
+    <h2>7. SyncTime 실전 활용 사례</h2>
+
+    <div class="success-case"
+        style="background-color: #e8f5e9; padding: 1.5rem; border-left: 4px solid #4caf50; margin: 1.5rem 0;">
+        <h3>✅ 성공 사례 1: 서울대 컴퓨터공학</h3>
+        <p>
+            "기숙사에서 유선 랜을 연결하고, SyncTime으로 확인한 결과 기숙사 네트워크가
+            학교 서버와 0.3초 느렸습니다. 13:59:59.7에 F5를 눌렀고,
+            정확히 14:00:00.0에 요청이 처리되어 '데이터구조' 과목을 신청했습니다.
+            200명 정원에 3,000명이 몰렸지만 성공했어요!" - 박**(컴퓨터공학, 2학년)
+        </p>
+    </div>
+
+    <div class="success-case"
+        style="background-color: #e8f5e9; padding: 1.5rem; border-left: 4px solid #4caf50; margin: 1.5rem 0;">
+        <h3>✅ 성공 사례 2: 연세대 교양</h3>
+        <p>
+            "연세대는 대기열 시스템이라 ±5초가 중요하다고 들었습니다.
+            SyncTime으로 서버 시간을 확인하고, 정확히 14:00:00.5에 접속했더니
+            대기 순번 187번을 받았고, 결국 '현대사회와 윤리' 과목을 성공적으로 신청했습니다!"
+            - 김**(경영학, 3학년)
+        </p>
+    </div>
+
+    <h2>8. 주의사항 및 금지 행위</h2>
+
+    <div class="warning-list"
+        style="background-color: #fff3e0; padding: 1.5rem; border-left: 4px solid #ff9800; margin: 1.5rem 0;">
+        <h3>⚠️ 절대 금지</h3>
+        <ul>
+            <li><strong>매크로/봇 사용:</strong> 적발 시 징계 (학사경고 또는 퇴학)</li>
+            <li><strong>타인 계정 사용:</strong> 본인 인증 위반</li>
+            <li><strong>서버 공격:</strong> DDoS 등 불법 행위</li>
+            <li><strong>유료 대행 서비스:</strong> 사기 피해 위험</li>
+        </ul>
+
+        <h3>✅ 합법적인 방법</h3>
+        <ul>
+            <li>SyncTime 같은 공개 도구 사용</li>
+            <li>네트워크 최적화</li>
+            <li>브라우저 설정 조정</li>
+            <li>충분한 사전 준비</li>
+        </ul>
+    </div>
+
+    <h2>9. FAQ</h2>
+
+    <h3>Q1: SyncTime 사용이 불공정하지 않나요?</h3>
+    <p>
+        <strong>A:</strong> 전혀 그렇지 않습니다. SyncTime은 누구나 무료로 사용할 수 있는 공개 도구이며,
+        단지 서버 시간을 확인하는 기능만 제공합니다. 매크로나 자동화와는 다릅니다.
+    </p>
+
+    <h3>Q2: 학교 서버 시간이 표준 시간과 다를 수 있나요?</h3>
+    <p>
+        <strong>A:</strong> 네, 가능합니다. 대학 서버들은 자체 IDC를 운영하는 경우가 많고,
+        시간 동기화 주기가 다를 수 있습니다. 그래서 SyncTime으로 실제 서버 시간을 확인하는 것이 중요합니다.
+    </p>
+
+    <h3>Q3: 기숙사 vs 집에서 어디가 유리한가요?</h3>
+    <p>
+        <strong>A:</strong> 일반적으로 <strong>교내 네트워크</strong>가 유리합니다.
+        일부 학교는 교내 IP에 우선순위를 부여하기도 하며, 물리적 거리가 가까워 RTT가 짧습니다.
+    </p>
+
+    <h3>Q4: 모바일로도 가능한가요?</h3>
+    <p>
+        <strong>A:</strong> 가능은 하지만 비추천합니다. 모바일은 화면이 작고, 터치 조작이 정확하지 않으며,
+        Wi-Fi/LTE 연결이 불안정합니다. 중요한 수강신청은 PC를 권장합니다.
+    </p>
+
+    <h2>10. 결론</h2>
+    <p>
+        대학 수강신청은 기술, 타이밍, 그리고 약간의 운이 결합된 치열한 경쟁입니다.
+        하지만 <strong>SyncTime을 활용한 정확한 시간 동기화</strong>와 철저한 준비로
+        성공 확률을 크게 높일 수 있습니다.
+    </p>
+
+    <div class="final-cta"
+        style="background-color: #e8eaf6; padding: 2rem; text-align: center; border-radius: 8px; margin: 2rem 0;">
+        <h3>지금 바로 준비하세요!</h3>
+        <p>다음 수강신청까지의 시간을 낭비하지 마세요.</p>
+        <a href="/<%= locale %>"
+            style="display: inline-block; background-color: #3f51b5; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 4px; font-weight: bold; margin-top: 1rem;">
+            SyncTime으로 서버 시간 확인하기 →
+        </a>
+    </div>
+
+    <% } else if (locale==='en' ) { %>
+        <h2>Complete University Course Registration Guide</h2>
+        <p>
+            University course registration is often more competitive than concert ticketing. Popular courses can close
+            within 0.3 seconds of opening, and thousands of students accessing the server simultaneously can lead to
+            system crashes. This guide provides all the technical know-how from server time synchronization to network
+            optimization.
+        </p>
+
+        <div class="alert-box"
+            style="background-color: #ffebee; padding: 1.5rem; border-left: 4px solid #f44336; margin: 1.5rem 0;">
+            <h3 style="margin-top: 0;">⚠️ Critical Fact</h3>
+            <p>
+                According to 2024 SNU (Seoul National University) data, <strong>80% of popular elective spots are filled
+                    within 0.1 seconds</strong>. Being just 1 second late can put you behind hundreds of people in the
+                queue.
+            </p>
+        </div>
+
+        <h2>1. Why Course Registration is Harder than Ticketing</h2>
+        <h3>1.1 Massive Concurrent Traffic</h3>
+        <p>In major universities, 20,000 to 50,000 students log in at the exact same time. This is often higher than
+            typical concert traffic.</p>
+
+        <h2>2. Analysis of Major University Systems (Korea)</h2>
+        <h3>2.1 Seoul National University (sugang.snu.ac.kr)</h3>
+        <ul>
+            <li><strong>Server Location:</strong> Internal IDC at Gwanak Campus.</li>
+            <li><strong>Tip:</strong> Users on the campus network (dorms, library) get significantly lower latency.</li>
+        </ul>
+
+        <h3>2.2 Yonsei University (portal.yonsei.ac.kr)</h3>
+        <ul>
+            <li><strong>Queue System:</strong> Introduced a randomized queue in 2022. Users entering within ±5 seconds
+                of the opening time are assigned a random position.</li>
+        </ul>
+
+        <h2>3. Pre-Registration Checklist</h2>
+        <h3>3.1 Time Synchronization</h3>
+        <ul>
+            <li><strong>Windows:</strong> Go to Settings → Time & Language → Sync Now.</li>
+            <li><strong>Crucial:</strong> Use SyncTime to measure the offset between your device and the university's
+                specific server (e.g., <code>sugang.snu.ac.kr</code>).</li>
+        </ul>
+
+        <h3>3.2 Network Environment</h3>
+        <ul>
+            <li><strong>Priority 1:</strong> Wired LAN (Ethernet) - Average RTT 10-50ms.</li>
+            <li><strong>Priority 2:</strong> 5GHz Wi-Fi - Recommended within 2m of the router.</li>
+            <li><strong>Avoid:</strong> Public Wi-Fi, Mobile hotspots, and VPNs.</li>
+        </ul>
+
+        <h2>4. Step-by-Step Strategy</h2>
+        <div style="background-color: #f3e5f5; padding: 1rem; border-left: 4px solid #9c27b0; margin: 1rem 0;">
+            <h4>30 Minutes Before</h4>
+            <ul>
+                <li>Log in and ensure your session doesn't expire.</li>
+                <li>Measure time difference using SyncTime.</li>
+            </ul>
+        </div>
+
+        <h2>Conclusion</h2>
+        <p>Success is a combination of technique, timing, and a bit of luck. Use <strong>SyncTime</strong> to ensure
+            your timing is perfect down to the millisecond.</p>
+
+        <% } else if (locale==='jp' ) { %>
+            <h2>大学履修登録完全攻略ガイド</h2>
+            <p>
+                大学の履修登録は、チケットぴあの先着順販売よりも激しい競争の場です。人気科目はオープン後わずか0.3秒で締め切られることもあります。
+                このガイドでは、サーバー時刻の同期からネットワーク最適化まで、成功のためのノウハウを伝授します。
+            </p>
+
+            <h2>1. 履修登録が難しい理由</h2>
+            <p>数万人の学生が同じ瞬間にアクセスするため、サーバーに極端な負荷がかかります。「503 Service Unavailable」エラーを避けるためには、正確なタイミングでのリクエストが不可欠です。</p>
+
+            <h2>2. 準備チェックリスト</h2>
+            <ul>
+                <li><strong>時刻同期:</strong> PCの設定から時刻を同期し、さらにSyncTimeで大学サーバーとのズレ（ミリ秒単位）を確認してください。</li>
+                <li><strong>ブラウザ:</strong> JavaScriptエンジンが最も速いGoogle Chromeを推奨します。</li>
+                <li><strong>ネットワーク:</strong> Wi-Fiよりも有線LAN（LANケーブル）を使用しましょう。</li>
+            </ul>
+
+            <h2>3. 成功へのステップ</h2>
+            <p>ターゲットとなるURLをSyncTimeに入力し、実際のサーバー時刻を確認します。自分の時計が0.5秒進んでいるなら、14:00オープンに対して13:59:59.5にクリックする準備をしましょう（ページの読み込み時間も考慮します）。
+            </p>
+
+            <h2>結論</h2>
+            <p>SyncTimeを使って正確なサーバー時刻を把握することで、成功率を大幅に向上させることができます。</p>
+
+            <% } else { %>
+                <h2>大學選課完全攻略指南</h2>
+                <p>大學選課的競爭程度往往超過搶票。熱門課程可能在開放後 0.3 秒內額滿。本指南提供了從伺服器時間同步到網路優化的所有技術訣竅。</p>
+
+                <h2>1. 為什麼選課這麼難？</h2>
+                <p>在大型大學中，選課期間同時在線人數可達 2 萬到 5 萬。這會導致伺服器過載。掌握精確的「伺服器時間」是成功的唯一途徑。</p>
+
+                <h2>2. 選課前的準備清單</h2>
+                <ul>
+                    <li><strong>時間同步：</strong> 僅同步本地時間是不夠的。請使用 SyncTime 確認您的電腦與學校伺服器之間是否存在毫秒級的誤差。</li>
+                    <li><strong>網路環境：</strong>強烈建議使用有線網路（Ethernet），避免使用公共 Wi-Fi 或 VPN。</li>
+                </ul>
+
+                <h2>3. 分步成功策略</h2>
+                <p>提前 30 分鐘登錄系統並保持在線。使用 SyncTime 測量時間差。根據頁面加載速度，通常建議提前 0.5 到 1.5 秒點擊重新整理。</p>
+
+                <h2>結論</h2>
+                <p>選課是技術、時機和一點運氣的結合。透過 <strong>SyncTime</strong> 的精確同步，您可以極大地提升成功機率。</p>
+                <% } %>

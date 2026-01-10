@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="<%= locale %>">
+
+<head>
+    <%- include('partials/meta') %>
+        <title>
+            <% if (locale==='ko' ) { %>
+                문의하기 | SyncTime
+                <% } else if (locale==='en' ) { %>
+                    Contact Us | SyncTime
+                    <% } else if (locale==='jp' ) { %>
+                        お問い合わせ | SyncTime
+                        <% } else { %>
+                            聯絡我們 | SyncTime
+                            <% } %>
+        </title>
+        <meta name="description"
+            content="<% if (locale === 'ko') { %>SyncTime에 대한 문의, 제안, 피드백을 보내주세요. 빠른 시일 내에 답변드리겠습니다.<% } else if (locale === 'en') { %>Send us your inquiries, suggestions, and feedback about SyncTime. We'll respond as soon as possible.<% } else if (locale === 'jp') { %>SyncTimeに関するお問い合わせ、ご提案、フィードバックをお送りください。できるだけ早くご返信いたします。<% } else { %>向我們發送關於 SyncTime 的詢問、建議和回饋。我們會盡快回覆。<% } %>" />
+        <link rel="canonical" href="<%= domain %>/<%= locale %>/contact" />
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <main class="content-page" style="max-width: 800px; margin: 0 auto; padding: 2rem 1rem;">
+            <!-- Breadcrumb -->
+            <%- include('partials/breadcrumb', { locale: locale, currentPage: locale==='ko' ? '문의하기' : (locale==='en'
+                ? 'Contact' : (locale==='jp' ? 'お問い合わせ' : '聯絡我們' )) }) %>
+
+                <article>
+                    <header class="page-header" style="text-align: center; margin-bottom: 3rem;">
+                        <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">
+                            <% if (locale==='ko' ) { %>
+                                📧 문의하기
+                                <% } else if (locale==='en' ) { %>
+                                    📧 Contact Us
+                                    <% } else if (locale==='jp' ) { %>
+                                        📧 お問い合わせ
+                                        <% } else { %>
+                                            📧 聯絡我們
+                                            <% } %>
+                        </h1>
+                        <p class="subtitle" style="font-size: 1.1rem; color: #666;">
+                            <% if (locale==='ko' ) { %>
+                                여러분의 의견을 기다립니다
+                                <% } else if (locale==='en' ) { %>
+                                    We'd Love to Hear From You
+                                    <% } else if (locale==='jp' ) { %>
+                                        皆様のご意見をお待ちしております
+                                        <% } else { %>
+                                            我們期待聽到您的意見
+                                            <% } %>
+                        </p>
+                    </header>
+
+                    <!-- Contact Information -->
+                    <section style="margin-bottom: 3rem;">
+                        <div
+                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 12px; text-align: center;">
+                            <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;">
+                                <% if (locale==='ko' ) { %>
+                                    📬 이메일로 문의하기
+                                    <% } else if (locale==='en' ) { %>
+                                        📬 Contact via Email
+                                        <% } else if (locale==='jp' ) { %>
+                                            📬 メールでのお問い合わせ
+                                            <% } else { %>
+                                                📬 透過電子郵件聯絡
+                                                <% } %>
+                            </h2>
+                            <a href="mailto:contact@synctime.keero.site"
+                                style="display: inline-block; background: white; color: #667eea; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1rem;">
+                                contact@synctime.keero.site
+                            </a>
+                            <p style="margin-top: 1rem; opacity: 0.9; font-size: 0.95rem;">
+                                <% if (locale==='ko' ) { %>
+                                    평일 기준 24시간 이내 답변드립니다
+                                    <% } else if (locale==='en' ) { %>
+                                        We respond within 24 hours on business days
+                                        <% } else if (locale==='jp' ) { %>
+                                            平日24時間以内にご返信いたします
+                                            <% } else { %>
+                                                我們會在工作日 24 小時內回覆
+                                                <% } %>
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- Contact Categories -->
+                    <section style="margin-bottom: 3rem;">
+                        <h2 style="color: #3f51b5; margin-bottom: 1.5rem;">
+                            <% if (locale==='ko' ) { %>
+                                💬 문의 유형
+                                <% } else if (locale==='en' ) { %>
+                                    💬 Inquiry Types
+                                    <% } else if (locale==='jp' ) { %>
+                                        💬 お問い合わせの種類
+                                        <% } else { %>
+                                            💬 詢問類型
+                                            <% } %>
+                        </h2>
+
+                        <div style="display: grid; gap: 1.5rem;">
+                            <!-- General Inquiry -->
+                            <div
+                                style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2196f3;">
+                                <h3 style="margin-bottom: 0.5rem; color: #2196f3;">
+                                    <% if (locale==='ko' ) { %>
+                                        🤔 일반 문의
+                                        <% } else if (locale==='en' ) { %>
+                                            🤔 General Inquiry
+                                            <% } else if (locale==='jp' ) { %>
+                                                🤔 一般的なお問い合わせ
+                                                <% } else { %>
+                                                    🤔 一般詢問
+                                                    <% } %>
+                                </h3>
+                                <p style="margin: 0; line-height: 1.6; color: #666;">
+                                    <% if (locale==='ko' ) { %>
+                                        서비스 이용 방법, 기능 설명 등 일반적인 질문
+                                        <% } else if (locale==='en' ) { %>
+                                            Questions about how to use the service, feature explanations, etc.
+                                            <% } else if (locale==='jp' ) { %>
+                                                サービスの使い方、機能説明などの一般的な質問
+                                                <% } else { %>
+                                                    關於如何使用服務、功能說明等一般問題
+                                                    <% } %>
+                                </p>
+                            </div>
+
+                            <!-- Bug Report -->
+                            <div
+                                style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #f44336;">
+                                <h3 style="margin-bottom: 0.5rem; color: #f44336;">
+                                    <% if (locale==='ko' ) { %>
+                                        🐛 버그 신고
+                                        <% } else if (locale==='en' ) { %>
+                                            🐛 Bug Report
+                                            <% } else if (locale==='jp' ) { %>
+                                                🐛 バグ報告
+                                                <% } else { %>
+                                                    🐛 錯誤回報
+                                                    <% } %>
+                                </h3>
+                                <p style="margin: 0; line-height: 1.6; color: #666;">
+                                    <% if (locale==='ko' ) { %>
+                                        서비스 오류, 버그 발견 시 상세한 내용과 함께 알려주세요
+                                        <% } else if (locale==='en' ) { %>
+                                            If you find service errors or bugs, please let us know with detailed
+                                            information
+                                            <% } else if (locale==='jp' ) { %>
+                                                サービスのエラーやバグを発見した場合、詳細な情報とともにお知らせください
+                                                <% } else { %>
+                                                    如果您發現服務錯誤或漏洞，請提供詳細資訊告知我們
+                                                    <% } %>
+                                </p>
+                            </div>
+
+                            <!-- Feature Request -->
+                            <div
+                                style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4caf50;">
+                                <h3 style="margin-bottom: 0.5rem; color: #4caf50;">
+                                    <% if (locale==='ko' ) { %>
+                                        💡 기능 제안
+                                        <% } else if (locale==='en' ) { %>
+                                            💡 Feature Request
+                                            <% } else if (locale==='jp' ) { %>
+                                                💡 機能のご提案
+                                                <% } else { %>
+                                                    💡 功能建議
+                                                    <% } %>
+                                </h3>
+                                <p style="margin: 0; line-height: 1.6; color: #666;">
+                                    <% if (locale==='ko' ) { %>
+                                        새로운 기능이나 개선 사항에 대한 아이디어를 공유해주세요
+                                        <% } else if (locale==='en' ) { %>
+                                            Share your ideas for new features or improvements
+                                            <% } else if (locale==='jp' ) { %>
+                                                新機能や改善点についてのアイデアをお聞かせください
+                                                <% } else { %>
+                                                    分享您對新功能或改進的想法
+                                                    <% } %>
+                                </p>
+                            </div>
+
+                            <!-- Partnership -->
+                            <div
+                                style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ff9800;">
+                                <h3 style="margin-bottom: 0.5rem; color: #ff9800;">
+                                    <% if (locale==='ko' ) { %>
+                                        🤝 제휴 문의
+                                        <% } else if (locale==='en' ) { %>
+                                            🤝 Partnership Inquiry
+                                            <% } else if (locale==='jp' ) { %>
+                                                🤝 提携のお問い合わせ
+                                                <% } else { %>
+                                                    🤝 合作詢問
+                                                    <% } %>
+                                </h3>
+                                <p style="margin: 0; line-height: 1.6; color: #666;">
+                                    <% if (locale==='ko' ) { %>
+                                        비즈니스 제휴, 협업 제안 등
+                                        <% } else if (locale==='en' ) { %>
+                                            Business partnerships, collaboration proposals, etc.
+                                            <% } else if (locale==='jp' ) { %>
+                                                ビジネス提携、コラボレーションのご提案など
+                                                <% } else { %>
+                                                    商業合作、協作提案等
+                                                    <% } %>
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- FAQ Quick Links -->
+                    <section style="margin-bottom: 3rem;">
+                        <h2 style="color: #3f51b5; margin-bottom: 1.5rem;">
+                            <% if (locale==='ko' ) { %>
+                                ❓ 자주 묻는 질문
+                                <% } else if (locale==='en' ) { %>
+                                    ❓ Frequently Asked Questions
+                                    <% } else if (locale==='jp' ) { %>
+                                        ❓ よくある質問
+                                        <% } else { %>
+                                            ❓ 常見問題
+                                            <% } %>
+                        </h2>
+                        <p style="line-height: 1.8; margin-bottom: 1rem;">
+                            <% if (locale==='ko' ) { %>
+                                문의하시기 전에 자주 묻는 질문을 확인해보세요. 대부분의 질문에 대한 답변을 찾으실 수 있습니다.
+                                <% } else if (locale==='en' ) { %>
+                                    Before contacting us, please check our FAQ. You can find answers to most common
+                                    questions.
+                                    <% } else if (locale==='jp' ) { %>
+                                        お問い合わせの前に、よくある質問をご確認ください。ほとんどの質問への回答が見つかります。
+                                        <% } else { %>
+                                            在聯絡我們之前，請查看常見問題。您可以找到大多數常見問題的答案。
+                                            <% } %>
+                        </p>
+                        <a href="/<%= locale %>/guide"
+                            style="display: inline-block; background: #3f51b5; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 500;">
+                            <% if (locale==='ko' ) { %>
+                                가이드 보기 →
+                                <% } else if (locale==='en' ) { %>
+                                    View Guide →
+                                    <% } else if (locale==='jp' ) { %>
+                                        ガイドを見る →
+                                        <% } else { %>
+                                            查看指南 →
+                                            <% } %>
+                        </a>
+                    </section>
+
+                    <!-- Response Time Notice -->
+                    <section
+                        style="background: #fff9c4; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #fbc02d;">
+                        <h3 style="margin-bottom: 0.5rem; color: #f57f17;">
+                            <% if (locale==='ko' ) { %>
+                                ⏰ 답변 시간 안내
+                                <% } else if (locale==='en' ) { %>
+                                    ⏰ Response Time
+                                    <% } else if (locale==='jp' ) { %>
+                                        ⏰ 返信時間のご案内
+                                        <% } else { %>
+                                            ⏰ 回覆時間說明
+                                            <% } %>
+                        </h3>
+                        <ul style="margin: 0; padding-left: 1.5rem; line-height: 1.8;">
+                            <% if (locale==='ko' ) { %>
+                                <li>일반 문의: 평일 기준 24시간 이내</li>
+                                <li>버그 신고: 12시간 이내 확인 및 조치</li>
+                                <li>긴급 문의: 이메일 제목에 [긴급] 표시</li>
+                                <li>주말/공휴일: 다음 영업일에 순차 처리</li>
+                                <% } else if (locale==='en' ) { %>
+                                    <li>General inquiries: Within 24 hours on business days</li>
+                                    <li>Bug reports: Reviewed and addressed within 12 hours</li>
+                                    <li>Urgent matters: Mark email subject with [URGENT]</li>
+                                    <li>Weekends/Holidays: Processed on next business day</li>
+                                    <% } else if (locale==='jp' ) { %>
+                                        <li>一般的なお問い合わせ：平日24時間以内</li>
+                                        <li>バグ報告：12時間以内に確認・対応</li>
+                                        <li>緊急のお問い合わせ：メール件名に【緊急】と記載</li>
+                                        <li>週末・祝日：翌営業日に順次対応</li>
+                                        <% } else { %>
+                                            <li>一般詢問：工作日 24 小時內</li>
+                                            <li>錯誤回報：12 小時內確認並處理</li>
+                                            <li>緊急事項：請在郵件主旨標註 [緊急]</li>
+                                            <li>週末/假日：下一個工作日依序處理</li>
+                                            <% } %>
+                        </ul>
+                    </section>
+
+                    <!-- Social Links (Optional) -->
+                    <section
+                        style="margin-top: 3rem; text-align: center; padding: 2rem; background: #f5f5f5; border-radius: 12px;">
+                        <h3 style="margin-bottom: 1rem;">
+                            <% if (locale==='ko' ) { %>
+                                🌐 다른 방법으로 소통하기
+                                <% } else if (locale==='en' ) { %>
+                                    🌐 Connect With Us
+                                    <% } else if (locale==='jp' ) { %>
+                                        🌐 その他の連絡方法
+                                        <% } else { %>
+                                            🌐 其他聯絡方式
+                                            <% } %>
+                        </h3>
+                        <p style="color: #666; margin-bottom: 1.5rem;">
+                            <% if (locale==='ko' ) { %>
+                                SyncTime의 최신 소식과 업데이트를 받아보세요
+                                <% } else if (locale==='en' ) { %>
+                                    Stay updated with SyncTime's latest news and updates
+                                    <% } else if (locale==='jp' ) { %>
+                                        SyncTimeの最新ニュースとアップデートをご確認ください
+                                        <% } else { %>
+                                            接收 SyncTime 的最新消息和更新
+                                            <% } %>
+                        </p>
+                        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                            <a href="/<%= locale %>/blog"
+                                style="display: inline-block; background: #3f51b5; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none;">
+                                <% if (locale==='ko' ) { %>📝 블로그<% } else if (locale==='en' ) { %>📝 Blog<% } else if
+                                            (locale==='jp' ) { %>📝 ブログ<% } else { %>📝 部落格<% } %>
+                            </a>
+                            <a href="/<%= locale %>/about"
+                                style="display: inline-block; background: #4caf50; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none;">
+                                <% if (locale==='ko' ) { %>ℹ️ 소개<% } else if (locale==='en' ) { %>ℹ️ About<% } else if
+                                            (locale==='jp' ) { %>ℹ️ 概要<% } else { %>ℹ️ 關於<% } %>
+                            </a>
+                        </div>
+                    </section>
+                </article>
+        </main>
+
+        <%- include('partials/cookie-consent', { locale: locale }) %>
+            <%- include('partials/footer') %>
+</body>
+
+</html>

@@ -20,13 +20,50 @@
             <%= locale==='ko' ? '설문조사' : locale==='jp' ? 'アンケート' : locale==='zh-tw' ? '問卷' : 'Survey' %>
         </a>
         <span aria-hidden="true">·</span>
+        <a href="/<%= locale %>/about">
+            <%= locale==='ko' ? '소개' : locale==='jp' ? '概要' : locale==='zh-tw' ? '關於' : 'About' %>
+        </a>
+        <span aria-hidden="true">·</span>
         <a href="/<%= locale %>/privacy">
             <%= translations.footer.privacy %>
         </a>
         <span aria-hidden="true">·</span>
-        <a href="https://github.com/newsupernova0617/SyncTime/issues">
+        <a href="/<%= locale %>/terms">
+            <%= locale==='ko' ? '이용약관' : locale==='jp' ? '利用規約' : locale==='zh-tw' ? '使用條款' : 'Terms' %>
+        </a>
+        <span aria-hidden="true">·</span>
+        <a href="/<%= locale %>/contact">
             <%= translations.footer.contact %>
         </a>
     </nav>
-    <p class="footer-copy">Displayed time is an HTTP Date header-based estimate for reference only.</p>
+    <div
+        style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+        <p class="footer-copy" style="margin: 0.5rem 0; font-size: 0.9rem; opacity: 0.8;">
+            <% if (locale==='ko' ) { %>
+                표시된 시간은 HTTP Date 헤더 기반 추정치이며 참고용입니다.
+                <% } else if (locale==='en' ) { %>
+                    Displayed time is an HTTP Date header-based estimate for reference only.
+                    <% } else if (locale==='jp' ) { %>
+                        表示される時刻はHTTP Dateヘッダーに基づく推定値であり、参考用です。
+                        <% } else { %>
+                            顯示的時間是基於 HTTP Date 標頭的估計值，僅供參考。
+                            <% } %>
+        </p>
+        <p style="margin: 0.5rem 0; font-size: 0.85rem; opacity: 0.7;">
+            © 2026 SyncTime. All rights reserved.
+        </p>
+        <p style="margin: 0.5rem 0; font-size: 0.8rem; opacity: 0.6;">
+            <% if (locale==='ko' ) { %>
+                서울, 대한민국에서 제작 |
+                <% } else if (locale==='en' ) { %>
+                    Made in Seoul, South Korea |
+                    <% } else if (locale==='jp' ) { %>
+                        韓国ソウルで製作 |
+                        <% } else { %>
+                            韓國首爾製作 |
+                            <% } %>
+                                <a href="mailto:contact@synctime.keero.site"
+                                    style="color: inherit; text-decoration: underline;">contact@synctime.keero.site</a>
+        </p>
+    </div>
 </footer>

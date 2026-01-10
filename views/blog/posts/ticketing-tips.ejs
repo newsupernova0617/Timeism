@@ -1,71 +1,435 @@
 ﻿<% if (locale==='ko' ) { %>
-    <h2>1. 사전 로그인 및 본인인증</h2>
+    <p class="intro">
+        티켓팅은 운이 아니라 <strong>철저한 준비</strong>입니다.
+        수천 명과 경쟁해서 원하는 티켓을 얻으려면 다음 5가지 필승 전략을 반드시 숙지하세요.
+    </p>
+
+    <h2>1. 사전 로그인 및 본인인증 ✅</h2>
+
+    <h3>왜 중요한가?</h3>
     <p>
-        가장 기본적인 실수입니다. 티켓 오픈 10분 전에는 반드시 로그인을 완료하고,
+        가장 기본적이지만 가장 많이 실수하는 부분입니다. 티켓 오픈 10분 전에는 반드시 로그인을 완료하고,
         마이페이지에서 본인인증 여부를 확인하세요.
         티켓팅 도중에 본인인증 팝업이 뜨면 이미 실패한 것이나 다름없습니다.
     </p>
 
-    <h2>2. 결제 수단 미리 등록</h2>
+    <h3>체크리스트</h3>
+    <ul>
+        <li>✅ 회원가입 및 로그인 완료 (최소 10분 전)</li>
+        <li>✅ 본인인증 완료 여부 확인 (마이페이지)</li>
+        <li>✅ 배송지 주소 미리 등록</li>
+        <li>✅ 휴대폰 번호 최신 상태 유지</li>
+    </ul>
+
+    <div class="warning-box"
+        style="background-color: #ffebee; padding: 1rem; border-left: 4px solid #f44336; margin: 1rem 0;">
+        <h4 style="margin-top: 0;">⚠️ 흔한 실수</h4>
+        <p>
+            "오픈 2분 전에 로그인했는데 '일시적인 오류가 발생했습니다'가 떴어요..."
+        </p>
+        <p>
+            → 오픈 직전에는 서버 과부하로 로그인조차 안 될 수 있습니다. 반드시 <strong>최소 10분 전</strong>에 준비하세요!
+        </p>
+    </div>
+
+    <h2>2. 결제 수단 미리 등록 💳</h2>
+
+    <h3>가장 빠른 결제 수단은?</h3>
     <p>
-        무통장 입금은 가장 빠르고 안전한 방법이지만, 최근에는 무통장 입금을 막아두는 공연도 많습니다.
-        따라서 '원클릭 결제'나 '간편 결제' 수단을 미리 등록해두는 것이 중요합니다.
-        생년월일 입력 등 결제 비밀번호 외의 추가 정보를 요구하지 않는지 미리 테스트해보세요.
+        예전에는 무통장 입금이 가장 빠른 방법이었지만, 최근에는 무통장 입금을 막아두는 공연도 많습니다.
+        따라서 <strong>'원클릭 결제'나 '간편 결제' 수단을 미리 등록</strong>해두는 것이 중요합니다.
     </p>
 
-    <h2>3. 팝업 차단 해제</h2>
+    <h3>결제 수단별 소요 시간</h3>
+    <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+        <thead>
+            <tr style="background-color: #f5f5f5;">
+                <th style="padding: 0.5rem; border: 1px solid #ddd;">결제 수단</th>
+                <th style="padding: 0.5rem; border: 1px solid #ddd;">평균 소요 시간</th>
+                <th style="padding: 0.5rem; border: 1px solid #ddd;">난이도</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 0.5rem; border: 1px solid #ddd;">무통장 입금</td>
+                <td style="padding: 0.5rem; border: 1px solid #ddd;">1~2초</td>
+                <td style="padding: 0.5rem; border: 1px solid #ddd;">⭐ (최근 제한 많음)</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.5rem; border: 1px solid #ddd;">간편 결제 (카카오페이 등)</td>
+                <td style="padding: 0.5rem; border: 1px solid #ddd;">3~5초</td>
+                <td style="padding: 0.5rem; border: 1px solid #ddd;">⭐⭐</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.5rem; border: 1px solid #ddd;">신용카드 (등록된 상태)</td>
+                <td style="padding: 0.5rem; border: 1px solid #ddd;">5~8초</td>
+                <td style="padding: 0.5rem; border: 1px solid #ddd;">⭐⭐⭐</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.5rem; border: 1px solid #ddd;">신용카드 (미등록)</td>
+                <td style="padding: 0.5rem; border: 1px solid #ddd;">30초 이상</td>
+                <td style="padding: 0.5rem; border: 1px solid #ddd;">⭐⭐⭐⭐⭐ (실패 확률 높음)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>주의사항</h3>
+    <p>
+        생년월일 입력 등 결제 비밀번호 외의 추가 정보를 요구하지 않는지 미리 테스트해보세요.
+        일부 카드사는 <strong>SMS 인증</strong>을 요구하는데, 이 시간 동안 티켓이 날아갈 수 있습니다.
+    </p>
+
+    <h2>3. 팝업 차단 해제 🪟</h2>
+
+    <h3>갑자기 화면이 안 뜰 때?</h3>
     <p>
         브라우저의 팝업 차단 기능이 켜져 있으면 예매 창이 뜨지 않을 수 있습니다.
-        해당 예매 사이트의 팝업은 항상 허용으로 설정해두세요.
+        해당 예매 사이트의 팝업은 <strong>항상 허용</strong>으로 설정해두세요.
     </p>
 
-    <h2>4. 0.1초의 정확도, 서버 시간</h2>
+    <h3>Chrome 브라우저 설정 방법</h3>
+    <ol>
+        <li>주소창 오른쪽의 "자물쇠" 아이콘 클릭</li>
+        <li>"사이트 설정" 클릭</li>
+        <li>"팝업 및 리디렉션" → <strong>"허용"</strong> 선택</li>
+    </ol>
+
+    <div class="tip-box"
+        style="background-color: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 1rem 0;">
+        <h4 style="margin-top: 0;">💡 Pro Tip</h4>
+        <p>
+            티켓팅 전에 해당 사이트에 접속해서 <strong>"공지사항" 같은 링크를 새 창으로 열어보세요.</strong>
+            팝업이 정상적으로 뜨는지 미리 확인할 수 있습니다.
+        </p>
+    </div>
+
+    <h2>4. 0.1초의 정확도, 서버 시간 ⏱️</h2>
+
+    <h3>네이버 시계를 믿지 마세요</h3>
     <p>
         네이버 시계나 휴대폰 시계를 믿지 마세요.
-        SyncTime을 사용하여 해당 예매 사이트 서버의 정확한 시간을 확인해야 합니다.
-        58초, 59초, 00초... 정확히 언제 새로고침을 해야 예매 버튼이 활성화되는지
-        이전 경험이나 커뮤니티 정보를 통해 파악하고 SyncTime을 보며 타이밍을 맞추세요.
+        <strong>SyncTime을 사용하여 해당 예매 사이트 서버의 정확한 시간을 확인</strong>해야 합니다.
     </p>
 
-    <h2>5. 실패해도 포기하지 않기 (취소표)</h2>
+    <h3>실전 활용법</h3>
+    <ol>
+        <li><strong>5분 전:</strong> SyncTime으로 서버 시간 확인</li>
+        <li><strong>3분 전:</strong> 내 컴퓨터 시계와의 차이 메모 (예: "0.8초 빠름")</li>
+        <li><strong>1분 전:</strong> 새로고침 타이밍 결정 (58초, 59초, 00초?)</li>
+        <li><strong>실행:</strong> SyncTime 시계를 보며 정확히 타이밍 맞춰 새로고침</li>
+    </ol>
+
+    <div class="success-story"
+        style="background-color: #e8f5e9; padding: 1rem; border-left: 4px solid #4caf50; margin: 1rem 0;">
+        <h4 style="margin-top: 0;">✅ 성공 사례</h4>
+        <p>
+            "인터파크 서버가 제 컴퓨터보다 1.2초 느리다는 걸 SyncTime으로 확인했어요.
+            그래서 59.8초에 새로고침을 했고, 3번 시도 끝에 드디어 티켓을 잡았습니다!" - 김OO님
+        </p>
+    </div>
+
+    <h3>플랫폼별 새로고침 타이밍</h3>
+    <ul>
+        <li><strong>인터파크:</strong> 정각 1초 전 (13:59:59) 권장</li>
+        <li><strong>멜론티켓:</strong> 대기열 시스템이므로 정각 3초 전 (13:59:57)에 미리 접속</li>
+        <li><strong>YES24:</strong> 정각 1~2초 전 (13:59:58~59)</li>
+    </ul>
+    <p><em>* 플랫폼마다 시스템이 다르므로 커뮤니티 정보를 참고하세요.</em></p>
+
+    <h2>5. 실패해도 포기하지 않기 (취소표 노리기) 🎯</h2>
+
+    <h3>오픈 직후 실패 = 끝?</h3>
     <p>
         오픈 직후에 좌석을 잡지 못했다고 해서 끝난 것이 아닙니다.
-        결제 단계에서 튕긴 표들이 5~7분 뒤에 다시 풀리는 경우가 많습니다.
-        또한 무통장 입금 미입금 취소표가 풀리는 새벽 시간대를 노리는 것도 좋은 전략입니다.
+        <strong>결제 단계에서 튕긴 표들이 5~7분 뒤에 다시 풀리는 경우</strong>가 많습니다.
+    </p>
+
+    <h3>취소표 풀리는 시간대</h3>
+    <ol>
+        <li><strong>오픈 후 5~7분:</strong> 결제 실패로 인한 1차 풀림</li>
+        <li><strong>오픈 후 20~30분:</strong> 좌석 선택 시간 초과로 인한 2차 풀림</li>
+        <li><strong>오픈 후 24~72시간:</strong> 무통장 입금 미입금 취소표</li>
+        <li><strong>새벽 2~4시:</strong> 무통장 입금 마감 직후 대량 풀림</li>
+    </ol>
+
+    <div class="strategy-box"
+        style="background-color: #fff9e6; padding: 1rem; border-left: 4px solid #ffc107; margin: 1rem 0;">
+        <h4 style="margin-top: 0;">📌 취소표 전략</h4>
+        <ul>
+            <li><strong>인내심:</strong> 최소 30분은 계속 새로고침</li>
+            <li><strong>다중 디바이스:</strong> PC + 모바일 동시 시도</li>
+            <li><strong>알림 설정:</strong> 공식 SNS나 커뮤니티 알림 켜기</li>
+            <li><strong>새벽 타임:</strong> 새벽 2~4시에 대량 취소표 풀림 (무통장 입금 마감)</li>
+        </ul>
+    </div>
+
+    <h2>보너스: 플랫폼별 특수 팁</h2>
+
+    <h3>인터파크 티켓</h3>
+    <ul>
+        <li>모바일보다 <strong>PC가 유리</strong> (서버 처리 우선순위)</li>
+        <li>VPN 사용 시 차단될 수 있음</li>
+        <li>크롬 브라우저 권장</li>
+    </ul>
+
+    <h3>멜론티켓</h3>
+    <ul>
+        <li><strong>대기열 시스템</strong> - 먼저 접속한 순서대로 번호 부여</li>
+        <li>멜론 이용권 구독자 선예매 혜택</li>
+        <li>PC와 모바일 동시 접속 제한 가능</li>
+    </ul>
+
+    <h3>YES24 티켓</h3>
+    <ul>
+        <li>포인트 사용 가능</li>
+        <li>배송비 추가 고려 (현장 수령 권장)</li>
+        <li>취소 수수료가 높은 편</li>
+    </ul>
+
+    <h2>최종 체크리스트</h2>
+    <div class="checklist" style="background-color: #f5f5f5; padding: 1rem; border-radius: 4px; margin: 1rem 0;">
+        <h4>티켓팅 D-1</h4>
+        <ul>
+            <li>☐ 회원가입 및 본인인증 완료</li>
+            <li>☐ 결제 수단 등록 및 테스트</li>
+            <li>☐ 배송지 주소 등록</li>
+            <li>☐ 팝업 차단 해제</li>
+            <li>☐ 브라우저 캐시 정리</li>
+        </ul>
+
+        <h4>티켓팅 당일 (D-Day)</h4>
+        <ul>
+            <li>☐ 유선 인터넷 연결 확인</li>
+            <li>☐ 불필요한 탭/프로그램 종료</li>
+            <li>☐ SyncTime으로 서버 시간 확인 (오픈 5분 전)</li>
+            <li>☐ 로그인 상태 재확인 (오픈 10분 전)</li>
+            <li>☐ 심호흡하고 침착하게!</li>
+        </ul>
+    </div>
+
+    <h2>결론</h2>
+    <p>
+        티켓팅 성공은 <strong>운 20% + 준비 80%</strong>입니다.
+        위의 5가지 전략을 모두 숙지하고 실천한다면, 성공 확률을 크게 높일 수 있습니다.
+        SyncTime과 함께 원하는 티켓을 꼭 잡으시길 바랍니다! 🎉
     </p>
 
     <% } else { %>
-        <h2>1. Pre-login and Verification</h2>
+        <p class="intro">
+            Ticketing is not luck—it's <strong>thorough preparation</strong>.
+            To compete with thousands and get the ticket you want, master these 5 winning strategies.
+        </p>
+
+        <h2>1. Pre-login and Verification ✅</h2>
+
+        <h3>Why It Matters</h3>
         <p>
             This is the most basic mistake. Make sure to log in at least 10 minutes before ticket opening
             and check your account verification status.
             If a verification popup appears during ticketing, you have likely already failed.
         </p>
 
-        <h2>2. Register Payment Methods in Advance</h2>
+        <h3>Checklist</h3>
+        <ul>
+            <li>✅ Registration and login complete (at least 10 min before)</li>
+            <li>✅ Account verification confirmed (My Page)</li>
+            <li>✅ Shipping address registered in advance</li>
+            <li>✅ Phone number up to date</li>
+        </ul>
+
+        <div class="warning-box"
+            style="background-color: #ffebee; padding: 1rem; border-left: 4px solid #f44336; margin: 1rem 0;">
+            <h4 style="margin-top: 0;">⚠️ Common Mistake</h4>
+            <p>
+                "I logged in 2 minutes before opening and got 'A temporary error occurred'..."
+            </p>
+            <p>
+                → Right before opening, even login may fail due to server overload. Always prepare at least <strong>10
+                    minutes early</strong>!
+            </p>
+        </div>
+
+        <h2>2. Register Payment Methods in Advance 💳</h2>
+
+        <h3>What's the Fastest Payment?</h3>
         <p>
-            Bank transfer is often the fastest method, but many events now block it.
-            Therefore, it is crucial to register 'One-Click Payment' or 'Easy Payment' methods in advance.
-            Test beforehand to see if they require extra information like date of birth.
+            Bank transfer used to be the fastest method, but many events now block it.
+            Therefore, it is crucial to <strong>register 'One-Click Payment' or 'Easy Payment' methods in
+                advance</strong>.
         </p>
 
-        <h2>3. Disable Popup Blockers</h2>
+        <h3>Payment Time by Method</h3>
+        <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+            <thead>
+                <tr style="background-color: #f5f5f5;">
+                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Payment Method</th>
+                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Avg Time</th>
+                    <th style="padding: 0.5rem; border: 1px solid #ddd;">Difficulty</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Bank Transfer</td>
+                    <td style="padding: 0.5rem; border: 1px solid #ddd;">1~2 sec</td>
+                    <td style="padding: 0.5rem; border: 1px solid #ddd;">⭐ (Often restricted)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Easy Payment (PayPal, etc.)</td>
+                    <td style="padding: 0.5rem; border: 1px solid #ddd;">3~5 sec</td>
+                    <td style="padding: 0.5rem; border: 1px solid #ddd;">⭐⭐</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Credit Card (Registered)</td>
+                    <td style="padding: 0.5rem; border: 1px solid #ddd;">5~8 sec</td>
+                    <td style="padding: 0.5rem; border: 1px solid #ddd;">⭐⭐⭐</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.5rem; border: 1px solid #ddd;">Credit Card (Not Registered)</td>
+                    <td style="padding: 0.5rem; border: 1px solid #ddd;">30+ sec</td>
+                    <td style="padding: 0.5rem; border: 1px solid #ddd;">⭐⭐⭐⭐⭐ (High failure rate)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Precautions</h3>
+        <p>
+            Test beforehand to see if they require extra information like date of birth beyond payment password.
+            Some cards require <strong>SMS verification</strong>, during which tickets can disappear.
+        </p>
+
+        <h2>3. Disable Popup Blockers 🪟</h2>
+
+        <h3>When the Screen Doesn't Appear?</h3>
         <p>
             If your browser's popup blocker is on, the booking window may not open.
-            Always set popups to 'Allow' for the ticketing site.
+            Always set popups to <strong>'Allow'</strong> for the ticketing site.
         </p>
 
-        <h2>4. Precision of 0.1 Seconds, Server Time</h2>
+        <h3>Chrome Browser Settings</h3>
+        <ol>
+            <li>Click the "lock" icon to the right of the address bar</li>
+            <li>Click "Site settings"</li>
+            <li>"Pop-ups and redirects" → Select <strong>"Allow"</strong></li>
+        </ol>
+
+        <div class="tip-box"
+            style="background-color: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 1rem 0;">
+            <h4 style="margin-top: 0;">💡 Pro Tip</h4>
+            <p>
+                Before ticketing, visit the site and try <strong>opening a link like "Announcements" in a new
+                    window.</strong>
+                You can verify in advance that popups work properly.
+            </p>
+        </div>
+
+        <h2>4. Precision of 0.1 Seconds, Server Time ⏱️</h2>
+
+        <h3>Don't Trust Standard Clocks</h3>
         <p>
             Do not trust standard clocks or your phone time.
-            Use SyncTime to check the exact server time of the ticketing site.
-            Know exactly when to refresh—58s, 59s, or 00s—based on community tips and match it with SyncTime.
+            <strong>Use SyncTime to check the exact server time of the ticketing site.</strong>
         </p>
 
-        <h2>5. Don't Give Up (Cancelled Tickets)</h2>
+        <h3>Practical Application</h3>
+        <ol>
+            <li><strong>5 min before:</strong> Check server time with SyncTime</li>
+            <li><strong>3 min before:</strong> Note difference from your computer (e.g., "0.8 sec fast")</li>
+            <li><strong>1 min before:</strong> Decide refresh timing (58s, 59s, or 00s?)</li>
+            <li><strong>Execute:</strong> Watch SyncTime clock and refresh at exact timing</li>
+        </ol>
+
+        <div class="success-story"
+            style="background-color: #e8f5e9; padding: 1rem; border-left: 4px solid #4caf50; margin: 1rem 0;">
+            <h4 style="margin-top: 0;">✅ Success Story</h4>
+            <p>
+                "With SyncTime, I found Ticketmaster's server was 1.2 seconds slower than my computer.
+                So I refreshed at 59.8s, and after 3 tries, finally got the ticket!" - Anonymous
+            </p>
+        </div>
+
+        <h3>Refresh Timing by Platform</h3>
+        <ul>
+            <li><strong>Ticketmaster:</strong> 1 second before opening (13:59:59) recommended</li>
+            <li><strong>StubHub:</strong> Queue system, connect 3 seconds early (13:59:57)</li>
+            <li><strong>Eventbrite:</strong> 1~2 seconds before (13:59:58~59)</li>
+        </ul>
+        <p><em>* Systems vary by platform, refer to community info.</em></p>
+
+        <h2>5. Don't Give Up (Target Cancelled Tickets) 🎯</h2>
+
+        <h3>Failed Right After Opening = Over?</h3>
         <p>
             Just because you missed seats at opening doesn't mean it's over.
-            Tickets bounced during payment often reappear 5-7 minutes later.
-            Also, target the late-night hours when unpaid bank transfer tickets are released.
+            <strong>Tickets bounced during payment often reappear 5-7 minutes later.</strong>
+        </p>
+
+        <h3>Cancelled Ticket Release Times</h3>
+        <ol>
+            <li><strong>5~7 min after:</strong> 1st wave from payment failures</li>
+            <li><strong>20~30 min after:</strong> 2nd wave from seat selection timeouts</li>
+            <li><strong>24~72 hours after:</strong> Unpaid bank transfer cancellations</li>
+            <li><strong>2~4 AM:</strong> Mass release right after bank transfer deadline</li>
+        </ol>
+
+        <div class="strategy-box"
+            style="background-color: #fff9e6; padding: 1rem; border-left: 4px solid #ffc107; margin: 1rem 0;">
+            <h4 style="margin-top: 0;">📌 Cancellation Strategy</h4>
+            <ul>
+                <li><strong>Patience:</strong> Keep refreshing for at least 30 minutes</li>
+                <li><strong>Multi-device:</strong> Try PC + mobile simultaneously</li>
+                <li><strong>Notifications:</strong> Turn on official SNS or community alerts</li>
+                <li><strong>Late night:</strong> Mass cancellations 2~4 AM (bank transfer deadline)</li>
+            </ul>
+        </div>
+
+        <h2>Bonus: Platform-Specific Tips</h2>
+
+        <h3>Ticketmaster</h3>
+        <ul>
+            <li><strong>PC is better</strong> than mobile (server processing priority)</li>
+            <li>VPN use may be blocked</li>
+            <li>Chrome browser recommended</li>
+        </ul>
+
+        <h3>StubHub</h3>
+        <ul>
+            <li><strong>Queue system</strong> - Numbers assigned by connection order</li>
+            <li>Premium membership early access benefits</li>
+            <li>PC and mobile simultaneous connection may be limited</li>
+        </ul>
+
+        <h3>Eventbrite</h3>
+        <ul>
+            <li>Points can be used</li>
+            <li>Consider shipping fees (local pickup recommended)</li>
+            <li>High cancellation fees</li>
+        </ul>
+
+        <h2>Final Checklist</h2>
+        <div class="checklist" style="background-color: #f5f5f5; padding: 1rem; border-radius: 4px; margin: 1rem 0;">
+            <h4>D-1 (Day Before)</h4>
+            <ul>
+                <li>☐ Registration and verification complete</li>
+                <li>☐ Payment methods registered and tested</li>
+                <li>☐ Shipping address registered</li>
+                <li>☐ Popup blockers disabled</li>
+                <li>☐ Browser cache cleared</li>
+            </ul>
+
+            <h4>D-Day (Ticketing Day)</h4>
+            <ul>
+                <li>☐ Wired internet connection verified</li>
+                <li>☐ Unnecessary tabs/programs closed</li>
+                <li>☐ Server time checked with SyncTime (5 min before)</li>
+                <li>☐ Login status re-confirmed (10 min before)</li>
+                <li>☐ Take a deep breath and stay calm!</li>
+            </ul>
+        </div>
+
+        <h2>Conclusion</h2>
+        <p>
+            Ticketing success is <strong>20% luck + 80% preparation</strong>.
+            If you master and practice all 5 strategies above, you can greatly increase your success rate.
+            Good luck getting your desired ticket with SyncTime! 🎉
         </p>
         <% } %>

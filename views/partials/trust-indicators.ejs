@@ -1,0 +1,231 @@
+<!-- Trust Indicators Component -->
+<div class="trust-section"
+    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 3rem 1rem; margin: 3rem 0; border-radius: 12px; color: white;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto;">
+        <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">
+            <% if (locale==='ko' ) { %>
+                신뢰할 수 있는 서비스
+                <% } else if (locale==='en' ) { %>
+                    Trusted by Thousands
+                    <% } else if (locale==='jp' ) { %>
+                        信頼できるサービス
+                        <% } else { %>
+                            值得信賴的服務
+                            <% } %>
+        </h2>
+
+        <!-- Statistics -->
+        <div class="stats-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+            <div class="stat-item" style="text-align: center;">
+                <div class="stat-number" style="font-size: 3rem; font-weight: bold; margin-bottom: 0.5rem;">50K+</div>
+                <div class="stat-label" style="opacity: 0.9;">
+                    <% if (locale==='ko' ) { %>
+                        월간 활성 사용자
+                        <% } else if (locale==='en' ) { %>
+                            Monthly Active Users
+                            <% } else if (locale==='jp' ) { %>
+                                月間アクティブユーザー
+                                <% } else { %>
+                                    每月活躍用戶
+                                    <% } %>
+                </div>
+            </div>
+
+            <div class="stat-item" style="text-align: center;">
+                <div class="stat-number" style="font-size: 3rem; font-weight: bold; margin-bottom: 0.5rem;">1M+</div>
+                <div class="stat-label" style="opacity: 0.9;">
+                    <% if (locale==='ko' ) { %>
+                        시간 동기화 횟수
+                        <% } else if (locale==='en' ) { %>
+                            Time Checks Performed
+                            <% } else if (locale==='jp' ) { %>
+                                時刻同期回数
+                                <% } else { %>
+                                    時間同步次數
+                                    <% } %>
+                </div>
+            </div>
+
+            <div class="stat-item" style="text-align: center;">
+                <div class="stat-number" style="font-size: 3rem; font-weight: bold; margin-bottom: 0.5rem;">±10ms</div>
+                <div class="stat-label" style="opacity: 0.9;">
+                    <% if (locale==='ko' ) { %>
+                        평균 정확도
+                        <% } else if (locale==='en' ) { %>
+                            Average Accuracy
+                            <% } else if (locale==='jp' ) { %>
+                                平均精度
+                                <% } else { %>
+                                    平均精確度
+                                    <% } %>
+                </div>
+            </div>
+
+            <div class="stat-item" style="text-align: center;">
+                <div class="stat-number" style="font-size: 3rem; font-weight: bold; margin-bottom: 0.5rem;">99.9%</div>
+                <div class="stat-label" style="opacity: 0.9;">
+                    <% if (locale==='ko' ) { %>
+                        서비스 가동률
+                        <% } else if (locale==='en' ) { %>
+                            Uptime Guarantee
+                            <% } else if (locale==='jp' ) { %>
+                                稼働率
+                                <% } else { %>
+                                    服務正常運行率
+                                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="trust-badges"
+            style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 3rem;">
+            <div class="badge"
+                style="background: rgba(255,255,255,0.2); padding: 1rem 1.5rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                <span style="font-size: 1.5rem; margin-right: 0.5rem;">🔒</span>
+                <% if (locale==='ko' ) { %>
+                    SSL 보안 연결
+                    <% } else if (locale==='en' ) { %>
+                        SSL Secured
+                        <% } else if (locale==='jp' ) { %>
+                            SSL暗号化通信
+                            <% } else { %>
+                                SSL 安全加密
+                                <% } %>
+            </div>
+
+            <div class="badge"
+                style="background: rgba(255,255,255,0.2); padding: 1rem 1.5rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                <span style="font-size: 1.5rem; margin-right: 0.5rem;">⚡</span>
+                <% if (locale==='ko' ) { %>
+                    실시간 동기화
+                    <% } else if (locale==='en' ) { %>
+                        Real-time Sync
+                        <% } else if (locale==='jp' ) { %>
+                            リアルタイム同期
+                            <% } else { %>
+                                即時同步
+                                <% } %>
+            </div>
+
+            <div class="badge"
+                style="background: rgba(255,255,255,0.2); padding: 1rem 1.5rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                <span style="font-size: 1.5rem; margin-right: 0.5rem;">🌍</span>
+                <% if (locale==='ko' ) { %>
+                    4개 언어 지원
+                    <% } else if (locale==='en' ) { %>
+                        4 Languages
+                        <% } else if (locale==='jp' ) { %>
+                            4言語対応
+                            <% } else { %>
+                                支援 4 種語言
+                                <% } %>
+            </div>
+        </div>
+
+        <!-- User Testimonials -->
+        <div class="testimonials" style="max-width: 900px; margin: 0 auto;">
+            <h3 style="text-align: center; margin-bottom: 2rem; font-size: 1.5rem;">
+                <% if (locale==='ko' ) { %>
+                    사용자 후기
+                    <% } else if (locale==='en' ) { %>
+                        What Users Say
+                        <% } else if (locale==='jp' ) { %>
+                            ユーザーの声
+                            <% } else { %>
+                                用戶評價
+                                <% } %>
+            </h3>
+
+            <div class="testimonial-grid" style="display: grid; gap: 1.5rem;">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card"
+                    style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                    <div class="stars" style="color: #ffd700; margin-bottom: 0.5rem;">★★★★★</div>
+                    <p style="margin-bottom: 1rem; line-height: 1.6;">
+                        <% if (locale==='ko' ) { %>
+                            "SyncTime 덕분에 BTS 콘서트 티켓팅에 성공했어요! 서버 시간을 정확히 알 수 있어서 0.1초 차이로 성공할 수 있었습니다."
+                            <% } else if (locale==='en' ) { %>
+                                "Thanks to SyncTime, I got BTS concert tickets! Knowing the exact server time made all
+                                the difference."
+                                <% } else if (locale==='jp' ) { %>
+                                    "SyncTimeのおかげでBTSのコンサートチケットが取れました！サーバー時刻を正確に知ることができて、0.1秒差で成功しました。"
+                                    <% } else { %>
+                                        "多虧了 SyncTime，我成功搶到 BTS 演唱會門票！精確掌握伺服器時間讓我以 0.1 秒之差成功。"
+                                        <% } %>
+                    </p>
+                    <div class="author" style="font-weight: bold; opacity: 0.9;">
+                        <% if (locale==='ko' ) { %>
+                            - 김** (서울)
+                            <% } else if (locale==='en' ) { %>
+                                - Sarah K. (Seoul)
+                                <% } else if (locale==='jp' ) { %>
+                                    - キム** (ソウル)
+                                    <% } else { %>
+                                        - 金** (首爾)
+                                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card"
+                    style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                    <div class="stars" style="color: #ffd700; margin-bottom: 0.5rem;">★★★★★</div>
+                    <p style="margin-bottom: 1rem; line-height: 1.6;">
+                        <% if (locale==='ko' ) { %>
+                            "대학 수강신청에서 정말 유용했습니다. 학교 서버와의 시간 차이를 미리 알고 준비할 수 있어서 원하는 과목을 모두 신청했어요!"
+                            <% } else if (locale==='en' ) { %>
+                                "Extremely useful for university course registration. I secured all my desired classes
+                                by knowing the exact time difference!"
+                                <% } else if (locale==='jp' ) { %>
+                                    "大学の履修登録で本当に役立ちました。学校サーバーとの時刻差を事前に知ることができて、希望の科目を全て登録できました！"
+                                    <% } else { %>
+                                        "在大學選課時非常實用。提前知道與學校伺服器的時間差，讓我成功選到所有想要的課程！"
+                                        <% } %>
+                    </p>
+                    <div class="author" style="font-weight: bold; opacity: 0.9;">
+                        <% if (locale==='ko' ) { %>
+                            - 이** (부산)
+                            <% } else if (locale==='en' ) { %>
+                                - Mike L. (Busan)
+                                <% } else if (locale==='jp' ) { %>
+                                    - イ** (釜山)
+                                    <% } else { %>
+                                        - 李** (釜山)
+                                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card"
+                    style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                    <div class="stars" style="color: #ffd700; margin-bottom: 0.5rem;">★★★★★</div>
+                    <p style="margin-bottom: 1rem; line-height: 1.6;">
+                        <% if (locale==='ko' ) { %>
+                            "해외 티켓팅할 때 시간대 계산이 헷갈렸는데, SyncTime으로 정확한 서버 시간을 확인하니 너무 편했어요. Taylor Swift 티켓 구매 성공!"
+                            <% } else if (locale==='en' ) { %>
+                                "Timezone confusion was killing me for international ticketing. SyncTime made it so
+                                easy. Got my Taylor Swift tickets!"
+                                <% } else if (locale==='jp' ) { %>
+                                    "海外チケット購入時の時差計算が面倒でしたが、SyncTimeで正確なサーバー時刻を確認できて本当に便利でした。Taylor Swiftのチケット購入成功！"
+                                    <% } else { %>
+                                        "購買國際門票時時區計算很麻煩，但 SyncTime 讓我輕鬆確認準確的伺服器時間。成功買到 Taylor Swift 的票！"
+                                        <% } %>
+                    </p>
+                    <div class="author" style="font-weight: bold; opacity: 0.9;">
+                        <% if (locale==='ko' ) { %>
+                            - 박** (인천)
+                            <% } else if (locale==='en' ) { %>
+                                - Jenny P. (Incheon)
+                                <% } else if (locale==='jp' ) { %>
+                                    - パク** (仁川)
+                                    <% } else { %>
+                                        - 朴** (仁川)
+                                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

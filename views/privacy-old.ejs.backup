@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="<%= locale %>">
+
+<head>
+  <%- include('partials/meta') %>
+    <title>
+      <%= locale==='ko' ? '개인정보 처리방침 | 데이터 수집 및 이용' : 'Privacy Policy | Data Collection and Usage' %>
+    </title>
+    <meta name="description"
+      content="<%= locale === 'ko' ? '서버 시간 비교 서비스가 수집하는 데이터 항목, 이용 목적 등의 정보를 안내합니다.' : 'Information on data items collected by the server time comparison service and usage purposes.' %>" />
+    <link rel="canonical" href="<%= domain %>/<%= locale %>/privacy" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="<%= locale === 'ko' ? '개인정보 처리방침' : 'Privacy Policy' %>" />
+    <meta property="og:description"
+      content="<%= locale === 'ko' ? '수집 데이터 및 이용 목적 확인' : 'Check collected data and usage purposes' %>" />
+    <meta property="og:url" content="<%= domain %>/<%= locale %>/privacy" />
+    <meta property="og:image" content="<%= domain %>/og-image.png" />
+</head>
+
+<body>
+  <%- include('partials/header') %>
+
+    <main class="content-page">
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="/<%= locale %>">
+          <%= locale==='ko' ? '홈' : 'Home' %>
+        </a>
+        <span>/</span>
+        <span>
+          <%= locale==='ko' ? '개인정보 처리방침' : 'Privacy Policy' %>
+        </span>
+      </nav>
+
+      <section>
+        <h2>
+          <%= locale==='ko' ? '개인정보 처리방침' : 'Privacy Policy' %>
+        </h2>
+        <p>
+          <%= locale==='ko' ? 'SyncTime은 사용자의 개인정보를 수집하지 않습니다. 입력하신 URL은 서버 시간 확인 용도로만 사용되며, 서버에 저장되지 않습니다.'
+            : 'SyncTime does not collect any personal information from users. The URL you enter is used only for server time checking and is not stored on our server.'
+            %>
+        </p>
+      </section>
+
+      <hr style="margin: 2rem 0; border: none; border-top: 1px solid #ddd;" />
+
+      <nav class="internal-links" style="margin-top: 2rem;">
+        <h3>
+          <%= locale==='ko' ? '관련 페이지' : 'Related Pages' %>
+        </h3>
+        <ul>
+          <li><a href="/<%= locale %>">
+              <%= locale==='ko' ? '메인으로 돌아가기' : 'Back to Main' %>
+            </a></li>
+          <li><a href="/<%= locale %>/guide">
+              <%= locale==='ko' ? '이용 가이드' : 'Usage Guide' %>
+            </a></li>
+        </ul>
+      </nav>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!-- Breadcrumb Navigation Component -->
+<nav aria-label="breadcrumb" style="padding: 1rem 0; margin-bottom: 1.5rem;">
+    <ol itemscope itemtype="https://schema.org/BreadcrumbList"
+        style="display: flex; flex-wrap: wrap; list-style: none; padding: 0; margin: 0; gap: 0.5rem; align-items: center; font-size: 0.9rem; color: #666;">
+
+        <!-- Home -->
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"
+            style="display: flex; align-items: center;">
+            <a itemprop="item" href="/<%= locale %>" style="color: #3f51b5; text-decoration: none;">
+                <span itemprop="name">
+                    <% if (locale==='ko' ) { %>
+                        홈
+                        <% } else if (locale==='en' ) { %>
+                            Home
+                            <% } else if (locale==='jp' ) { %>
+                                ホーム
+                                <% } else { %>
+                                    首頁
+                                    <% } %>
+                </span>
+            </a>
+            <meta itemprop="position" content="1" />
+        </li>
+
+        <% if (typeof section !=='undefined' && section) { %>
+            <li style="color: #999; user-select: none;">/</li>
+
+            <!-- Section (e.g., Blog, Guide) -->
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"
+                style="display: flex; align-items: center;">
+                <% if (typeof sectionUrl !=='undefined' && sectionUrl) { %>
+                    <a itemprop="item" href="<%= sectionUrl %>" style="color: #3f51b5; text-decoration: none;">
+                        <span itemprop="name">
+                            <%= section %>
+                        </span>
+                    </a>
+                    <% } else { %>
+                        <span itemprop="name" style="color: #666;">
+                            <%= section %>
+                        </span>
+                        <% } %>
+                            <meta itemprop="position" content="2" />
+            </li>
+            <% } %>
+
+                <% if (typeof currentPage !=='undefined' && currentPage) { %>
+                    <li style="color: #999; user-select: none;">/</li>
+
+                    <!-- Current Page -->
+                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"
+                        style="display: flex; align-items: center;">
+                        <span itemprop="name" style="color: #333; font-weight: 500;" aria-current="page">
+                            <%= currentPage %>
+                        </span>
+                        <meta itemprop="position"
+                            content="<%= typeof section !== 'undefined' && section ? '3' : '2' %>" />
+                    </li>
+                    <% } %>
+    </ol>
+</nav>
+
+<style>
+    /* Breadcrumb hover effects */
+    nav[aria-label="breadcrumb"] a:hover {
+        text-decoration: underline;
+        color: #303f9f;
+    }
+
+    /* Responsive breadcrumb */
+    @media (max-width: 768px) {
+        nav[aria-label="breadcrumb"] {
+            font-size: 0.85rem;
+        }
+    }
+</style>
