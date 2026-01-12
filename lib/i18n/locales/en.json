@@ -10,8 +10,8 @@
     },
     "form": {
         "label": "Server URL to Compare",
-        "placeholder": "https://example.com",
-        "hint": "Enter the URL of the site you want to check (e.g., ticketing site, shopping mall)",
+        "placeholder": "example.com (https:// auto-added)",
+        "hint": "Enter the URL of the site you want to check (protocol optional)",
         "button": "Check Time"
     },
     "clock": {

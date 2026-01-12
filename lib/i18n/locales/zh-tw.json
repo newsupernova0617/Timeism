@@ -10,8 +10,8 @@
     },
     "form": {
         "label": "要比較的伺服器 URL",
-        "placeholder": "https://example.com",
-        "hint": "請輸入您想確認的網站 URL（例如：售票網站、購物網站）",
+        "placeholder": "example.com（自動加上 https://）",
+        "hint": "請輸入您想確認的網站 URL（可省略協定）",
         "button": "確認時間"
     },
     "clock": {

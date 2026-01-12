@@ -12,8 +12,8 @@ function getMessages() {
 
   return {
     invalidUrl: isKorean
-      ? 'http:// 또는 https:// 로 시작하는 올바른 주소를 입력해주세요.'
-      : 'Please enter a valid URL starting with http:// or https://',
+      ? '올바른 URL을 입력해주세요. (예: google.com 또는 https://google.com)'
+      : 'Please enter a valid URL (e.g., google.com or https://google.com)',
     serverTimeError: isKorean
       ? '해당 서버의 시간을 확인할 수 없습니다.'
       : 'Unable to check the server time.',
@@ -38,9 +38,39 @@ export function createApi({
   onApiError,
   sendEvent
 }) {
+  /**
+   * URL 정규화 함수
+   * 프로토콜이 없는 URL에 자동으로 https:// 또는 http:// 추가
+   * @param {string} input - 사용자 입력 URL
+   * @returns {string} 정규화된 URL
+   */
+  function normalizeUrl(input) {
+    let url = input.trim();
+
+    // 이미 프로토콜이 있으면 그대로 반환
+    if (/^https?:\/\//i.test(url)) {
+      return url;
+    }
+
+    // localhost 또는 127.0.0.1은 http로 처리
+    if (url.startsWith('localhost') || url.startsWith('127.0.0.1')) {
+      return 'http://' + url;
+    }
+
+    // 그 외의 경우 https 적용
+    return 'https://' + url;
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
-    const targetUrl = urlInput.value.trim();
+    let targetUrl = urlInput.value.trim();
+
+    // URL 정규화 (프로토콜 자동 추가)
+    targetUrl = normalizeUrl(targetUrl);
+
+    // 정규화된 URL을 입력 필드에 반영
+    urlInput.value = targetUrl;
+
     if (!validateUrl(targetUrl)) {
       showError(getMessages().invalidUrl);
       return;

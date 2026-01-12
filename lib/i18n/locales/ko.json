@@ -10,8 +10,8 @@
     },
     "form": {
         "label": "비교할 서버 URL",
-        "placeholder": "https://example.com",
-        "hint": "확인하고 싶은 사이트의 URL을 입력하세요 (예: 티켓팅 사이트, 쇼핑몰)",
+        "placeholder": "example.com (https:// 자동 추가)",
+        "hint": "확인하고 싶은 사이트의 URL을 입력하세요 (프로토콜 생략 가능)",
         "button": "시간 확인"
     },
     "clock": {

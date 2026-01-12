@@ -10,8 +10,8 @@
     },
     "form": {
         "label": "比較するサーバーURL",
-        "placeholder": "https://example.com",
-        "hint": "確認したいサイトのURLを入力してください（例：チケット予約サイト、ショッピングモール）",
+        "placeholder": "example.com (https:// 自動追加)",
+        "hint": "確認したいサイトのURLを入力してください（プロトコル省略可）",
         "button": "時刻確認"
     },
     "clock": {
