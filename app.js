@@ -797,12 +797,57 @@ app.get('/en/survey', (req, res) => {
 });
 
 app.post('/en/survey', async (req, res) => {
-  // TODO: Save survey response to DB
-  res.render('survey', {
-    domain: DOMAIN,
-    locale: 'en',
-    submitted: true
-  });
+  try {
+    const { satisfaction, usefulFeature, improvement, additionalFeedback } = req.body;
+
+    // Validate required fields
+    if (!satisfaction || !usefulFeature) {
+      return res.status(400).render('survey', {
+        domain: DOMAIN,
+        locale: 'en',
+        submitted: false,
+        error: 'Missing required fields'
+      });
+    }
+
+    // Validate satisfaction is 1-5
+    const satNum = parseInt(satisfaction, 10);
+    if (isNaN(satNum) || satNum < 1 || satNum > 5) {
+      return res.status(400).render('survey', {
+        domain: DOMAIN,
+        locale: 'en',
+        submitted: false,
+        error: 'Invalid satisfaction rating'
+      });
+    }
+
+    // Get client IP and hash it
+    const clientIp = normalizeIp(req.ip || req.connection.remoteAddress);
+    const ipHash = hashIp(clientIp);
+
+    // Save to database
+    repository.saveSurveyResponse({
+      satisfaction,
+      usefulFeature,
+      improvement: improvement || null,
+      additionalFeedback: additionalFeedback || null,
+      ipHash
+    });
+
+    res.render('survey', {
+      domain: DOMAIN,
+      locale: 'en',
+      submitted: true
+    });
+  } catch (error) {
+    console.error('Error saving survey response:', error);
+    res.status(500).render('survey', {
+      domain: DOMAIN,
+      locale: 'en',
+      submitted: false,
+      error: 'Failed to save response. Please try again.'
+    });
+  }
 });
 
 app.get('/ko/survey', (req, res) => {
