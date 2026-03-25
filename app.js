@@ -21,6 +21,7 @@ const morgan = require('morgan');
 const apiRouter = require('./routes/api');
 const commentsRouter = require('./routes/comments');
 const adminRouter = require('./routes/admin');
+const analyticsRouter = require('./routes/analytics');
 const backup = require('./lib/admin/backup');
 const i18n = require('./lib/i18n');
 const repository = require('./lib/repository');
@@ -176,6 +177,9 @@ function verifyAdminToken(req, res, next) {
 app.use('/api/check-time', checkTimeLimiter);
 app.use('/api/log-event', logEventLimiter);
 app.use('/api/session-init', sessionInitLimiter);
+
+// Analytics API routes (aggregated statistics - must come before general /api router)
+app.use('/api/analytics', verifyAdminToken, analyticsRouter);
 
 // API 라우터 연결
 app.use('/api', apiRouter);
