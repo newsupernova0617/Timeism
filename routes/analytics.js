@@ -129,4 +129,48 @@ router.get('/summary', async (req, res) => {
   }
 });
 
+/**
+ * GET /api/analytics/urls
+ * Returns top URLs by request count with latency stats
+ * Query: ?limit=10 (default: 10)
+ * Protected by verifyAdminToken middleware
+ */
+router.get('/urls', async (req, res) => {
+  try {
+    const db = getDb();
+    const limit = parseInt(req.query.limit) || 10;
+
+    const urlStats = await db
+      .select({
+        url: events.targetUrl,
+        requestCount: count(),
+        avgLatency: sql`AVG(${events.latencyMs})`,
+        minLatency: sql`MIN(${events.latencyMs})`,
+        maxLatency: sql`MAX(${events.latencyMs})`
+      })
+      .from(events)
+      .where(sql`${events.targetUrl} IS NOT NULL`)
+      .groupBy(events.targetUrl)
+      .orderBy(sql`COUNT(*) DESC`)
+      .limit(limit);
+
+    const formatted = urlStats.map(stat => ({
+      url: stat.url || 'unknown',
+      request_count: stat.requestCount || 0,
+      avg_latency_ms: stat.avgLatency ?
+        parseFloat(stat.avgLatency).toFixed(1) : 0,
+      min_latency_ms: stat.minLatency || 0,
+      max_latency_ms: stat.maxLatency || 0
+    }));
+
+    res.json(formatted);
+  } catch (error) {
+    console.error('Analytics urls error:', error);
+    res.status(500).json({
+      error: 'ANALYTICS_ERROR',
+      message: error.message
+    });
+  }
+});
+
 module.exports = router;
