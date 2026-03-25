@@ -138,7 +138,8 @@ router.get('/summary', async (req, res) => {
 router.get('/urls', async (req, res) => {
   try {
     const db = getDb();
-    const limit = parseInt(req.query.limit) || 10;
+    let limit = parseInt(req.query.limit) || 10;
+    limit = Math.max(1, Math.min(limit, 1000));
 
     const urlStats = await db
       .select({
