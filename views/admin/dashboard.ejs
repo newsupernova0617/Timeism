@@ -1,0 +1,121 @@
+<!-- views/admin/dashboard.ejs -->
+<!DOCTYPE html>
+<html lang="<%= locale %>">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SyncTime Admin Dashboard</title>
+
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+  <!-- Admin CSS -->
+  <link rel="stylesheet" href="/admin/dashboard.css">
+</head>
+<body>
+  <div class="admin-container">
+    <header class="admin-header">
+      <h1>SyncTime Admin Dashboard</h1>
+      <nav class="table-nav">
+        <button class="nav-btn" data-table="users">Users</button>
+        <button class="nav-btn" data-table="sessions">Sessions</button>
+        <button class="nav-btn" data-table="events">Events</button>
+        <button class="nav-btn" data-table="comments">Comments</button>
+        <button class="nav-btn" data-table="survey_responses">Survey</button>
+        <button class="nav-btn" data-page="metrics">📊 Metrics</button>
+      </nav>
+      <div class="header-actions">
+        <button id="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <!-- Table Section -->
+      <section id="table-section" class="table-section">
+        <div class="table-controls">
+          <button id="add-new-btn" onclick="showAddModal()">+ Add New</button>
+          <input type="search" id="search-input" placeholder="Search...">
+          <select id="page-size-select">
+            <option value="10">10 rows</option>
+            <option value="25" selected>25 rows</option>
+            <option value="50">50 rows</option>
+          </select>
+        </div>
+
+        <table id="admin-table" class="display">
+          <thead>
+            <tr id="table-headers"></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <!-- Backup Section -->
+      <aside id="backup-section" class="backup-section">
+        <h2>Database Backups</h2>
+        <div class="backup-actions">
+          <button id="download-backup-btn" onclick="downloadBackupNow()">
+            Download Backup Now
+          </button>
+          <button id="trigger-backup-btn" onclick="triggerManualBackup()">
+            Trigger Manual Backup
+          </button>
+        </div>
+
+        <div id="backup-list-container" class="backup-list">
+          <h3>Recent Backups</h3>
+          <div id="backup-list" class="backup-items"></div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- Edit Modal -->
+  <div id="edit-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeEditModal()">&times;</span>
+      <h2>Edit Record</h2>
+      <form id="edit-form" onsubmit="saveRecord(event)">
+        <div id="form-fields"></div>
+        <button type="submit">Save</button>
+        <button type="button" onclick="closeEditModal()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Modal -->
+  <div id="add-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeAddModal()">&times;</span>
+      <h2>Add New Record</h2>
+      <form id="add-form" onsubmit="addRecord(event)">
+        <div id="add-form-fields"></div>
+        <button type="submit">Create</button>
+        <button type="button" onclick="closeAddModal()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Restore Modal -->
+  <div id="restore-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeRestoreModal()">&times;</span>
+      <h2>Restore Database</h2>
+      <p>This will replace your current database. This action cannot be undone without another backup.</p>
+      <p id="restore-warning"></p>
+      <div class="modal-actions">
+        <button onclick="confirmRestore()" class="danger">Restore</button>
+        <button onclick="closeRestoreModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="/admin/dashboard.js"></script>
+</body>
+</html>
