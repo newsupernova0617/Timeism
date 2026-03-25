@@ -19,7 +19,19 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       const table = this.dataset.table;
-      loadTableData(table);
+      const page = this.dataset.page;
+
+      if (page === 'metrics') {
+        // Navigate to metrics dashboard with token
+        const token = urlParams.get('token');
+        if (token) {
+          window.location.href = `/admin/dashboard?token=${token}`;
+        } else {
+          showToast('Admin token required. Add ?token=YOUR_TOKEN to URL.', 'error');
+        }
+      } else if (table) {
+        loadTableData(table);
+      }
     });
   });
 
