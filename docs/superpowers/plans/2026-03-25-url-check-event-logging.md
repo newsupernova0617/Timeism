@@ -4,7 +4,7 @@
 
 **Goal:** Enable real-time trending sites by logging `url_check` events when users successfully check server times.
 
-**Architecture:** Add 10 lines of event logging code to `public/js/modules/api.js` in the successful response handler. No new files, no schema changes, no API modifications. Event logging is fire-and-forget with silent error handling to avoid breaking the core feature.
+**Architecture:** Add 10 lines of event logging code to `public/js/modules/api.js` in the successful response handler. No new files, no schema changes, no API modifications. Event logging is fire-and-forget with silent error handling (logs errors to console for debugging, but never breaks the core feature).
 
 **Tech Stack:** ES6 JavaScript (existing), session event system (already used), SQLite events table (existing).
 
@@ -51,6 +51,8 @@ Add the event logging in the success path (after the error check, before onTimeR
 
 ```javascript
       // Log url_check event for trending analysis
+      // Note: This is logged BEFORE onTimeResult() to ensure the event is recorded
+      // even if the UI update fails (fail-safe approach)
       const locale = document.documentElement.lang || 'en';
       try {
         sendEvent('url_check', {
@@ -66,6 +68,7 @@ Add the event logging in the success path (after the error check, before onTimeR
         });
         // Continue—logging failure should not break the URL check
       }
+      // The click_button event is sent later (after onTimeResult) to track UI interaction
 ```
 
 - [ ] In your editor, place cursor at end of line 114 (after the closing brace of the error handler)
@@ -93,8 +96,10 @@ Add the event logging in the success path (after the error check, before onTimeR
 
 **Test: Verify url_check events are created**
 
-1. Start the app: `npm start` (or however you normally run it)
-2. Open http://localhost:3000/ko/ in browser
+1. Verify database exists: `ls -la data/app.db`
+2. Start the app: `npm start` (or however you normally run it)
+3. Open http://localhost:3000/ko/ in browser
+   - Verify page HTML has `<html lang="ko">` (open DevTools → Elements and check)
 3. Open browser DevTools → Console tab
 4. Enter a test URL: `https://www.example.com`
 5. Click "시간 확인" button
@@ -128,7 +133,7 @@ Add the event logging in the success path (after the error check, before onTimeR
 6. Expected: URL auto-fills and time check executes automatically
 
 - [ ] Check 5+ different URLs
-- [ ] Verify trending list shows URLs (may take 5 seconds to refresh)
+- [ ] Verify trending list shows URLs (should appear within 5-10 seconds; if not, check `/api/trending-urls?locale=ko` in browser console to debug)
 - [ ] Click a trending item and verify it auto-checks
 
 ### Step 6: Test locale filtering
@@ -292,7 +297,8 @@ After implementation, verify all success criteria:
 
 If critical issues arise:
 
-1. Remove the url_check logging block from api.js (lines 115-129 in the final code)
+1. Remove the url_check logging block from api.js (the 10 lines added after line 114, typically lines 115-124)
+   - Do NOT remove the `click_button` event that appears later (around line 129+)
 2. Clear url_check events: `sqlite3 data/app.db "DELETE FROM events WHERE event_type='url_check';"`
 3. Restart app
 4. Trending sites will show empty state (safe) — no broken functionality
