@@ -92,7 +92,7 @@ Response received and parsed
 
 | Field | Source | How to Extract |
 |-------|--------|-----------------|
-| `target_url` | User input | `document.getElementById('urlInput').value` |
+| `target_url` | User input | `document.getElementById('urlInput').value` (field name must be `target_url` to match backend) |
 | `locale` | DOM language | `document.documentElement.lang \|\| 'en'` |
 | `latency_ms` | Timestamps | `Math.round(Date.now() - requestStartTime)` |
 | `event_type` | Constant | `'url_check'` (hardcoded) |
@@ -113,12 +113,12 @@ try {
   const latency = Math.round(Date.now() - startTime);
 
   // ← LOG HERE
-  const url = document.getElementById('urlInput').value;
+  const target_url = document.getElementById('urlInput').value;
   const locale = document.documentElement.lang || 'en';
 
   try {
     session.sendEvent('url_check', {
-      url,
+      target_url,  // Use 'target_url' to match backend field name
       locale,
       latency_ms: latency
     });
@@ -166,6 +166,16 @@ console.error('Failed to log url_check event:', {
 - No special url_check-specific limits needed
 - If user hits rate limit, check still works, event just may not be sent
 
+**Session Initialization Timing:**
+- If a URL check occurs before `session.init()` completes, the sessionId will be a client-generated temporary ID
+- The backend still accepts and logs this correctly
+- No special handling needed
+
+**Locale Handling:**
+- Pass locale explicitly in `sendEvent()` for clarity
+- The session module may re-detect locale from DOM, but this is safe and idempotent
+- Locale validation is handled by the backend—invalid values are logged as-is (edge case, unlikely due to HTML lang attribute control)
+
 ---
 
 ### 2.5 Integration with Existing Code
@@ -203,8 +213,7 @@ Response: { server_time_estimated_epoch_ms, ... }
    ↓
 IF response.ok:
    ├─→ session.sendEvent('url_check', {...}) ← NEW
-   │   ├─→ Batch with other events
-   │   └─→ /api/log-event (backend stores)
+   │   └─→ /api/log-event (backend stores immediately, no batching)
    │
    └─→ onTimeResult(data) [display time to user]
 
