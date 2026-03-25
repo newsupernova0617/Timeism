@@ -4,7 +4,10 @@
 
 **Goal:** Systematically improve Google search ranking for the SyncTime homepage and increase organic traffic through phased technical, content, and strategic SEO improvements.
 
-**Architecture:** Three-phase phased approach starting with technical fixes and baseline establishment, followed by keyword-driven content optimization, and concluding with advanced SEO strategy refinement.
+**Architecture:** Three-phase sequential approach (6 weeks total):
+- **Phase 1 (Week 1-2):** Technical fixes and baseline establishment
+- **Phase 2 (Week 3-4):** Keyword research and content optimization
+- **Phase 3 (Week 5-6):** Advanced SEO strategy and refinement
 
 **Tech Stack:** Google Search Console, Lighthouse/PageSpeed Insights, Schema.org structured data, Express.js routing optimization, EJS templating, SQLite database for analytics
 
@@ -127,7 +130,7 @@
 
 ---
 
-## Phase 2: Content SEO & Keyword Optimization (Week 2-3)
+## Phase 2: Content SEO & Keyword Optimization (Week 3-4)
 
 ### Objectives
 1. Identify and target high-value keywords
@@ -254,7 +257,7 @@
 
 ---
 
-## Phase 3: Advanced SEO Strategy & Refinement (Week 4-5)
+## Phase 3: Advanced SEO Strategy & Refinement (Week 5-6)
 
 ### Objectives
 1. Implement strategic internal linking
@@ -369,12 +372,13 @@ Existing blog content includes:
 ## Success Metrics
 
 ### Phase 1
-- ✅ site-page.ejs passes W3C HTML validation
+- ✅ site-page.ejs passes W3C HTML validation (zero errors reported by validator.w3.org)
 - ✅ Meta tag audit completed across all pages (index.ejs, site-page.ejs, meta.ejs, blog templates)
-- ✅ Lighthouse score established for baseline (desktop & mobile)
-- ✅ Mobile PageSpeed Insights score established
-- ✅ Core Web Vitals baseline metrics recorded (LCP, FID, CLS)
-- ✅ Core Web Vitals optimizations implemented and verified
+- ✅ Baseline metrics established:
+  - Lighthouse score ≥65 (target improvement to ≥80 by end of Phase 1)
+  - Mobile PageSpeed Insights score ≥60 (target improvement to ≥70+ by Phase 3)
+  - Core Web Vitals: LCP ≤2.5s, FID ≤100ms, CLS ≤0.1 (before optimization)
+- ✅ Core Web Vitals optimizations implemented and verified in Phase 1 Week 2
 
 ### Phase 2
 - ✅ Keyword research document completed with 20+ keywords identified
@@ -396,26 +400,21 @@ Existing blog content includes:
 
 ## Implementation Order
 
-1. **Phase 1 Tasks (Week 1):**
-   - Fix site-page.ejs HTML structure
-   - Update sitemap.xml and robots.txt
-   - Run baseline Lighthouse/PageSpeed audits
-   - Optimize Core Web Vitals
-   - Complete meta tag audit
+**Phase 1 (Week 1-2): Technical Foundation**
+- **Week 1:** Fix site-page.ejs HTML structure, update sitemap/robots, run baseline audits
+- **Week 2:** Implement Core Web Vitals optimizations, complete meta tag audit
 
-2. **Phase 2 Tasks (Week 2-3):**
-   - Conduct keyword research
-   - Optimize homepage content
-   - Optimize blog post content
-   - Implement Article schema
-   - Complete content gap analysis
+**Phase 2 (Week 3-4): Content Optimization**
+- **Week 3:** Conduct keyword research, content gap analysis, create optimization roadmap
+- **Week 4:** Optimize homepage, optimize blog posts, implement Article/BreadcrumbList schema
 
-3. **Phase 3 Tasks (Week 4-5):**
-   - Build internal linking strategy
-   - Implement internal links
-   - Refine technical SEO
-   - Set up monitoring and analytics
-   - Create link building foundation
+**Phase 3 (Week 5-6): Strategy & Monitoring**
+- **Week 5:** Build internal linking strategy, implement internal links, advanced technical SEO
+- **Week 6:** Set up monitoring/analytics, create SEO reports, establish link building foundation
+
+**Sequential Dependencies:**
+- Phase 2 cannot start until Phase 1 baseline metrics are established (end of Week 2)
+- Phase 3 requires content clusters mapped in Phase 2 (Week 4)
 
 ---
 
