@@ -187,7 +187,7 @@ app.use('/api', commentsRouter);
 
 // Admin dashboard route
 app.get('/admin', verifyAdminToken, (req, res) => {
-  res.render('admin/dashboard');
+  res.sendFile(path.join(__dirname, 'public/admin/dashboard.html'));
 });
 
 // Admin API routes (all endpoints: CRUD + backup)
