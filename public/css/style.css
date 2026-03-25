@@ -44,6 +44,29 @@ a:focus {
   box-shadow: 0 8px 24px rgba(31, 60, 136, 0.22);
 }
 
+/* 헤더 네비게이션 링크 */
+.header-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.header-link:hover {
+  opacity: 0.8;
+}
+
+.header-link:focus {
+  outline: 2px solid var(--color-focus, #4a90e2);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.header-link:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* .page-header::after {
   content: '';
   position: absolute;
