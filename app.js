@@ -185,9 +185,14 @@ app.use('/api/analytics', verifyAdminToken, analyticsRouter);
 app.use('/api', apiRouter);
 app.use('/api', commentsRouter);
 
-// Admin dashboard route
+// Admin dashboard route (DB CRUD)
 app.get('/admin', verifyAdminToken, (req, res) => {
   res.render('admin/dashboard');
+});
+
+// Metrics dashboard route
+app.get('/admin/dashboard', verifyAdminToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/admin/dashboard.html'));
 });
 
 // Admin API routes (all endpoints: CRUD + backup)
