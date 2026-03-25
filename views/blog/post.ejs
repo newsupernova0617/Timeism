@@ -27,6 +27,34 @@
         <meta name="twitter:description" content="<%= locale === 'ko' ? post.description.ko : post.description.en %>" />
         <meta name="twitter:image" content="<%= domain %>/og-image.png" />
 
+        <!-- BreadcrumbList Schema -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "<%= locale === 'ko' ? '홈' : 'Home' %>",
+                    "item": "https://synctime.keero.site/<%= locale %>"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "<%= locale === 'ko' ? '블로그' : 'Blog' %>",
+                    "item": "https://synctime.keero.site/<%= locale %>/blog"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "<%= locale === 'ko' ? post.title.ko : post.title.en %>",
+                    "item": "https://synctime.keero.site/<%= locale %>/blog/posts/<%= post.slug %>"
+                }
+            ]
+        }
+        </script>
+
         <!-- Schema.org BlogPosting Structured Data -->
         <script type="application/ld+json">
         {
