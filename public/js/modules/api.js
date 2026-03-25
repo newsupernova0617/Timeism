@@ -113,6 +113,26 @@ export function createApi({
         return;
       }
 
+      // Log url_check event for trending analysis
+      // Note: This is logged BEFORE onTimeResult() to ensure the event is recorded
+      // even if the UI update fails (fail-safe approach)
+      const locale = document.documentElement.lang || 'en';
+      try {
+        sendEvent('url_check', {
+          target_url: targetUrl,
+          locale,
+          latency_ms: latencyMs
+        });
+      } catch (logError) {
+        console.error('Failed to log url_check event:', {
+          target_url: targetUrl,
+          locale,
+          error: logError.message
+        });
+        // Continue—logging failure should not break the URL check
+      }
+      // The click_button event is sent later (after onTimeResult) to track UI interaction
+
       // RTT/2 보정: 클라이언트-서버 네트워크 지연 보정
       const clientRTT = endTime - startTime;
       const adjustedPayload = {

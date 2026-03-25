@@ -91,7 +91,7 @@ router.post('/check-time', apiLimiter, async (req, res) => {
 // ==================== POST /api/log-event ====================
 // 이벤트 로깅 (버튼 클릭, 페이지 뷰 등)
 router.post('/log-event', async (req, res) => {
-  const { session_id: sessionId, event_type: eventType, target_url: targetUrl, latency_ms: latencyMs } = req.body || {};
+  const { session_id: sessionId, event_type: eventType, target_url: targetUrl, latency_ms: latencyMs, locale } = req.body || {};
 
   // 필수 파라미터 검증
   if (typeof sessionId !== 'string' || sessionId.trim().length === 0) {
@@ -115,7 +115,8 @@ router.post('/log-event', async (req, res) => {
       sessionId: sessionId.trim(),
       eventType: eventType.trim(),
       targetUrl: sanitizedUrl,
-      latencyMs: latencyValue
+      latencyMs: latencyValue,
+      locale: locale || 'en'
     });
     return res.json({ ok: true });
   } catch (err) {
