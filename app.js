@@ -69,9 +69,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // 리버스 프록시 환경 설정 (Nginx, ALB 등)
-if (process.env.TRUST_PROXY) {
-  app.set('trust proxy', process.env.TRUST_PROXY);
-}
+app.set('trust proxy', true);
 
 // ==================== 미들웨어 설정 ====================
 
