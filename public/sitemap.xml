@@ -9,7 +9,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://synctime.keero.site/en"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://synctime.keero.site/jp"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://synctime.keero.site/zh-tw"/>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -20,7 +20,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://synctime.keero.site/en"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://synctime.keero.site/jp"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://synctime.keero.site/zh-tw"/>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -31,7 +31,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://synctime.keero.site/en"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://synctime.keero.site/jp"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://synctime.keero.site/zh-tw"/>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -42,7 +42,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://synctime.keero.site/en"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://synctime.keero.site/jp"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://synctime.keero.site/zh-tw"/>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -50,28 +50,28 @@
   <!-- Guide Pages -->
   <url>
     <loc>https://synctime.keero.site/ko/guide</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/en/guide</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/jp/guide</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/zh-tw/guide</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -83,7 +83,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://synctime.keero.site/en/about"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://synctime.keero.site/jp/about"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://synctime.keero.site/zh-tw/about"/>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -94,7 +94,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://synctime.keero.site/en/about"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://synctime.keero.site/jp/about"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://synctime.keero.site/zh-tw/about"/>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -105,7 +105,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://synctime.keero.site/en/about"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://synctime.keero.site/jp/about"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://synctime.keero.site/zh-tw/about"/>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -116,7 +116,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://synctime.keero.site/en/about"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://synctime.keero.site/jp/about"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://synctime.keero.site/zh-tw/about"/>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -128,7 +128,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://synctime.keero.site/en/contact"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://synctime.keero.site/jp/contact"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://synctime.keero.site/zh-tw/contact"/>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -139,7 +139,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://synctime.keero.site/en/contact"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://synctime.keero.site/jp/contact"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://synctime.keero.site/zh-tw/contact"/>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -150,7 +150,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://synctime.keero.site/en/contact"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://synctime.keero.site/jp/contact"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://synctime.keero.site/zh-tw/contact"/>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -161,36 +161,123 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://synctime.keero.site/en/contact"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://synctime.keero.site/jp/contact"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://synctime.keero.site/zh-tw/contact"/>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+
+  <!-- Trends Pages -->
+  <url>
+    <loc>https://synctime.keero.site/ko/trends</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://synctime.keero.site/en/trends</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://synctime.keero.site/jp/trends</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://synctime.keero.site/zh-tw/trends</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Privacy Pages -->
+  <url>
+    <loc>https://synctime.keero.site/ko/privacy</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://synctime.keero.site/en/privacy</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://synctime.keero.site/jp/privacy</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://synctime.keero.site/zh-tw/privacy</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Terms Pages -->
+  <url>
+    <loc>https://synctime.keero.site/ko/terms</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://synctime.keero.site/en/terms</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://synctime.keero.site/jp/terms</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://synctime.keero.site/zh-tw/terms</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
   </url>
 
   <!-- Blog Posts (Korean Ticketing) -->
   <url>
     <loc>https://synctime.keero.site/ko/blog/ticketing-korea</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/en/blog/ticketing-korea</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/jp/blog/ticketing-korea</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/zh-tw/blog/ticketing-korea</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -198,28 +285,28 @@
   <!-- Blog Posts (Course Registration) -->
   <url>
     <loc>https://synctime.keero.site/ko/blog/course-registration</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/en/blog/course-registration</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/jp/blog/course-registration</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/zh-tw/blog/course-registration</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -227,28 +314,28 @@
   <!-- Blog Posts (Time Sync Deep Dive) -->
   <url>
     <loc>https://synctime.keero.site/ko/blog/time-sync-deep-dive</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/en/blog/time-sync-deep-dive</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/jp/blog/time-sync-deep-dive</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/zh-tw/blog/time-sync-deep-dive</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -256,28 +343,28 @@
   <!-- Blog Posts (Japan Ticketing) -->
   <url>
     <loc>https://synctime.keero.site/ko/blog/ticketing-japan</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/en/blog/ticketing-japan</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/jp/blog/ticketing-japan</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/zh-tw/blog/ticketing-japan</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -285,28 +372,28 @@
   <!-- Blog Posts (Global Ticketing) -->
   <url>
     <loc>https://synctime.keero.site/ko/blog/ticketing-global</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/en/blog/ticketing-global</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/jp/blog/ticketing-global</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/zh-tw/blog/ticketing-global</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -314,28 +401,28 @@
   <!-- Blog Posts (Mobile vs PC) -->
   <url>
     <loc>https://synctime.keero.site/ko/blog/mobile-vs-pc</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/en/blog/mobile-vs-pc</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/jp/blog/mobile-vs-pc</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/zh-tw/blog/mobile-vs-pc</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -343,28 +430,28 @@
   <!-- Blog Posts (Network Optimization) -->
   <url>
     <loc>https://synctime.keero.site/ko/blog/network-optimization</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/en/blog/network-optimization</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/jp/blog/network-optimization</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://synctime.keero.site/zh-tw/blog/network-optimization</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-03-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
