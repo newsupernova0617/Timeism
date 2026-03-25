@@ -1159,11 +1159,6 @@ app.get('/admin', (_req, res) => {
   res.sendFile(path.join(staticDir, 'admin', 'login.html'));
 });
 
-// 관리자 대시보드 (토큰 검증 필요)
-app.get('/admin/dashboard', verifyAdminToken, (_req, res) => {
-  res.sendFile(path.join(staticDir, 'admin', 'dashboard.html'));
-});
-
 // Analytics API with token verification
 app.get('/api/analytics/:endpoint', verifyAdminToken, (req, res, next) => {
   // 토큰 검증 후 API 라우터로 전달
