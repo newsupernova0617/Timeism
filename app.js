@@ -24,6 +24,7 @@ const adminRouter = require('./routes/admin');
 const backup = require('./lib/admin/backup');
 const i18n = require('./lib/i18n');
 const repository = require('./lib/repository');
+const { hashIp, normalizeIp } = require('./lib/identity');
 const { initDb } = require('./db/init');
 const { apiLimiter, trendingLimiter, strictLimiter } = require('./middleware/rate-limiter');
 
