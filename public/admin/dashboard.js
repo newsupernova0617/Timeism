@@ -1,349 +1,302 @@
+// public/admin/dashboard.js
 /**
- * Admin Dashboard
- * 분석 데이터를 시각화하는 대시보드
+ * Admin Dashboard Frontend
  */
 
-const API_BASE = '/api';
-let autoRefreshInterval = null;
-let charts = {};
+let currentTable = 'users';
+let currentDataTable = null;
+let restoreFilename = null;
 
-// 토큰 가져오기 (URL 쿼리 파라미터에서)
-function getAdminToken() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get('token') || localStorage.getItem('adminToken') || '';
-}
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  loadTableData('users');
+  loadBackupList();
 
-// 토큰 저장
-function saveAdminToken(token) {
-  localStorage.setItem('adminToken', token);
-}
-
-// API 호출 (토큰 포함)
-async function fetchAnalytics(endpoint, options = {}) {
-  const token = getAdminToken();
-
-  if (!token) {
-    throw new Error('인증 토큰이 없습니다. URL에 ?token=YOUR_TOKEN을 추가해주세요.');
-  }
-
-  const url = new URL(`${API_BASE}/analytics/${endpoint}`, window.location.origin);
-
-  // 쿼리 파라미터 추가
-  if (options.params) {
-    Object.entries(options.params).forEach(([key, value]) => {
-      url.searchParams.append(key, value);
+  // Table navigation
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const table = this.dataset.table;
+      loadTableData(table);
     });
-  }
+  });
 
-  const response = await fetch(url, {
-    headers: {
-      'X-Admin-Token': token
+  // Search input
+  document.getElementById('search-input').addEventListener('input', function() {
+    if (currentDataTable) {
+      currentDataTable.search(this.value).draw();
     }
   });
 
-  if (!response.ok) {
-    if (response.status === 401) {
-      throw new Error('인증 실패: 토큰이 올바르지 않습니다.');
-    }
-    throw new Error(`API 오류: ${response.status}`);
-  }
-
-  return await response.json();
-}
-
-// 대시보드 새로고침
-async function refreshDashboard() {
-  try {
-    const token = getAdminToken();
-    if (!token) {
-      showError('토큰이 필요합니다. URL에 ?token=YOUR_TOKEN을 추가하거나 입력해주세요.');
-      return;
-    }
-
-    // 토큰 저장 (URL에서 제거 가능하게)
-    saveAdminToken(token);
-
-    hideError();
-    document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
-
-    // 모든 데이터 동시에 로드
-    const [summary, urls] = await Promise.all([
-      fetchAnalytics('summary'),
-      fetchAnalytics('urls', { params: { limit: 10 } })
-    ]);
-
-    updateKpis(summary);
-    updateCharts(summary);
-    updatePerformance(summary);
-    updateUrlsTable(urls);
-
-    showSuccess('대시보드가 업데이트되었습니다.');
-  } catch (err) {
-    console.error('Dashboard refresh failed:', err);
-    showError(err.message);
-  }
-}
-
-function updateKpis(summary) {
-  const users = summary.users || {};
-  const events = summary.events || [];
-  const performance = summary.performance || {};
-
-  // 사용자 관련
-  document.getElementById('totalUsers').textContent = users.total || 0;
-  document.getElementById('totalRegions').textContent = users.regions || 0;
-  document.getElementById('totalVisits').textContent = users.total_visits || 0;
-  document.getElementById('avgVisits').textContent = (users.avg_visits_per_user || 0).toFixed(1);
-
-  // 이벤트 관련
-  const totalEvents = events.reduce((sum, e) => sum + (e.count || 0), 0);
-  const errorEvents = events
-    .filter((e) => e.type === 'check_time_error' || e.type === 'network_error')
-    .reduce((sum, e) => sum + (e.count || 0), 0);
-
-  document.getElementById('totalEvents').textContent = totalEvents;
-  document.getElementById('errorCount').textContent = errorEvents;
-
-  // 성능 관련
-  const avgLatency = performance.avg_latency_ms || 0;
-  document.getElementById('avgLatency').textContent = avgLatency > 0 ? `${avgLatency.toFixed(0)}ms` : '-';
-  document.getElementById('slowEvents').textContent =
-    performance.slow_events || 0;
-}
-
-function updateCharts(summary) {
-  updateEventChart(summary.events || []);
-  updateDeviceChart(summary.devices || []);
-}
-
-function updateEventChart(events) {
-  const ctx = document.getElementById('eventChart');
-  const data = {
-    labels: events.map((e) => e.type),
-    datasets: [
-      {
-        data: events.map((e) => e.count),
-        backgroundColor: [
-          '#1f3c88',
-          '#2d5aa8',
-          '#3d7abc',
-          '#4d9adc',
-          '#5dbafc',
-          '#7dcaff'
-        ],
-        borderColor: '#fff',
-        borderWidth: 2
-      }
-    ]
-  };
-
-  if (charts.eventChart) {
-    charts.eventChart.data = data;
-    charts.eventChart.update();
-  } else {
-    charts.eventChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: data,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom'
-          }
-        }
-      }
-    });
-  }
-}
-
-function updateDeviceChart(devices) {
-  const ctx = document.getElementById('deviceChart');
-  const data = {
-    labels: devices.map((d) => d.type || 'Unknown'),
-    datasets: [
-      {
-        label: '사용자 수',
-        data: devices.map((d) => d.users || 0),
-        backgroundColor: '#1f3c88',
-        borderColor: '#fff',
-        borderWidth: 2
-      },
-      {
-        label: '세션 수',
-        data: devices.map((d) => d.sessions || 0),
-        backgroundColor: '#2d5aa8',
-        borderColor: '#fff',
-        borderWidth: 2
-      }
-    ]
-  };
-
-  if (charts.deviceChart) {
-    charts.deviceChart.data = data;
-    charts.deviceChart.update();
-  } else {
-    charts.deviceChart = new Chart(ctx, {
-      type: 'bar',
-      data: data,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom'
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  }
-}
-
-function updatePerformance(summary) {
-  const perf = summary.performance || {};
-
-  document.getElementById('minLatency').textContent = perf.min_latency_ms
-    ? `${perf.min_latency_ms.toFixed(0)}ms`
-    : '-';
-  document.getElementById('maxLatency').textContent = perf.max_latency_ms
-    ? `${perf.max_latency_ms.toFixed(0)}ms`
-    : '-';
-
-  // 오류율 계산
-  const totalEvents = perf.total_events || 0;
-  const errorRate =
-    totalEvents > 0
-      ? (((perf.slow_events || 0) / totalEvents) * 100).toFixed(1)
-      : '-';
-  document.getElementById('errorRate').textContent =
-    errorRate !== '-' ? `${errorRate}%` : '-';
-
-  document.getElementById('sessionCount').textContent = perf.unique_sessions || 0;
-}
-
-function updateUrlsTable(urls) {
-  const tbody = document.getElementById('urlTableBody');
-
-  if (!urls || urls.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem;">데이터가 없습니다.</td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = urls
-    .map(
-      (url) => `
-    <tr>
-      <td class="url">${escapeHtml(url.target_url)}</td>
-      <td class="number">${url.requests}</td>
-      <td class="number">${url.avg_latency_ms ? url.avg_latency_ms.toFixed(0) : '-'}ms</td>
-      <td class="number">${url.min_latency_ms ? url.min_latency_ms : '-'}ms</td>
-      <td class="number">${url.max_latency_ms ? url.max_latency_ms : '-'}ms</td>
-    </tr>
-  `
-    )
-    .join('');
-}
-
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-function showError(message) {
-  const errorEl = document.getElementById('error');
-  errorEl.textContent = message;
-  errorEl.style.display = 'block';
-}
-
-function hideError() {
-  const errorEl = document.getElementById('error');
-  errorEl.style.display = 'none';
-}
-
-function showSuccess(message) {
-  // 성공 메시지는 자동으로 사라지도록
-  const el = document.createElement('div');
-  el.className = 'success';
-  el.textContent = message;
-  el.style.position = 'fixed';
-  el.style.top = '20px';
-  el.style.right = '20px';
-  el.style.zIndex = '9999';
-  document.body.appendChild(el);
-
-  setTimeout(() => el.remove(), 3000);
-}
-
-// 자동 새로고침 토글
-document.addEventListener('DOMContentLoaded', () => {
-  // 토큰 확인 후 초기 로드
-  const token = getAdminToken();
-  if (token) {
-    refreshDashboard();
-  } else {
-    // 토큰 입력 요청
-    const token = prompt('관리자 토큰을 입력해주세요:');
-    if (token) {
-      saveAdminToken(token);
-      refreshDashboard();
-    } else {
-      showError('토큰이 필요합니다. URL에 ?token=YOUR_TOKEN을 추가하거나 다시 시도해주세요.');
-    }
-  }
-
-  // 자동 새로고침 체크박스
-  document.getElementById('autoRefresh').addEventListener('change', (e) => {
-    if (e.target.checked) {
-      autoRefreshInterval = setInterval(() => {
-        refreshDashboard();
-      }, 5000);
-    } else {
-      if (autoRefreshInterval) {
-        clearInterval(autoRefreshInterval);
-        autoRefreshInterval = null;
-      }
-    }
+  // Page size
+  document.getElementById('page-size-select').addEventListener('change', function() {
+    loadTableData(currentTable);
   });
-
-  // 초기 시간 표시
-  document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
 });
 
-// 글로벌 새로고침 함수
-function refreshDashboard() {
-  const token = getAdminToken();
-  if (!token) {
-    showError('토큰이 없습니다.');
+function loadTableData(tableName) {
+  currentTable = tableName;
+  const pageSize = parseInt(document.getElementById('page-size-select').value) || 25;
+
+  fetch(`/api/admin/tables/${tableName}?page=1&limit=${pageSize}`)
+    .then(res => res.json())
+    .then(data => {
+      renderTable(tableName, data.data);
+      showToast(`Loaded ${tableName}`, 'success');
+    })
+    .catch(err => {
+      console.error('Load failed:', err);
+      showToast(`Failed to load ${tableName}`, 'error');
+    });
+}
+
+function renderTable(tableName, records) {
+  const table = document.getElementById('admin-table');
+  const thead = document.getElementById('table-headers');
+  const tbody = table.querySelector('tbody');
+
+  // Clear existing
+  thead.innerHTML = '';
+  tbody.innerHTML = '';
+
+  if (records.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="10">No records found</td></tr>';
     return;
   }
 
-  try {
-    hideError();
-    document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
+  // Get columns from first record
+  const columns = Object.keys(records[0]);
 
-    // 비동기 로드
-    Promise.all([
-      fetchAnalytics('summary'),
-      fetchAnalytics('urls', { params: { limit: 10 } })
-    ])
-      .then(([summary, urls]) => {
-        updateKpis(summary);
-        updateCharts(summary);
-        updatePerformance(summary);
-        updateUrlsTable(urls);
-        showSuccess('업데이트 완료!');
-      })
-      .catch((err) => {
-        console.error('Refresh failed:', err);
-        showError(err.message);
-      });
-  } catch (err) {
-    showError(err.message);
-  }
+  // Render headers
+  const headerHtml = columns.map(col => `<th>${col}</th>`).join('') + '<th>Actions</th>';
+  thead.innerHTML = `<tr>${headerHtml}</tr>`;
+
+  // Render rows
+  records.forEach(record => {
+    const id = record.userId || record.sessionId || record.eventId || record.commentId || record.responseId;
+    const rowHtml = columns.map(col => `<td>${record[col] || '-'}</td>`).join('') +
+      `<td class="actions">
+        <button onclick="editRecord('${tableName}', '${id}')" class="btn-small">Edit</button>
+        <button onclick="deleteRecord('${tableName}', '${id}')" class="btn-small danger">Delete</button>
+      </td>`;
+
+    tbody.innerHTML += `<tr>${rowHtml}</tr>`;
+  });
 }
+
+function editRecord(tableName, id) {
+  fetch(`/api/admin/${tableName}/${id}`)
+    .then(res => res.json())
+    .then(record => {
+      showEditModal(tableName, id, record);
+    })
+    .catch(err => showToast('Failed to load record', 'error'));
+}
+
+function showEditModal(tableName, id, record) {
+  const modal = document.getElementById('edit-modal');
+  const formFields = document.getElementById('form-fields');
+
+  formFields.innerHTML = Object.entries(record)
+    .map(([key, value]) => `
+      <div class="form-group">
+        <label>${key}</label>
+        <input type="text" name="${key}" value="${value || ''}" />
+      </div>
+    `).join('');
+
+  modal.dataset.table = tableName;
+  modal.dataset.id = id;
+  modal.style.display = 'block';
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').style.display = 'none';
+}
+
+function saveRecord(event) {
+  event.preventDefault();
+
+  const modal = document.getElementById('edit-modal');
+  const tableName = modal.dataset.table;
+  const id = modal.dataset.id;
+
+  const form = document.getElementById('edit-form');
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData);
+
+  fetch(`/api/admin/${tableName}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+    .then(res => res.json())
+    .then(result => {
+      showToast('Record saved', 'success');
+      closeEditModal();
+      loadTableData(tableName);
+    })
+    .catch(err => showToast('Save failed', 'error'));
+}
+
+function deleteRecord(tableName, id) {
+  if (!confirm('Delete this record?')) return;
+
+  const softDelete = tableName === 'comments';
+
+  fetch(`/api/admin/${tableName}/${id}?softDelete=${softDelete}`, {
+    method: 'DELETE'
+  })
+    .then(res => res.json())
+    .then(result => {
+      showToast('Record deleted', 'success');
+      loadTableData(tableName);
+    })
+    .catch(err => showToast('Delete failed', 'error'));
+}
+
+function showAddModal() {
+  document.getElementById('add-modal').style.display = 'block';
+}
+
+function closeAddModal() {
+  document.getElementById('add-modal').style.display = 'none';
+}
+
+function addRecord(event) {
+  event.preventDefault();
+
+  const form = document.getElementById('add-form');
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData);
+
+  fetch(`/api/admin/${currentTable}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+    .then(res => res.json())
+    .then(result => {
+      showToast('Record created', 'success');
+      closeAddModal();
+      loadTableData(currentTable);
+    })
+    .catch(err => showToast('Create failed', 'error'));
+}
+
+function downloadBackupNow() {
+  showToast('Creating backup...', 'info');
+
+  fetch('/api/admin/backup/download', { method: 'POST' })
+    .then(res => {
+      if (res.ok) {
+        return res.blob().then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `synctime-backup-${new Date().toISOString().split('T')[0]}.db`;
+          a.click();
+          showToast('Backup downloaded', 'success');
+          loadBackupList();
+        });
+      }
+      return res.json().then(err => { throw err; });
+    })
+    .catch(err => showToast('Backup failed: ' + err.message, 'error'));
+}
+
+function triggerManualBackup() {
+  showToast('Triggering backup...', 'info');
+
+  fetch('/api/admin/backup/trigger')
+    .then(res => res.json())
+    .then(result => {
+      showToast(`Backup created: ${result.filename}`, 'success');
+      loadBackupList();
+    })
+    .catch(err => showToast('Trigger failed', 'error'));
+}
+
+function loadBackupList() {
+  fetch('/api/admin/backup/list')
+    .then(res => res.json())
+    .then(backups => {
+      const container = document.getElementById('backup-list');
+
+      if (backups.length === 0) {
+        container.innerHTML = '<p>No backups yet</p>';
+        return;
+      }
+
+      const html = backups.map(backup => `
+        <div class="backup-item">
+          <span class="backup-name">${backup.filename}</span>
+          <span class="backup-size">${(backup.size / 1024 / 1024).toFixed(2)} MB</span>
+          <span class="backup-date">${new Date(backup.createdAt).toLocaleString()}</span>
+          <div class="backup-actions">
+            <button onclick="downloadBackup('${backup.filename}')" class="btn-small">Download</button>
+            <button onclick="showRestoreModal('${backup.filename}')" class="btn-small">Restore</button>
+          </div>
+        </div>
+      `).join('');
+
+      container.innerHTML = html;
+    })
+    .catch(err => console.error('Load backups failed:', err));
+}
+
+function downloadBackup(filename) {
+  window.location.href = `/backups/${filename}`;
+}
+
+function showRestoreModal(filename) {
+  restoreFilename = filename;
+  document.getElementById('restore-warning').textContent = `Restoring from: ${filename}`;
+  document.getElementById('restore-modal').style.display = 'block';
+}
+
+function closeRestoreModal() {
+  document.getElementById('restore-modal').style.display = 'none';
+}
+
+function confirmRestore() {
+  if (!restoreFilename) return;
+
+  showToast('Restoring...', 'info');
+
+  fetch('/api/admin/backup/restore', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ filename: restoreFilename })
+  })
+    .then(res => res.json())
+    .then(result => {
+      showToast('Restore complete. Please restart the app.', 'success');
+      closeRestoreModal();
+    })
+    .catch(err => showToast('Restore failed: ' + err.message, 'error'));
+}
+
+function logout() {
+  window.location.href = '/';
+}
+
+function showToast(message, type = 'info') {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.className = `toast show ${type}`;
+
+  setTimeout(() => {
+    toast.className = 'toast';
+  }, 3000);
+}
+
+// Close modals on outside click
+window.onclick = function(event) {
+  const editModal = document.getElementById('edit-modal');
+  const addModal = document.getElementById('add-modal');
+  const restoreModal = document.getElementById('restore-modal');
+
+  if (event.target === editModal) editModal.style.display = 'none';
+  if (event.target === addModal) addModal.style.display = 'none';
+  if (event.target === restoreModal) restoreModal.style.display = 'none';
+};
