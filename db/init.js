@@ -56,8 +56,34 @@ function initDb() {
       event_type TEXT,                             -- 이벤트 타입 (button_click 등)
       target_url TEXT,                             -- 대상 URL
       latency_ms INTEGER,                          -- 지연 시간 (밀리초)
+      locale TEXT DEFAULT 'en',                    -- 언어/지역 코드
       timestamp DATETIME,                          -- 이벤트 발생 시각
       FOREIGN KEY (session_id) REFERENCES sessions(session_id)
+    );
+
+    -- ==================== comments 테이블 ====================
+    -- 익명 댓글 저장 테이블
+    CREATE TABLE IF NOT EXISTS comments (
+      comment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      page_id TEXT NOT NULL,
+      author TEXT NOT NULL,
+      content TEXT NOT NULL,
+      ip_hash TEXT NOT NULL,
+      created_at DATETIME NOT NULL,
+      is_deleted INTEGER DEFAULT 0,
+      report_count INTEGER DEFAULT 0
+    );
+
+    -- ==================== survey_responses 테이블 ====================
+    -- 설문조사 응답 저장 테이블
+    CREATE TABLE IF NOT EXISTS survey_responses (
+      response_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      satisfaction INTEGER NOT NULL,
+      useful_feature TEXT NOT NULL,
+      improvement TEXT,
+      additional_feedback TEXT,
+      ip_hash TEXT NOT NULL,
+      created_at DATETIME NOT NULL
     );
 
     -- ==================== 인덱스 생성 ====================
@@ -67,6 +93,7 @@ function initDb() {
     CREATE INDEX IF NOT EXISTS idx_events_session_id ON events(session_id);
     CREATE INDEX IF NOT EXISTS idx_events_event_type ON events(event_type);
     CREATE INDEX IF NOT EXISTS idx_events_timestamp ON events(timestamp);
+    CREATE INDEX IF NOT EXISTS idx_events_locale ON events(locale);
     
     -- sessions 테이블 인덱스
     CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);
@@ -75,6 +102,10 @@ function initDb() {
     -- users 테이블 인덱스
     CREATE INDEX IF NOT EXISTS idx_users_first_visit ON users(first_visit_at);
     CREATE INDEX IF NOT EXISTS idx_users_last_visit ON users(last_visit_at);
+
+    -- comments 테이블 인덱스
+    CREATE INDEX IF NOT EXISTS idx_comments_page_id ON comments(page_id);
+    CREATE INDEX IF NOT EXISTS idx_comments_created_at ON comments(created_at);
   `);
 
   console.log(`✅ SQLite database initialized at ${DB_PATH}`);

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * SyncTime - HTTP Date 헤더 기반 서버 시간 비교 서비스
  * 
  * Express 애플리케이션 진입점
@@ -22,6 +22,7 @@ const apiRouter = require('./routes/api');
 const commentsRouter = require('./routes/comments');
 const i18n = require('./lib/i18n');
 const repository = require('./lib/repository');
+const { initDb } = require('./db/init');
 const { apiLimiter, trendingLimiter, strictLimiter } = require('./middleware/rate-limiter');
 
 // 환경 변수
@@ -983,6 +984,13 @@ app.use((err, _req, res, _next) => {
 });
 
 if (require.main === module) {
+  // 데이터베이스 초기화 (테이블 및 인덱스 자동 생성)
+  try {
+    initDb();
+  } catch (err) {
+    console.error('Failed to initialize database on startup:', err);
+  }
+
   app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
   });
