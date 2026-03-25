@@ -4,11 +4,28 @@
 <head>
     <%- include('../partials/meta') %>
         <title>
-            <%= locale==='ko' ? post.title.ko : post.title.en %> - SyncTime Blog
+            <%= locale==='ko' ? post.title.ko : post.title.en %> · SyncTime Blog
         </title>
         <meta name="description" content="<%= locale === 'ko' ? post.description.ko : post.description.en %>">
-        <meta property="og:title" content="<%= locale === 'ko' ? post.title.ko : post.title.en %>" />
+        <meta name="keywords" content="<%= locale === 'ko' ? post.keywords?.ko || '티켓팅, 서버시간, SyncTime' : post.keywords?.en || 'ticketing, server time, SyncTime' %>">
+        <link rel="canonical" href="<%= domain %>/<%= locale %>/blog/<%= post.slug %>" />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="SyncTime - Server Time Comparison Service" />
+        <meta property="og:title" content="<%= locale==='ko' ? post.title.ko : post.title.en %>" />
         <meta property="og:description" content="<%= locale === 'ko' ? post.description.ko : post.description.en %>" />
+        <meta property="og:url" content="<%= domain %>/<%= locale %>/blog/<%= post.slug %>" />
+        <meta property="og:image" content="<%= domain %>/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:locale" content="<%= locale === 'ko' ? 'ko_KR' : locale === 'jp' ? 'ja_JP' : locale === 'zh-tw' ? 'zh_TW' : 'en_US' %>" />
+        <meta property="article:published_time" content="<%= post.date %>" />
+        <meta property="article:modified_time" content="<%= post.date %>" />
+        <meta property="article:author" content="SyncTime Team" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="<%= locale==='ko' ? post.title.ko : post.title.en %>" />
+        <meta name="twitter:description" content="<%= locale === 'ko' ? post.description.ko : post.description.en %>" />
+        <meta name="twitter:image" content="<%= domain %>/og-image.png" />
 
         <!-- Schema.org BlogPosting Structured Data -->
         <script type="application/ld+json">

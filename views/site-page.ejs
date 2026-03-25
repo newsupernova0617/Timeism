@@ -20,10 +20,19 @@
 
                 <meta name="robots" content="index, follow" />
                 <meta property="og:type" content="website" />
-                <meta property="og:title" content="<%= site.name %> Server Time Checker" />
-                <meta property="og:description" content="Check <%= site.name %> server time for accurate ticketing" />
+                <meta property="og:site_name" content="SyncTime - Server Time Comparison Service" />
+                <meta property="og:title" content="<%= locale === 'ko' ? site.nameKo : site.name %> Server Time Checker · SyncTime" />
+                <meta property="og:description" content="Check <%= locale === 'ko' ? site.nameKo : site.name %> server time instantly for accurate ticketing and timing. Millisecond-level precision with RTT correction." />
                 <meta property="og:url" content="<%= domain %>/<%= locale %>/sites/<%= site.id %>" />
                 <meta property="og:image" content="<%= domain %>/og-image.png" />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="630" />
+                <meta property="og:image:type" content="image/png" />
+                <meta property="og:locale" content="<%= locale === 'ko' ? 'ko_KR' : locale === 'jp' ? 'ja_JP' : locale === 'zh-tw' ? 'zh_TW' : 'en_US' %>" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="<%= locale === 'ko' ? site.nameKo : site.name %> Server Time Checker · SyncTime" />
+                <meta name="twitter:description" content="Check <%= locale === 'ko' ? site.nameKo : site.name %> server time with millisecond precision for ticketing success." />
+                <meta name="twitter:image" content="<%= domain %>/og-image.png" />
 
                 <link rel="stylesheet" href="/css/tokens.css" />
                 <link rel="stylesheet" href="/css/style.css" />

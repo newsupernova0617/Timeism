@@ -8,9 +8,29 @@
                 ? '隱私權政策 | SyncTime' : 'Privacy Policy | SyncTime' %>
         </title>
         <meta name="description"
-            content="<%= locale === 'ko' ? 'SyncTime의 개인정보 수집 및 이용 정책, 쿠키 사용, 데이터 보호 방침을 확인하세요.' : locale === 'jp' ? 'SyncTimeの個人情報収集と利用ポリシー、クッキーの使用、データ保護方針をご確認ください。' : locale === 'zh-tw' ? '查看SyncTime的個人資料收集和使用政策、Cookie使用、資料保護方針。' : 'Review SyncTime\'s data collection and usage policy, cookie usage, and data protection measures.' %>" />
+            content="<%= locale === 'ko' ? 'SyncTime의 개인정보 수집 및 이용 정책, 쿠키 사용, 데이터 보호 방침을 확인하세요. 최소한의 데이터만 수집하여 사용자 프라이버시를 보호합니다.' : locale === 'jp' ? 'SyncTimeの個人情報収集と利用ポリシー、クッキーの使用、データ保護方針をご確認ください。最小限のデータのみを収集してユーザープライバシーを保護します。' : locale === 'zh-tw' ? '查看SyncTime的個人資料收集和使用政策、Cookie使用、資料保護方針。僅收集最少資料保護使用者隱私。' : 'Review SyncTime\'s data collection policy, cookie usage, and data protection measures. We protect your privacy by collecting only essential data.' %>" />
+        <meta name="keywords"
+            content="<%= locale === 'ko' ? '개인정보보호, 프라이버시, 데이터 보호, 쿠키 정책' : locale === 'jp' ? 'プライバシー保護, データ保護, クッキー政策' : locale === 'zh-tw' ? '隱私保護, 資料保護, Cookie政策' : 'privacy protection, data protection, cookie policy' %>" />
         <link rel="canonical" href="<%= domain %>/<%= locale %>/privacy" />
         <meta name="robots" content="index, follow" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="SyncTime - Server Time Comparison Service" />
+        <meta property="og:title"
+            content="<%= locale==='ko' ? '개인정보처리방침 | SyncTime' : locale==='jp' ? 'プライバシーポリシー | SyncTime' : locale==='zh-tw' ? '隱私權政策 | SyncTime' : 'Privacy Policy | SyncTime' %>" />
+        <meta property="og:description"
+            content="<%= locale === 'ko' ? 'SyncTime의 데이터 보호 정책과 개인정보 처리 방침. 사용자 프라이버시를 최우선으로 합니다.' : locale === 'jp' ? 'SyncTimeのデータ保護ポリシーと個人情報処理方針。ユーザープライバシーを最優先にします。' : locale === 'zh-tw' ? 'SyncTime的資料保護政策和個人資料處理方針。以使用者隱私為最優先。' : 'SyncTime\'s data protection policy and privacy measures. Your privacy is our priority.' %>" />
+        <meta property="og:url" content="<%= domain %>/<%= locale %>/privacy" />
+        <meta property="og:image" content="<%= domain %>/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:locale" content="<%= locale === 'ko' ? 'ko_KR' : locale === 'jp' ? 'ja_JP' : locale === 'zh-tw' ? 'zh_TW' : 'en_US' %>" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title"
+            content="<%= locale==='ko' ? '개인정보처리방침 | SyncTime' : locale==='jp' ? 'プライバシーポリシー | SyncTime' : locale==='zh-tw' ? '隱私權政策 | SyncTime' : 'Privacy Policy | SyncTime' %>" />
+        <meta name="twitter:description"
+            content="<%= locale === 'ko' ? '데이터 보호와 프라이버시 보호. 최소한의 데이터만 수집합니다.' : locale === 'jp' ? 'データ保護とプライバシー保護。最小限のデータのみを収集します。' : locale === 'zh-tw' ? '資料保護和隱私保護。僅收集最少資料。' : 'Data protection and privacy safeguards. We collect only essential information.' %>" />
+        <meta name="twitter:image" content="<%= domain %>/og-image.png" />
 </head>
 
 <body>

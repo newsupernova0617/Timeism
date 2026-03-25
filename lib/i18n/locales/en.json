@@ -1,7 +1,7 @@
 {
     "meta": {
-        "title": "Server Time Checker | NTP Sync Guide · SyncTime",
-        "description": "Check target server's current time instantly. HTTP Date-based measurement with NTP synchronization guidance.",
+        "title": "Server Time Checker | NTP Synchronization Guide · SyncTime",
+        "description": "Check any server's current time with millisecond-level precision. Perfect for ticketing, course registration, and time-critical transactions. Accurate within ±10ms.",
         "keywords": "server time, NTP, time sync, ticketing, time checker"
     },
     "header": {

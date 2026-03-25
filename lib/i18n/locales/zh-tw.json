@@ -1,7 +1,7 @@
 {
     "meta": {
         "title": "伺服器時間確認 | NTP 同步指南 · SyncTime",
-        "description": "立即確認目標伺服器的當前時間。提供基於 HTTP Date 的測量和 NTP 同步指南。",
+        "description": "以毫秒精度確認任何伺服器的當前時間。對搶票、選課和時間敏感交易至關重要。提供平均±10ms以內的精度。",
         "keywords": "伺服器時間, NTP, 時間同步, 搶票, 時間確認"
     },
     "header": {

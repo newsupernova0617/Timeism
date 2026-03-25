@@ -5,18 +5,38 @@
     <%- include('partials/meta') %>
         <title>
             <% if (locale==='ko' ) { %>
-                SyncTime 소개 | 서버 시간 비교 서비스
+                SyncTime 소개 | 정확한 서버 시간 확인 서비스 · SyncTime
                 <% } else if (locale==='en' ) { %>
-                    About SyncTime | Server Time Comparison Service
+                    About SyncTime | Accurate Server Time Verification Service · SyncTime
                     <% } else if (locale==='jp' ) { %>
-                        SyncTimeについて | サーバー時刻比較サービス
+                        SyncTimeについて | 正確なサーバー時刻確認サービス · SyncTime
                         <% } else { %>
-                            關於 SyncTime | 伺服器時間比較服務
+                            關於 SyncTime | 準確伺服器時間確認服務 · SyncTime
                             <% } %>
         </title>
         <meta name="description"
-            content="<% if (locale === 'ko') { %>SyncTime은 정확한 서버 시간 확인을 통해 티켓팅과 수강신청 성공률을 높이는 무료 서비스입니다.<% } else if (locale === 'en') { %>SyncTime is a free service that helps you succeed in ticketing and course registration by checking accurate server time.<% } else if (locale === 'jp') { %>SyncTimeは正確なサーバー時刻を確認してチケット購入や履修登録の成功率を高める無料サービスです。<% } else { %>SyncTime 是一個免費服務，透過確認準確的伺服器時間來提高搶票和選課的成功率。<% } %>" />
+            content="<% if (locale === 'ko') { %>SyncTime은 정확한 서버 시간 확인을 통해 티켓팅과 수강신청 성공률을 높이는 무료 웹 서비스입니다. 밀리초 단위의 정확도로 공정한 기회를 제공합니다.<% } else if (locale === 'en') { %>SyncTime is a free web service that helps maximize ticketing and course registration success by verifying accurate server time. Millisecond-level accuracy for fair opportunities.<% } else if (locale === 'jp') { %>SyncTimeは正確なサーバー時刻確認によってチケット購入や履修登録の成功率を高める無料ウェブサービスです。ミリ秒レベルの精度で公平な機会を提供します。<% } else { %>SyncTime是一個免費網路服務，透過確認準確的伺服器時間來提高搶票和選課的成功率。毫秒級精度提供公平機會。<% } %>" />
+        <meta name="keywords"
+            content="<% if (locale === 'ko') { %>SyncTime, 서버 시간, 티켓팅, 수강신청, 시간 동기화<% } else if (locale === 'en') { %>SyncTime, server time, ticketing, course registration, time synchronization<% } else if (locale === 'jp') { %>SyncTime, サーバー時刻, チケット購入, 履修登録, 時間同期<% } else { %>SyncTime, 伺服器時間, 搶票, 選課, 時間同步<% } %>" />
         <link rel="canonical" href="<%= domain %>/<%= locale %>/about" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="SyncTime - Server Time Comparison Service" />
+        <meta property="og:title"
+            content="<% if (locale==='ko' ) { %>SyncTime 소개 | 정확한 서버 시간 확인 서비스<% } else if (locale==='en' ) { %>About SyncTime | Accurate Server Time Verification Service<% } else if (locale==='jp' ) { %>SyncTimeについて | 正確なサーバー時刻確認サービス<% } else { %>關於 SyncTime | 準確伺服器時間確認服務<% } %>" />
+        <meta property="og:description"
+            content="<% if (locale === 'ko') { %>SyncTime은 정확한 서버 시간 확인을 통해 티켓팅과 수강신청 성공률을 높이는 무료 웹 서비스입니다.<% } else if (locale === 'en') { %>SyncTime is a free web service that helps maximize ticketing and course registration success by verifying accurate server time.<% } else if (locale === 'jp') { %>SyncTimeは正確なサーバー時刻確認によってチケット購入や履修登録の成功率を高める無料ウェブサービスです。<% } else { %>SyncTime是一個免費網路服務，透過確認準確的伺服器時間來提高搶票和選課的成功率。<% } %>" />
+        <meta property="og:url" content="<%= domain %>/<%= locale %>/about" />
+        <meta property="og:image" content="<%= domain %>/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:locale" content="<%= locale === 'ko' ? 'ko_KR' : locale === 'jp' ? 'ja_JP' : locale === 'zh-tw' ? 'zh_TW' : 'en_US' %>" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title"
+            content="<% if (locale==='ko' ) { %>SyncTime 소개 | 정확한 서버 시간 확인 서비스<% } else if (locale==='en' ) { %>About SyncTime | Accurate Server Time Verification Service<% } else if (locale==='jp' ) { %>SyncTimeについて | 正確なサーバー時刻確認サービス<% } else { %>關於 SyncTime | 準確伺服器時間確認服務<% } %>" />
+        <meta name="twitter:description"
+            content="<% if (locale === 'ko') { %>정확한 서버 시간 확인으로 티켓팅과 수강신청을 성공하세요. 밀리초 단위의 정확도를 제공합니다.<% } else if (locale === 'en') { %>Succeed in ticketing and course registration with accurate server time verification. Millisecond-level precision.<% } else if (locale === 'jp') { %>正確なサーバー時刻確認でチケット購入と履修登録に成功。ミリ秒レベルの精度。<% } else { %>透過準確伺服器時間確認成功搶票和選課。毫秒級精度。<% } %>" />
+        <meta name="twitter:image" content="<%= domain %>/og-image.png" />
 </head>
 
 <body>
