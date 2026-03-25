@@ -1,6 +1,6 @@
 # SEO Score Improvement Plan
 
-> **For agentic workers:** Use superpowers:writing-plans to create the implementation plan for this design.
+> **For agentic workers:** After this design is approved, use superpowers:writing-plans to create a detailed implementation plan with specific tasks, code snippets, and testing procedures for each phase.
 
 **Goal:** Systematically improve Google search ranking for the SyncTime homepage and increase organic traffic through phased technical, content, and strategic SEO improvements.
 
@@ -33,13 +33,13 @@
 
 ---
 
-## Phase 1: Technical SEO Foundation (Week 1)
+## Phase 1: Technical SEO Foundation (Week 1-2)
 
 ### Objectives
-1. Fix critical HTML validation errors
-2. Establish baseline performance scores
-3. Optimize Core Web Vitals
-4. Ensure consistent meta tagging
+- **Week 1:** Fix critical HTML issues, audit current state, establish baselines
+- **Week 2:** Implement optimizations based on audit findings, verify improvements
+
+**Note:** Phase 1 is split across two weeks to allow realistic completion time without rushing critical audits.
 
 ### Components
 
@@ -47,21 +47,21 @@
 
 **File:** `views/site-page.ejs`
 
-**Issues:**
-- Line 45: `<main class="content-page">` (first main tag)
-- Line 56: `<main class="layout">` (second main tag, invalid)
-- Lines 48-75: Clock block section (first instance)
-- Lines 59-74: Clock block section (duplicate, inside second main)
-- Line 54: `<%- include('partials/header') %>` placed incorrectly (inside `<p>` tag)
+**Critical Issues:**
+1. **Invalid Header Nesting (Line 54):** `<%- include('partials/header') %>` is placed inside a `<p id="serverTime">` element, which is invalid HTML (block-level include inside inline element)
+2. **Duplicate Main Tags (Lines 45, 56):** Two `<main>` tags exist:
+   - Line 45: `<main class="content-page">`
+   - Line 56: `<main class="layout">` (invalid, creates nested main elements)
+3. **Duplicate Clock Sections (Lines 48-75, 59-74):** Clock block section appears twice with identical content
 
 **Solution:**
-- Remove the duplicate `<main class="layout">` wrapper
-- Keep only one `<main>` element
-- Move header include outside of clock-block section
-- Ensure proper semantic nesting
-- Validate against W3C HTML validator
+- Remove the second `<main class="layout">` wrapper (line 56 and closing tag at ~line 126)
+- Move `<%- include('partials/header') %>` outside the clock-panel section to proper location before `<main>`
+- Remove duplicate clock-block content, keep only one instance
+- Close `<main class="content-page">` properly before footer
+- Validate final HTML against W3C validator at https://validator.w3.org/
 
-**Expected Result:** Valid HTML document that passes W3C validation
+**Expected Result:** Valid HTML document with zero W3C validation errors
 
 #### 1.2 Sitemap & Robots Updates
 
@@ -182,7 +182,9 @@
 
 #### 2.4 Schema Markup Expansion
 
-**Article Schema** - For blog posts
+**Note:** Currently blog posts do not include Article schema markup. This phase implements schema.org markup across blog content.
+
+**Article Schema** - NEW implementation for blog posts
 
 ```json
 {
@@ -264,20 +266,27 @@
 
 #### 3.1 Internal Linking Strategy
 
-**Content Clusters (Examples):**
-- **Ticketing Cluster:** "ticketing-tips" → "ticketing-korea" → "ticketing-japan" → "ticketing-global"
-- **Time Sync Cluster:** "server-time-guide" → "time-sync-deep-dive" → "ntp-vs-http" → "network-optimization"
-- **Troubleshooting Cluster:** Related guides and error solutions
+**Content Clusters (Based on Actual Blog Posts):**
 
-**Implementation:**
-1. Map content clusters in spreadsheet
-2. Identify hub pages (pillar content that links to cluster articles)
-3. Add 3-5 contextual internal links per article
-4. Optimize anchor text (use target keyword naturally)
-5. Link from homepage to top 3-5 cluster hubs
-6. Create "Related Articles" section at end of each post
+Existing blog content includes:
+- `ticketing-tips.ejs`, `ticketing-korea.ejs`, `ticketing-japan.ejs`, `ticketing-global.ejs` → Ticketing cluster
+- `server-time-guide.ejs`, `time-sync-deep-dive.ejs`, `ntp-vs-http.ejs` → Time sync cluster
+- `network-optimization.ejs`, `mobile-vs-pc.ejs`, `course-registration.ejs` → Performance/usage cluster
 
-**Tools:** Internal link audit script or manual crawl review
+**Implementation Steps:**
+1. **Deliverable 1:** Create content cluster map document showing:
+   - Which blog posts relate to each other
+   - Hub page (pillar) for each cluster
+   - Related articles for each post
+2. **Deliverable 2:** Internal linking plan with:
+   - 3-5 contextual links per article
+   - Optimized anchor text using target keywords
+   - Homepage links to 3-5 cluster hubs
+   - "Related Articles" sections at end of posts
+3. Execute internal linking implementation
+4. Verify no crawl loops using Google Search Console
+
+**Validation:** Check Google Search Console for crawl patterns after implementation
 
 #### 3.2 Technical SEO Refinement
 
@@ -341,11 +350,6 @@
 
 ## Technical Specifications
 
-### Database Queries (if needed for SEO analytics)
-- Track page views per URL
-- Identify low-traffic pages needing optimization
-- Monitor bounce rate by page
-
 ### Files to Modify (Summary)
 - `views/site-page.ejs` - Fix HTML structure
 - `views/index.ejs` - Optimize content, add internal links
@@ -366,16 +370,20 @@
 
 ### Phase 1
 - ✅ site-page.ejs passes W3C HTML validation
-- ✅ Lighthouse score established for baseline
+- ✅ Meta tag audit completed across all pages (index.ejs, site-page.ejs, meta.ejs, blog templates)
+- ✅ Lighthouse score established for baseline (desktop & mobile)
 - ✅ Mobile PageSpeed Insights score established
-- ✅ Core Web Vitals baseline metrics recorded
+- ✅ Core Web Vitals baseline metrics recorded (LCP, FID, CLS)
+- ✅ Core Web Vitals optimizations implemented and verified
 
 ### Phase 2
-- ✅ Keyword research document completed
-- ✅ 20+ high-value keywords identified
-- ✅ All blog posts include Article schema
-- ✅ Internal linking map created and implemented
-- ✅ Improvement in target keyword rankings
+- ✅ Keyword research document completed with 20+ keywords identified
+- ✅ Target keywords mapped to pages and content
+- ✅ Article schema markup added to all blog posts (validated with Google Rich Results Test)
+- ✅ BreadcrumbList schema implemented across site
+- ✅ Homepage content optimized with primary keywords
+- ✅ Blog post optimization checklist completed for all posts
+- ✅ Content gap analysis report with quick-win topics identified
 
 ### Phase 3
 - ✅ Internal linking strategy fully implemented
