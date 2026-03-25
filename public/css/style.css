@@ -83,12 +83,14 @@ a:focus {
   margin: 0 0 0.5rem;
   font-size: clamp(1.8rem, 2.5vw, 2.4rem);
   font-weight: 700;
+  color: #ffffff;
 }
 
 .subtitle {
   margin: 0;
   font-size: var(--font-size-md);
   opacity: 0.85;
+  color: #ffffff;
 }
 
 .layout {
