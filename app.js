@@ -1154,11 +1154,6 @@ app.use(express.static(staticDir, {
 
 // ==================== 관리자 페이지 ====================
 
-// 관리자 로그인 페이지 (토큰 입력)
-app.get('/admin', (_req, res) => {
-  res.sendFile(path.join(staticDir, 'admin', 'login.html'));
-});
-
 // Analytics API with token verification
 app.get('/api/analytics/:endpoint', verifyAdminToken, (req, res, next) => {
   // 토큰 검증 후 API 라우터로 전달
