@@ -36,6 +36,77 @@ const backupDownloadLimiter = rateLimit({
   message: { error: 'RATE_LIMITED', message: 'Too many backup downloads' }
 });
 
+// ==================== BACKUP ROUTES (must come before generic routes) ====================
+
+// BACKUP: MANUAL TRIGGER
+router.get('/backup/trigger', async (req, res) => {
+  try {
+    const result = await backup.createBackup();
+    res.json(result);
+  } catch (error) {
+    console.error('Backup trigger error:', error);
+    res.status(500).json({
+      error: 'BACKUP_ERROR',
+      message: error.message
+    });
+  }
+});
+
+// BACKUP: DOWNLOAD
+router.post('/backup/download', backupDownloadLimiter, async (req, res) => {
+  try {
+    const result = await backup.createBackup();
+    const buffer = await backup.downloadBackup(result.filename);
+
+    res.setHeader('Content-Type', 'application/octet-stream');
+    res.setHeader('Content-Disposition', `attachment; filename="${result.filename}"`);
+    res.send(buffer);
+  } catch (error) {
+    console.error('Backup download error:', error);
+    res.status(500).json({
+      error: 'DOWNLOAD_ERROR',
+      message: error.message
+    });
+  }
+});
+
+// BACKUP: LIST
+router.get('/backup/list', adminLimiter, async (req, res) => {
+  try {
+    const backups = await backup.listBackups();
+    res.json(backups);
+  } catch (error) {
+    console.error('List backups error:', error);
+    res.status(500).json({
+      error: 'LIST_ERROR',
+      message: error.message
+    });
+  }
+});
+
+// BACKUP: RESTORE
+router.post('/backup/restore', adminLimiter, async (req, res) => {
+  try {
+    const { filename } = req.body;
+
+    if (!filename) {
+      return res.status(400).json({
+        error: 'VALIDATION_ERROR',
+        message: 'filename is required'
+      });
+    }
+
+    const result = await backup.restoreBackup(filename);
+    res.json(result);
+  } catch (error) {
+    console.error('Restore error:', error);
+    res.status(500).json({
+      error: 'RESTORE_ERROR',
+      message: error.message
+    });
+  }
+});
+
 // ==================== LIST RECORDS ====================
 router.get('/tables/:tableName', adminLimiter, async (req, res) => {
   try {
@@ -127,75 +198,6 @@ router.delete('/:tableName/:id', adminLimiter, async (req, res) => {
     console.error('Delete error:', error);
     res.status(400).json({
       error: 'DELETE_ERROR',
-      message: error.message
-    });
-  }
-});
-
-// ==================== BACKUP: MANUAL TRIGGER ====================
-router.get('/backup/trigger', async (req, res) => {
-  try {
-    const result = await backup.createBackup();
-    res.json(result);
-  } catch (error) {
-    console.error('Backup trigger error:', error);
-    res.status(500).json({
-      error: 'BACKUP_ERROR',
-      message: error.message
-    });
-  }
-});
-
-// ==================== BACKUP: DOWNLOAD ====================
-router.post('/backup/download', backupDownloadLimiter, async (req, res) => {
-  try {
-    const result = await backup.createBackup();
-    const buffer = await backup.downloadBackup(result.filename);
-
-    res.setHeader('Content-Type', 'application/octet-stream');
-    res.setHeader('Content-Disposition', `attachment; filename="${result.filename}"`);
-    res.send(buffer);
-  } catch (error) {
-    console.error('Backup download error:', error);
-    res.status(500).json({
-      error: 'DOWNLOAD_ERROR',
-      message: error.message
-    });
-  }
-});
-
-// ==================== BACKUP: LIST ====================
-router.get('/backup/list', adminLimiter, async (req, res) => {
-  try {
-    const backups = await backup.listBackups();
-    res.json(backups);
-  } catch (error) {
-    console.error('List backups error:', error);
-    res.status(500).json({
-      error: 'LIST_ERROR',
-      message: error.message
-    });
-  }
-});
-
-// ==================== BACKUP: RESTORE ====================
-router.post('/backup/restore', adminLimiter, async (req, res) => {
-  try {
-    const { filename } = req.body;
-
-    if (!filename) {
-      return res.status(400).json({
-        error: 'VALIDATION_ERROR',
-        message: 'filename is required'
-      });
-    }
-
-    const result = await backup.restoreBackup(filename);
-    res.json(result);
-  } catch (error) {
-    console.error('Restore error:', error);
-    res.status(500).json({
-      error: 'RESTORE_ERROR',
       message: error.message
     });
   }
