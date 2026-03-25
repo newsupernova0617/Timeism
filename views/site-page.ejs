@@ -42,6 +42,8 @@
         </p>
     </header>
 
+    <%- include('partials/header') %>
+
     <main class="content-page">
         <%# 시계 섹션 %>
             <section class="clock-panel" aria-live="polite">
@@ -49,65 +51,55 @@
                     <h2>
                         <%= locale==='ko' ? site.nameKo + ' 서버 시간' : site.name + ' Server Time' %>
                     </h2>
+                    <div class="target-url">
+                        <%= site.url %>
+                    </div>
                     <p id="serverTime" class="clock-value muted" role="status" aria-live="polite" aria-atomic="true">
                         --:--:--.---
-                        <%- include('partials/header') %>
+                    </p>
+                    <p class="clock-meta" id="clockMeta" aria-live="off"></p>
+                    <div id="loadingSpinner" class="spinner"></div>
 
-                            <main class="layout">
-                                <%# Existing content %>
-                                    <section class="clock-panel" aria-live="polite">
-                                        <div class="clock-block single" id="clockBlock">
-                                            <h2>
-                                                <%= site.name %> Server Time
-                                            </h2>
-                                            <div class="target-url">
-                                                <%= site.url %>
-                                            </div>
-                                            <p id="serverTime" class="clock-value" role="status" aria-live="polite"
-                                                aria-atomic="true">--:--:--.---</p>
-                                            <p class="clock-meta" id="clockMeta" aria-live="off"></p>
-                                            <div id="loadingSpinner" class="spinner"></div>
-
-                                            <button id="checkTimeBtn" class="alarm-btn" data-url="<%= site.url %>">
-                                                <%= locale==='ko' ? '시간 확인' : 'Check Time' %>
-                                            </button>
-                                        </div>
-                                    </section>
-
-                                    <% if (siteContent) { %>
-                                        <section class="seo-content">
-                                            <h2>
-                                                <%= siteContent.title %>
-                                            </h2>
-                                            <p>
-                                                <%= siteContent.description %>
-                                            </p>
-
-                                            <div class="site-tips">
-                                                <% siteContent.tips.forEach(tip=> { %>
-                                                    <div class="tip-card">
-                                                        <h3>
-                                                            <%= tip.title %>
-                                                        </h3>
-                                                        <p>
-                                                            <%= tip.description %>
-                                                        </p>
-                                                    </div>
-                                                    <h3>
-                                                        <%= locale==='ko' ? '⚠️ 주의사항' : '⚠️ Important Notes' %>
-                                                    </h3>
-                                                    <ul>
-                                                        <% siteContent.warnings.forEach(warning=> { %>
-                                                            <li>
-                                                                <%= warning %>
-                                                            </li>
-                                                            <% }); %>
-                                                    </ul>
-                                            </div>
-                                            <% } %>
+                    <button id="checkTimeBtn" class="alarm-btn" data-url="<%= site.url %>">
+                        <%= locale==='ko' ? '시간 확인' : 'Check Time' %>
+                    </button>
                 </div>
-                <% } %>
             </section>
+
+            <% if (siteContent) { %>
+                <section class="seo-content">
+                    <h2>
+                        <%= siteContent.title %>
+                    </h2>
+                    <p>
+                        <%= siteContent.description %>
+                    </p>
+
+                    <div class="site-tips">
+                        <% siteContent.tips.forEach(tip=> { %>
+                            <div class="tip-card">
+                                <h3>
+                                    <%= tip.title %>
+                                </h3>
+                                <p>
+                                    <%= tip.description %>
+                                </p>
+                            </div>
+                            <% }); %>
+
+                        <h3>
+                            <%= locale==='ko' ? '⚠️ 주의사항' : '⚠️ Important Notes' %>
+                        </h3>
+                        <ul>
+                            <% siteContent.warnings.forEach(warning=> { %>
+                                <li>
+                                    <%= warning %>
+                                </li>
+                                <% }); %>
+                        </ul>
+                    </div>
+                </section>
+            <% } %>
 
             <%# 관련 링크 %>
                 <nav class="internal-links">
