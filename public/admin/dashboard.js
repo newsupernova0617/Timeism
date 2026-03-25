@@ -1,4 +1,3 @@
-// public/admin/dashboard.js
 /**
  * Admin Dashboard Frontend
  */
@@ -282,6 +281,10 @@ function logout() {
 
 function showToast(message, type = 'info') {
   const toast = document.getElementById('toast');
+  if (!toast) {
+    console.error('Toast element not found!');
+    return;
+  }
   toast.textContent = message;
   toast.className = `toast show ${type}`;
 
