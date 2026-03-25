@@ -111,15 +111,15 @@
             "title": "サーバー時間同期の詳細を確認",
             "blogs": [
                 {
-                    "slug": "what-is-server-time",
+                    "slug": "server-time-guide",
                     "title": "サーバー時刻とは？初心者向け完全ガイド"
                 },
                 {
-                    "slug": "how-to-sync-server-time",
-                    "title": "デバイスをサーバー時刻と同期させる方法（ステップバイステップ）"
+                    "slug": "ntp-vs-http",
+                    "title": "NTP vs HTTP：時間同期方法の完全比較"
                 },
                 {
-                    "slug": "best-time-to-buy-concert-tickets",
+                    "slug": "ticketing-tips",
                     "title": "チケット予約のコツ：サーバー時刻をマスターしよう"
                 }
             ]

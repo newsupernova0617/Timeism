@@ -111,15 +111,15 @@
             "title": "서버 시간 동기화에 대해 더 알아보세요",
             "blogs": [
                 {
-                    "slug": "what-is-server-time",
+                    "slug": "server-time-guide",
                     "title": "서버 시간이란? 초보자 완벽 가이드"
                 },
                 {
-                    "slug": "how-to-sync-server-time",
-                    "title": "기기와 서버 시간을 동기화하는 방법 (단계별 가이드)"
+                    "slug": "ntp-vs-http",
+                    "title": "NTP와 HTTP 시간의 차이 완벽 정리"
                 },
                 {
-                    "slug": "best-time-to-buy-concert-tickets",
+                    "slug": "ticketing-tips",
                     "title": "티켓팅 팁: 서버 시간 마스터하기"
                 }
             ]

@@ -111,15 +111,15 @@
             "title": "了解更多伺服器時間同步信息",
             "blogs": [
                 {
-                    "slug": "what-is-server-time",
+                    "slug": "server-time-guide",
                     "title": "什麼是伺服器時間？初學者完整指南"
                 },
                 {
-                    "slug": "how-to-sync-server-time",
-                    "title": "如何將您的設備與伺服器時間同步（逐步指南）"
+                    "slug": "ntp-vs-http",
+                    "title": "NTP vs HTTP：完整時間同步方法比較"
                 },
                 {
-                    "slug": "best-time-to-buy-concert-tickets",
+                    "slug": "ticketing-tips",
                     "title": "搶票技巧：掌握伺服器時間"
                 }
             ]
