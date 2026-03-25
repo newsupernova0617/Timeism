@@ -87,6 +87,12 @@
           <%# 중앙 메인 콘텐츠 %>
             <main class="layout">
               <section class="primary">
+                <!-- Hero Section with H1 and Value Proposition -->
+                <div class="hero-section">
+                  <h1>Check Server Time & Sync Your Clock Instantly</h1>
+                  <p class="hero-intro">Our free server time checker helps you verify network time protocol (NTP) synchronization in seconds. Whether you're buying concert tickets, registering for courses, or participating in time-sensitive online activities, precise server time synchronization is critical. SyncTime shows you the exact time difference between your device and any server with millisecond accuracy. No installation required—just enter a URL and get instant results.</p>
+                </div>
+
                 <form id="checkForm" class="url-form" novalidate>
                   <label class="field-label" for="urlInput">
                     <%= translations.form.label %>
@@ -585,6 +591,19 @@
               </div>
             </section>
             -->
+              </section>
+
+              <!-- Related Resources Section -->
+              <section class="related-resources">
+                <h2>Learn More About Server Time & Synchronization</h2>
+                <p class="resources-intro">
+                  <%= locale==='ko' ? '서버 시간 동기화에 대해 더 알아보세요.' : locale==='jp' ? 'サーバー時間同期について詳しく知る' : locale==='zh-tw' ? '了解更多關於伺服器時間同步的信息' : 'Explore our comprehensive guides on server time synchronization.' %>
+                </p>
+                <ul class="resources-list">
+                  <li><a href="/<%= locale %>/blog/posts/what-is-server-time" class="resource-link">What is Server Time? Complete Beginner\'s Guide</a></li>
+                  <li><a href="/<%= locale %>/blog/posts/how-to-sync-server-time" class="resource-link">How to Synchronize Your Device with Server Time (Step-by-Step)</a></li>
+                  <li><a href="/<%= locale %>/blog/posts/best-time-to-buy-concert-tickets" class="resource-link">Ticketing Tips: Master Server Time for Concert Purchases</a></li>
+                </ul>
               </section>
 
               <!-- Trust Indicators Section -->
