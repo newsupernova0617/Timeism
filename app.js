@@ -20,6 +20,8 @@ const morgan = require('morgan');
 
 const apiRouter = require('./routes/api');
 const commentsRouter = require('./routes/comments');
+const adminRouter = require('./routes/admin');
+const backup = require('./lib/admin/backup');
 const i18n = require('./lib/i18n');
 const repository = require('./lib/repository');
 const { initDb } = require('./db/init');
@@ -174,6 +176,21 @@ app.use('/api/session-init', sessionInitLimiter);
 // API 라우터 연결
 app.use('/api', apiRouter);
 app.use('/api', commentsRouter);
+
+// Admin dashboard route
+app.get('/admin', verifyAdminToken, (req, res) => {
+  res.render('admin/dashboard');
+});
+
+// Admin API routes (all endpoints: CRUD + backup)
+app.use('/api/admin', verifyAdminToken, adminRouter);
+
+// Initialize scheduled backup system
+try {
+  backup.startScheduledBackup();
+} catch (error) {
+  console.error('Failed to initialize scheduled backup:', error.message);
+}
 
 // 정적 파일 디렉토리
 const staticDir = path.join(__dirname, 'public');
