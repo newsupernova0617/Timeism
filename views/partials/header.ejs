@@ -1,13 +1,15 @@
 ﻿<header class="page-header">
     <div class="header-content">
-        <div class="header-text">
-            <h1>
-                <%= translations.header.title %>
-            </h1>
-            <p class="subtitle">
-                <%= translations.header.subtitle %>
-            </p>
-        </div>
+        <a href="/<%= locale %>/" class="header-link">
+            <div class="header-text">
+                <h1>
+                    <%= translations.header.title %>
+                </h1>
+                <p class="subtitle">
+                    <%= translations.header.subtitle %>
+                </p>
+            </div>
+        </a>
         <div class="language-switcher">
             <% const currentPath=typeof originalUrl !=='undefined' ? originalUrl : '/' ; %>
                 <% const basePath=currentPath.replace(/^\/(en|ko|jp|zh-tw)/, '' ); %>
