@@ -983,12 +983,57 @@ app.get('/zh-tw/survey', (req, res) => {
 });
 
 app.post('/zh-tw/survey', async (req, res) => {
-  // TODO: Save survey response to DB
-  res.render('survey', {
-    domain: DOMAIN,
-    locale: 'zh-tw',
-    submitted: true
-  });
+  try {
+    const { satisfaction, usefulFeature, improvement, additionalFeedback } = req.body;
+
+    // Validate required fields
+    if (!satisfaction || !usefulFeature) {
+      return res.status(400).render('survey', {
+        domain: DOMAIN,
+        locale: 'zh-tw',
+        submitted: false,
+        error: '請填寫必填項目'
+      });
+    }
+
+    // Validate satisfaction is 1-5
+    const satNum = parseInt(satisfaction, 10);
+    if (isNaN(satNum) || satNum < 1 || satNum > 5) {
+      return res.status(400).render('survey', {
+        domain: DOMAIN,
+        locale: 'zh-tw',
+        submitted: false,
+        error: '滿意度必須為 1-5 之間的值'
+      });
+    }
+
+    // Get client IP and hash it
+    const clientIp = normalizeIp(req.ip || req.connection.remoteAddress);
+    const ipHash = hashIp(clientIp);
+
+    // Save to database
+    repository.saveSurveyResponse({
+      satisfaction,
+      usefulFeature,
+      improvement: improvement || null,
+      additionalFeedback: additionalFeedback || null,
+      ipHash
+    });
+
+    res.render('survey', {
+      domain: DOMAIN,
+      locale: 'zh-tw',
+      submitted: true
+    });
+  } catch (error) {
+    console.error('Error saving survey response:', error);
+    res.status(500).render('survey', {
+      domain: DOMAIN,
+      locale: 'zh-tw',
+      submitted: false,
+      error: '保存回應失敗，請重試'
+    });
+  }
 });
 
 // ==================== 타겟 사이트 전용 페이지 ====================
