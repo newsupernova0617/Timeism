@@ -239,11 +239,29 @@ Response: { success: true, message: "Restore complete. App restart required." }
 #### **Backup Details**
 
 - **Format**: SQLite `.db` binary file (exact database copy)
-- **Location**: `/data/backups/`
+- **Storage Backend**: Cloudflare R2 (S3-compatible object storage)
+- **Location**: `s3://your-r2-bucket/backups/` (configured via env vars)
+- **Filename Pattern**: `synctime-backup-YYYY-MM-DD-HHMMSS.db`
 - **Size**: ~1-10 MB (depends on data volume)
-- **Permissions**: Read-only, owned by app user
-- **Retention**: Keep last 7 backups, auto-delete older ones
-- **Recovery**: Copy file to `./data/` and restart app
+- **Retention**: Keep last 7 backups in R2, auto-delete older ones
+- **Recovery**: Download backup from R2 UI or API, place in `./data/synctime.db`, restart app
+
+#### **R2 Configuration**
+
+Required environment variables (set in Railway):
+```env
+R2_ACCOUNT_ID=your_cloudflare_account_id
+R2_ACCESS_KEY_ID=your_access_key
+R2_SECRET_ACCESS_KEY=your_secret_key
+R2_BUCKET_NAME=your-backup-bucket
+R2_REGION=auto
+```
+
+Implementation:
+- Use AWS SDK for JavaScript (`aws-sdk` or `@aws-sdk/client-s3`)
+- Configure with R2 endpoint: `https://${ACCOUNT_ID}.r2.cloudflarestorage.com`
+- Upload/download backups as S3 objects
+- List backups from R2 (gets actual list, not filesystem)
 
 ---
 
@@ -326,36 +344,43 @@ function validateData(tableName, data)
 
 ```javascript
 /**
- * Create backup of current database
- * @returns {object} { success, filename, size, timestamp }
+ * Create backup of current database and upload to R2
+ * @returns {object} { success, filename, size, timestamp, url }
  */
 async function createBackup()
 
 /**
- * List recent backups
+ * List recent backups from R2
  * @param {number} limit default 7
- * @returns {array} backup metadata
+ * @returns {array} backup metadata { filename, size, createdAt, url }
  */
 async function listBackups(limit = 7)
 
 /**
- * Delete old backups (keep only last N)
+ * Delete old backups from R2 (keep only last N)
  * @param {number} keep default 7
  * @returns {object} { deleted, deletedFiles }
  */
 async function cleanOldBackups(keep = 7)
 
 /**
- * Start scheduled backup (daily at 2 AM)
+ * Start scheduled backup (runs daily at 2 AM)
  */
 function startScheduledBackup()
 
 /**
- * Download backup file
+ * Download backup from R2 to browser
  * @param {string} filename
- * @returns {Buffer} file content
+ * @returns {Stream} file stream for download
  */
 async function downloadBackup(filename)
+
+/**
+ * Restore from backup: download from R2 and replace local database
+ * @param {string} filename
+ * @returns {object} { success, message }
+ */
+async function restoreBackup(filename)
 ```
 
 ### Backup Workflow
@@ -363,21 +388,23 @@ async function downloadBackup(filename)
 1. **Manual Download:**
    - User clicks "Download Backup Now"
    - POST to `/api/admin/backup/download`
-   - Creates backup in memory (or temp file)
-   - Streams file to browser
+   - Creates backup, uploads to R2
+   - Downloads from R2 to browser
    - User's browser saves as `.db` file
 
-2. **Manual Trigger (Cron URL):**
+2. **Manual Trigger (Cron/URL):**
    - External cron job: `GET /api/admin/backup/trigger?token=xxx`
-   - Creates backup, saves to `/data/backups/`
-   - Returns { filename, size, timestamp }
-   - Cleans old backups (keeps last 7)
+   - Creates backup, uploads to R2
+   - Returns { filename, size, timestamp, r2Url }
+   - Cleans old backups (keeps last 7 in R2)
+   - Example use: GitHub Actions, Jenkins, or external cron
 
-3. **Automatic Scheduled:**
-   - Node.js scheduler runs at 2 AM daily
-   - Creates backup file
-   - Cleans up old backups
-   - Logs completion
+3. **Automatic Scheduled (Daily at 2 AM):**
+   - Node.js scheduler runs automatically at 2 AM
+   - Creates backup, uploads to R2
+   - Cleans up old backups (keeps last 7)
+   - Logs completion (optional: notify admin via email/Slack)
+   - No manual action needed
 
 ---
 
@@ -506,21 +533,36 @@ async function downloadBackup(filename)
 
 ## Implementation Checklist
 
+**Setup:**
+- [ ] Set up R2 bucket in Cloudflare
+- [ ] Generate R2 API token (access key + secret)
+- [ ] Add R2 environment variables to Railway settings:
+  - `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`
+- [ ] Install AWS SDK: `npm install @aws-sdk/client-s3`
+
+**Development:**
 - [ ] Create `/routes/admin.js` with all endpoints
 - [ ] Create `/lib/admin/service.js` with CRUD functions
-- [ ] Create `/lib/admin/backup.js` with backup logic
+- [ ] Create `/lib/admin/backup.js` with R2 backup logic (upload/download/list/restore)
 - [ ] Create `/lib/admin/validators.js` with validation rules
 - [ ] Create `/views/admin/dashboard.ejs` with DataTables UI
-- [ ] Add `verifyAdminToken` middleware to `app.js`
-- [ ] Create `/data/backups/` directory
-- [ ] Add admin route to `app.js` main router
+- [ ] Create `/lib/admin/r2-client.js` for S3 client initialization
+- [ ] Update `app.js`: add admin router + `verifyAdminToken` middleware
+- [ ] Start scheduled backup at app startup (`startScheduledBackup()`)
 - [ ] Install DataTables.js via CDN
-- [ ] Test all CRUD operations
-- [ ] Test backup (manual + automatic)
+
+**Testing:**
+- [ ] Test all CRUD operations (create, read, update, delete)
+- [ ] Test backup workflows:
+  - [ ] Manual download (POST /api/admin/backup/download)
+  - [ ] URL trigger (GET /api/admin/backup/trigger?token=xxx)
+  - [ ] Automatic scheduled (runs at 2 AM)
+  - [ ] Restore from backup
 - [ ] Test authentication (valid/invalid tokens)
-- [ ] Test error handling (invalid data, missing records)
-- [ ] Add rate limiting for backup downloads
-- [ ] Documentation/README for admin usage
+- [ ] Test error handling (invalid data, missing records, R2 connection failures)
+- [ ] Test rate limiting on backup downloads
+- [ ] Test R2 connectivity in Railway environment
+- [ ] Verify backup retention (keep last 7, delete older)
 
 ---
 
@@ -539,9 +581,30 @@ async function downloadBackup(filename)
 
 ## Environment Variables
 
+**Admin Auth (already set in Railway):**
 ```env
 ADMIN_TOKEN=your_secure_token_here
-BACKUP_SCHEDULE=0 2 * * *  # Daily at 2 AM (cron format)
-BACKUP_RETENTION_DAYS=7    # Keep last 7 days of backups
 ```
+
+**Backup Configuration:**
+```env
+BACKUP_SCHEDULE=0 2 * * *      # Daily at 2 AM (cron format)
+BACKUP_RETENTION_DAYS=7        # Keep last 7 days of backups
+```
+
+**R2 Cloud Storage (set in Railway):**
+```env
+R2_ACCOUNT_ID=your_account_id
+R2_ACCESS_KEY_ID=your_access_key_id
+R2_SECRET_ACCESS_KEY=your_secret_access_key
+R2_BUCKET_NAME=your-backup-bucket
+R2_REGION=auto
+```
+
+**How to get R2 credentials:**
+1. Go to Cloudflare Dashboard → R2
+2. Create bucket (or use existing)
+3. Create API token (Account → API Tokens)
+4. Copy credentials to Railway environment variables
+5. Test connection in local `.env.local` before deploying
 
