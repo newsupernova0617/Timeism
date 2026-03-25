@@ -106,6 +106,23 @@
                     }
                 ]
             }
+        },
+        "relatedResources": {
+            "title": "서버 시간 동기화에 대해 더 알아보세요",
+            "blogs": [
+                {
+                    "slug": "what-is-server-time",
+                    "title": "서버 시간이란? 초보자 완벽 가이드"
+                },
+                {
+                    "slug": "how-to-sync-server-time",
+                    "title": "기기와 서버 시간을 동기화하는 방법 (단계별 가이드)"
+                },
+                {
+                    "slug": "best-time-to-buy-concert-tickets",
+                    "title": "티켓팅 팁: 서버 시간 마스터하기"
+                }
+            ]
         }
     },
     "practiceGame": {

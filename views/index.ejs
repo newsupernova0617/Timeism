@@ -595,15 +595,16 @@
 
               <!-- Related Resources Section -->
               <section class="related-resources">
-                <h2>Learn More About Server Time & Synchronization</h2>
-                <p class="resources-intro">
-                  <%= locale==='ko' ? '서버 시간 동기화에 대해 더 알아보세요.' : locale==='jp' ? 'サーバー時間同期について詳しく知る' : locale==='zh-tw' ? '了解更多關於伺服器時間同步的信息' : 'Explore our comprehensive guides on server time synchronization.' %>
-                </p>
-                <ul class="resources-list">
-                  <li><a href="/<%= locale %>/blog/posts/what-is-server-time" class="resource-link">What is Server Time? Complete Beginner\'s Guide</a></li>
-                  <li><a href="/<%= locale %>/blog/posts/how-to-sync-server-time" class="resource-link">How to Synchronize Your Device with Server Time (Step-by-Step)</a></li>
-                  <li><a href="/<%= locale %>/blog/posts/best-time-to-buy-concert-tickets" class="resource-link">Ticketing Tips: Master Server Time for Concert Purchases</a></li>
-                </ul>
+                <% if (translations.content?.relatedResources?.title) { %>
+                  <h2><%= translations.content.relatedResources.title %></h2>
+                  <% if (translations.content?.relatedResources?.blogs) { %>
+                    <ul class="resources-list">
+                      <% translations.content.relatedResources.blogs.forEach(blog => { %>
+                        <li><a href="/<%= locale %>/blog/posts/<%= blog.slug %>" class="resource-link"><%= blog.title %></a></li>
+                      <% }); %>
+                    </ul>
+                  <% } %>
+                <% } %>
               </section>
 
               <!-- Trust Indicators Section -->

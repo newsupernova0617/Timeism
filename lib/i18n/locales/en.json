@@ -106,6 +106,23 @@
                     }
                 ]
             }
+        },
+        "relatedResources": {
+            "title": "Learn More About Server Time & Synchronization",
+            "blogs": [
+                {
+                    "slug": "what-is-server-time",
+                    "title": "What is Server Time? Complete Beginner's Guide"
+                },
+                {
+                    "slug": "how-to-sync-server-time",
+                    "title": "How to Synchronize Your Device with Server Time (Step-by-Step)"
+                },
+                {
+                    "slug": "best-time-to-buy-concert-tickets",
+                    "title": "Ticketing Tips: Master Server Time for Concert Purchases"
+                }
+            ]
         }
     },
     "practiceGame": {
