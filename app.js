@@ -90,6 +90,9 @@ app.use(compression());
 // 3. JSON 파싱 (최대 64KB)
 app.use(express.json({ limit: '64kb' }));
 
+// 3-1. Form 데이터 파싱 (HTML form 제출용)
+app.use(express.urlencoded({ extended: true, limit: '64kb' }));
+
 // 4. Morgan: HTTP 로깅
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
