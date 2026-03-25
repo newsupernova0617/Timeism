@@ -6,6 +6,10 @@ let currentTable = 'users';
 let currentDataTable = null;
 let restoreFilename = null;
 
+// Extract token from URL
+const urlParams = new URLSearchParams(window.location.search);
+const adminToken = urlParams.get('token');
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
   loadTableData('users');
@@ -36,7 +40,7 @@ function loadTableData(tableName) {
   currentTable = tableName;
   const pageSize = parseInt(document.getElementById('page-size-select').value) || 25;
 
-  fetch(`/api/admin/tables/${tableName}?page=1&limit=${pageSize}`)
+  fetch(`/api/admin/tables/${tableName}?page=1&limit=${pageSize}&token=${adminToken}`)
     .then(res => res.json())
     .then(data => {
       renderTable(tableName, data.data);
@@ -83,7 +87,7 @@ function renderTable(tableName, records) {
 }
 
 function editRecord(tableName, id) {
-  fetch(`/api/admin/${tableName}/${id}`)
+  fetch(`/api/admin/${tableName}/${id}?token=${adminToken}`)
     .then(res => res.json())
     .then(record => {
       showEditModal(tableName, id, record);
@@ -123,7 +127,7 @@ function saveRecord(event) {
   const formData = new FormData(form);
   const data = Object.fromEntries(formData);
 
-  fetch(`/api/admin/${tableName}/${id}`, {
+  fetch(`/api/admin/${tableName}/${id}?token=${adminToken}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
@@ -142,7 +146,7 @@ function deleteRecord(tableName, id) {
 
   const softDelete = tableName === 'comments';
 
-  fetch(`/api/admin/${tableName}/${id}?softDelete=${softDelete}`, {
+  fetch(`/api/admin/${tableName}/${id}?softDelete=${softDelete}&token=${adminToken}`, {
     method: 'DELETE'
   })
     .then(res => res.json())
@@ -168,7 +172,7 @@ function addRecord(event) {
   const formData = new FormData(form);
   const data = Object.fromEntries(formData);
 
-  fetch(`/api/admin/${currentTable}`, {
+  fetch(`/api/admin/${currentTable}?token=${adminToken}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
@@ -185,7 +189,7 @@ function addRecord(event) {
 function downloadBackupNow() {
   showToast('Creating backup...', 'info');
 
-  fetch('/api/admin/backup/download', { method: 'POST' })
+  fetch(`/api/admin/backup/download?token=${adminToken}`, { method: 'POST' })
     .then(res => {
       if (res.ok) {
         return res.blob().then(blob => {
@@ -206,7 +210,7 @@ function downloadBackupNow() {
 function triggerManualBackup() {
   showToast('Triggering backup...', 'info');
 
-  fetch('/api/admin/backup/trigger')
+  fetch(`/api/admin/backup/trigger?token=${adminToken}`)
     .then(res => res.json())
     .then(result => {
       showToast(`Backup created: ${result.filename}`, 'success');
@@ -216,7 +220,7 @@ function triggerManualBackup() {
 }
 
 function loadBackupList() {
-  fetch('/api/admin/backup/list')
+  fetch(`/api/admin/backup/list?token=${adminToken}`)
     .then(res => res.json())
     .then(backups => {
       const container = document.getElementById('backup-list');
@@ -262,7 +266,7 @@ function confirmRestore() {
 
   showToast('Restoring...', 'info');
 
-  fetch('/api/admin/backup/restore', {
+  fetch(`/api/admin/backup/restore?token=${adminToken}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ filename: restoreFilename })
