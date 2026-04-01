@@ -1,0 +1,22 @@
+[0325/191201.341:ERROR:third_party\crashpad\crashpad\util\file\file_io_win.cc:202] LockFileEx: 잘못된 기능입니다. (0x1)
+[0325/191201.359:ERROR:third_party\crashpad\crashpad\util\file\file_io_win.cc:202] LockFileEx: 잘못된 기능입니다. (0x1)
+[0325/191201.371:ERROR:third_party\crashpad\crashpad\util\file\file_io_win.cc:202] LockFileEx: 잘못된 기능입니다. (0x1)
+[0325/191201.399:ERROR:third_party\crashpad\crashpad\util\file\file_io_win.cc:202] LockFileEx: 잘못된 기능입니다. (0x1)
+[31172:22668:0325/191201.659:ERROR:components\segmentation_platform\internal\database\ukm_database_backend.cc:148] Failed to open UKM database: 0 database is locked
+
+DevTools listening on ws://127.0.0.1:46001/devtools/browser/b0d89c8d-2f8e-480d-b7f6-00423fb4fb36
+[31172:32144:0325/191201.723:ERROR:content\browser\network_sandbox.cc:385] Failed to grant sandbox access to cache directory \\wsl.localhost\Ubuntu\home\yj437\coding\Timeism\undefined\Users\undefined\AppData\Local\lighthouse.67610797\Default\Cache\Cache_Data: 잘못된 기능입니다. (0x1)
+[31172:32144:0325/191201.732:ERROR:content\browser\network_sandbox.cc:318] Failed to grant sandbox access to NoVarySearch directory \\wsl.localhost\Ubuntu\home\yj437\coding\Timeism\undefined\Users\undefined\AppData\Local\lighthouse.67610797\Default\Cache\No_Vary_Search: 잘못된 기능입니다. (0x1)
+[31172:32144:0325/191201.741:ERROR:content\browser\network_sandbox.cc:318] Failed to grant sandbox access to SharedDictionary directory \\wsl.localhost\Ubuntu\home\yj437\coding\Timeism\undefined\Users\undefined\AppData\Local\lighthouse.67610797\Default\Shared Dictionary: 잘못된 기능입니다. (0x1)
+[31172:27156:0325/191201.748:ERROR:content\browser\network_sandbox.cc:490] Failed to grant sandbox access to network context data directory \\wsl.localhost\Ubuntu\home\yj437\coding\Timeism\undefined\Users\undefined\AppData\Local\lighthouse.67610797\Default\Safe Browsing Network: 잘못된 기능입니다. (0x1)
+[31172:32144:0325/191201.752:ERROR:content\browser\network_sandbox.cc:490] Failed to grant sandbox access to network context data directory \\wsl.localhost\Ubuntu\home\yj437\coding\Timeism\undefined\Users\undefined\AppData\Local\lighthouse.67610797\Default\Network: 잘못된 기능입니다. (0x1)
+[31172:21900:0325/191201.760:ERROR:components\password_manager\core\browser\password_store\login_database.cc:1141] Unable to open the password store database.
+[31172:21900:0325/191201.760:ERROR:components\password_manager\core\browser\password_store\login_database_async_helper.cc:79] Could not create/open login database.
+[31172:25220:0325/191201.765:ERROR:components\password_manager\core\browser\password_store\login_database.cc:1141] Unable to open the password store database.
+[31172:25220:0325/191201.765:ERROR:components\password_manager\core\browser\password_store\login_database_async_helper.cc:79] Could not create/open login database.
+[31172:11492:0325/191201.932:ERROR:content\browser\network_service_instance_impl.cc:242] Encountered error while migrating network context data or granting sandbox access for \\wsl.localhost\Ubuntu\home\yj437\coding\Timeism\undefined\Users\undefined\AppData\Local\lighthouse.67610797\Default\Safe Browsing Network. Result: 6: 작업을 완료했습니다. (0x0)
+[31172:11492:0325/191201.932:ERROR:content\browser\network_service_instance_impl.cc:242] Encountered error while migrating network context data or granting sandbox access for \\wsl.localhost\Ubuntu\home\yj437\coding\Timeism\undefined\Users\undefined\AppData\Local\lighthouse.67610797\Default\Network. Result: 6: 작업을 완료했습니다. (0x0)
+[31172:19076:0325/191201.959:ERROR:components\history\core\browser\top_sites_backend.cc:78] Failed to initialize database.
+[31172:11088:0325/191207.305:ERROR:google_apis\gcm\engine\gcm_store_impl.cc:321] Failed to open database \\wsl.localhost\Ubuntu\home\yj437\coding\Timeism\undefined\Users\undefined\AppData\Local\lighthouse.67610797\Default\GCM Store: IO error: \\wsl.localhost\Ubuntu\home\yj437\coding\Timeism\undefined\Users\undefined\AppData\Local\lighthouse.67610797\Default\GCM Store/LOCK: No further details. (ChromeMethodBFE: 15::LockFile::1)
+[31172:11088:0325/191208.355:ERROR:google_apis\gcm\engine\gcm_store_impl.cc:418] Destroy failed: IO error: \\wsl.localhost\Ubuntu\home\yj437\coding\Timeism\undefined\Users\undefined\AppData\Local\lighthouse.67610797\Default\GCM Store/LOCK: No further details. (ChromeMethodBFE: 15::LockFile::1)
+[31172:9780:0325/191208.355:ERROR:components\gcm_driver\gcm_client_impl.cc:759] Failed to reset GCM store

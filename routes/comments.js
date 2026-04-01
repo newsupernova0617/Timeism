@@ -14,17 +14,17 @@ function hashIp(ip) {
 }
 
 // 댓글 조회
-router.get('/comments/:pageId', (req, res) => {
+router.get('/comments/:pageId', async (req, res) => {
     try {
         const { pageId } = req.params;
         const { limit = 20, offset = 0 } = req.query;
 
-        const comments = commentRepo.getCommentsByPage(pageId, {
+        const comments = await commentRepo.getCommentsByPage(pageId, {
             limit: parseInt(limit),
             offset: parseInt(offset)
         });
 
-        const total = commentRepo.getCommentsCount(pageId);
+        const total = await commentRepo.getCommentsCount(pageId);
 
         res.json({
             success: true,
@@ -103,7 +103,7 @@ router.post('/comments', async (req, res) => {
         });
 
         // 오래된 댓글 자동 삭제 (최근 10개만 유지)
-        commentRepo.cleanupOldComments(pageId, 10);
+        await commentRepo.cleanupOldComments(pageId, 10);
 
         res.json({
             success: true,
