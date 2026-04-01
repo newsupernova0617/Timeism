@@ -4,9 +4,11 @@
 <meta name="format-detection" content="telephone=no" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
+<% if (process.env.ADSENSE_ENABLED === 'true') { %>
 <!-- Google AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2995631331341713"
     crossorigin="anonymous"></script>
+<% } %>
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-J8YD8M558V"></script>
