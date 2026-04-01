@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const Database = require('better-sqlite3');
-const { drizzle } = require('drizzle-orm/better-sqlite3');
+const { createClient } = require('@libsql/client');
+const { drizzle } = require('drizzle-orm/libsql');
 const schema = require('./schema');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
