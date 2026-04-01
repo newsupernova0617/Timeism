@@ -210,7 +210,20 @@ const staticDir = path.join(__dirname, 'public');
 
 // ==================== SEO 최적화 라우트 ====================
 
-// Sitemap 동적 생성 (robots.txt는 public/robots.txt 정적 파일 사용)
+// robots.txt 동적 생성
+app.get('/robots.txt', (_req, res) => {
+  res.type('text/plain');
+  res.send(
+    `User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+Sitemap: ${DOMAIN}/sitemap.xml
+`
+  );
+});
+
 app.get('/sitemap.xml', (_req, res) => {
   const lastmod = new Date().toISOString().split('T')[0];
   const targetSites = require('./lib/target-sites');
@@ -498,7 +511,6 @@ app.get('/sitemap.xml', (_req, res) => {
   sitemap += `</urlset>`;
 
   res.type('application/xml');
-  res.set('Cache-Control', 'public, max-age=3600'); // 캐시 1시간
   res.send(sitemap);
 });
 
