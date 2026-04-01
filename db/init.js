@@ -108,7 +108,7 @@ function initDb() {
     CREATE INDEX IF NOT EXISTS idx_comments_created_at ON comments(created_at);
   `);
 
-  console.log(`✅ SQLite database initialized at ${DB_PATH}`);
+  console.log(`✅ Turso database schema initialized`);
 }
 
 // 직접 실행 시 (npm run db:init)
