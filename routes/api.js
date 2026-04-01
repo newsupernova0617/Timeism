@@ -325,37 +325,29 @@ router.get('/analytics/summary', (req, res) => {
 
 // ==================== GET /api/trending-urls ====================
 // 언어권별 실시간 트렌드 URL (최근 1시간)
-router.get('/trending-urls', trendingLimiter, async (req, res) => {
+router.get('/trending-urls', trendingLimiter, (req, res) => {
   try {
-    const { getDb } = require('../db');
-    const { events } = require('../db/schema');
-    const { sql, desc } = require('drizzle-orm');
-
     const locale = req.query.locale || 'en';
     const limit = Math.min(parseInt(req.query.limit) || 5, 10);
 
-    const db = getDb();
+    const db = require('../db').getSqlite();
 
-    // 최근 1시간 동안의 트렌드 URL 조회 (Drizzle ORM 사용)
-    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
-
-    const trending = await db
-      .select({
-        target_url: events.targetUrl,
-        check_count: sql`COUNT(*) as check_count`,
-        last_checked: sql`MAX(${events.timestamp}) as last_checked`
-      })
-      .from(events)
-      .where(sql`
-        ${events.locale} = ${locale}
-        AND ${events.targetUrl} IS NOT NULL
-        AND ${events.targetUrl} != ''
-        AND ${events.timestamp} > ${oneHourAgo}
-        AND ${events.eventType} = 'url_check'
-      `)
-      .groupBy(events.targetUrl)
-      .orderBy(desc(sql`COUNT(*)`), desc(events.timestamp))
-      .limit(limit);
+    // 최근 1시간 동안의 트렌드 URL 조회
+    const trending = db.prepare(`
+      SELECT 
+        target_url,
+        COUNT(*) as check_count,
+        MAX(timestamp) as last_checked
+      FROM events
+      WHERE locale = ?
+        AND target_url IS NOT NULL
+        AND target_url != ''
+        AND timestamp > datetime('now', '-1 hour')
+        AND event_type = 'url_check'
+      GROUP BY target_url
+      ORDER BY check_count DESC, last_checked DESC
+      LIMIT ?
+    `).all(locale, limit);
 
     // URL에서 도메인 이름 추출
     const trendingWithNames = trending.map(item => {
