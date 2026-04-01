@@ -1173,15 +1173,17 @@ app.use((err, _req, res, _next) => {
 
 if (require.main === module) {
   // 데이터베이스 초기화 (테이블 및 인덱스 자동 생성)
-  try {
-    initDb();
-  } catch (err) {
-    console.error('Failed to initialize database on startup:', err);
-  }
+  (async () => {
+    try {
+      await initDb();
+    } catch (err) {
+      console.error('Failed to initialize database on startup:', err);
+    }
 
-  app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
-  });
+    app.listen(PORT, () => {
+      console.log(`Server listening on port ${PORT}`);
+    });
+  })();
 }
 
 module.exports = app;
