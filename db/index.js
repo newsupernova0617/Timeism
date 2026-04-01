@@ -1,4 +1,3 @@
-const fs = require('fs');
 const path = require('path');
 const { createClient } = require('@libsql/client');
 const { drizzle } = require('drizzle-orm/libsql');
@@ -8,13 +7,6 @@ const ROOT_DIR = path.resolve(__dirname, '..');
 const DATA_DIR = path.join(ROOT_DIR, 'data');
 
 const DB_PATH = process.env.DB_PATH || path.join(DATA_DIR, 'app.db');
-
-// 데이터 디렉토리 확인 및 생성
-function ensureDataDirectory() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-}
 
 // better-sqlite3 인스턴스 (싱글톤)
 let sqliteInstance = null;
